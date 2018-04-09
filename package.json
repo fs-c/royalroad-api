@@ -1,0 +1,23 @@
+{
+  "name": "royalroadl-api",
+  "version": "0.4.1",
+  "description": "Minimal Node.js royalroadl API.",
+  "main": "dist/lib.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "date.js": "^0.3.2",
+    "got": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.7",
+    "@types/got": "^7.1.8",
+    "typescript": "^2.8.1"
+  },
+  "repository": "git@github.com:LW2904/node-royalroadl-api.git"
+}
