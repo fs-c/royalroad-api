@@ -1,5 +1,5 @@
 {
-  "name": "@uninteresting/royalroadl-api",
+  "name": "@l1lly/royalroadl-api",
   "version": "0.5.1",
   "description": "Minimal Node.js royalroadl API.",
   "main": "dist/lib.js",
@@ -19,6 +19,5 @@
     "@types/cheerio": "^0.22.7",
     "@types/got": "^7.1.8",
     "typescript": "^2.8.1"
-  },
-  "repository": "git@github.com:LW2904/node-royalroadl-api.git"
+  }
 }
