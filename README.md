@@ -4,7 +4,7 @@ npm i -s node-royalroadl-api
 
 Documentation can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitlab.io/royalroadl-api/classes/royalroadapi.html).
 
-This is a clone of node-royalroadl-api@0.4.1, which got removed shortly after it was published. I mostly just added [typedoc](https://github.com/TypeStrong/typedoc) and generated the documentation.
+This is a clone of [node-royalroadl-api@0.4.1](https://github.com/LW2904/node-royalroadl-api/tree/b1f98341551119f2b8423f5ec5f7e17a2423c6fb), which got removed shortly after it was published. I mostly just added [typedoc](https://github.com/TypeStrong/typedoc) and generated the documentation. 
 
 ## Example usage
 
