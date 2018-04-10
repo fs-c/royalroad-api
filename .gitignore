@@ -58,3 +58,5 @@ jspm_packages/
 *.js.map
 
 dist/
+
+test.js
