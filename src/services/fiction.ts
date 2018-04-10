@@ -1,10 +1,16 @@
-import { get } from 'got';
 import * as cheerio from 'cheerio';
+import { Requester } from '../royalroad';
 import { getBaseAddress } from '../constants';
 
 import { Fiction, FictionAuthor, FictionStats } from '../common-types';
 
 export class FictionService {
+  private readonly req: Requester;
+
+  constructor(req: Requester) {
+    this.req = req;
+  }
+
   /**
    * Returns a Fiction object scraped from the specified fictions page, throws
    * an error if it wasn't found.
@@ -33,12 +39,13 @@ export class FictionService {
 
     return FictionParser.parseFiction(body);
   }
-/**
- * @param url - The URL to scrape from.
- * @returns - Raw HTML found on the given URL.
- */
-private async getHTML(url: string): Promise<string> {
-    const res = await get(url);
+
+  /**
+   * @param url - The URL to scrape from.
+   * @returns - Raw HTML found on the given URL.
+   */
+  private async getHTML(url: string): Promise<string> {
+    const res = await this.req.get(url);
 
     if (res.statusCode !== 200) {
       throw new Error(String(res.statusMessage || res.statusCode));

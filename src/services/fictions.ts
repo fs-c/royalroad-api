@@ -1,7 +1,7 @@
-import { get } from 'got';
 import  date = require('date.js');
 import * as cheerio from 'cheerio';
 import { URLSearchParams } from 'url';
+import { Requester } from '../royalroad';
 import { getBaseAddress } from '../constants';
 
 import {
@@ -13,6 +13,12 @@ import {
 } from '../common-types';
 
 export class FictionsService {
+  private readonly req: Requester;
+
+  constructor(req: Requester) {
+    this.req = req;
+  }
+
   /**
    * Scrapes fictions from royalroadl.com/fictions/latest-updates at the
    * given page.
@@ -24,7 +30,7 @@ export class FictionsService {
     const params = new URLSearchParams({ page: page.toString() });
     const url = `${getBaseAddress()}/fictions/latest-updates?${params}`;
 
-    const { body } = await get(url);
+    const { body } = await this.req.get(url);
 
     return FictionsParser.parseLatest(body);
   }
@@ -40,7 +46,7 @@ export class FictionsService {
     const params = new URLSearchParams({ page: page.toString() });
     const url = `${getBaseAddress()}/fictions/active-popular?${params}`;
 
-    const { body } = await get(url);
+    const { body } = await this.req.get(url);
 
     return FictionsParser.parsePopular(body);
   }
@@ -56,7 +62,7 @@ export class FictionsService {
     const params = new URLSearchParams({ page: page.toString() });
     const url = `${getBaseAddress()}/fictions/best-rated?${params}`;
 
-    const { body } = await get(url);
+    const { body } = await this.req.get(url);
 
     return FictionsParser.parsePopular(body) as BestBlurb[];
   }
@@ -74,7 +80,7 @@ export class FictionsService {
     const params = new URLSearchParams({ keyword, page: page.toString() });
     const url = `${getBaseAddress()}/fictions/search?${params}`;
 
-    const { body } = await get(url);
+    const { body } = await this.req.get(url);
 
     return FictionsParser.parseSearch(body);
   }
