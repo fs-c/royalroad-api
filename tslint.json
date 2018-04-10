@@ -5,6 +5,9 @@
   ],
   "jsRules": {},
   "rules": {
+      "no-empty-interface": [
+          false
+      ],
       "interface-name": [
           false
       ],

@@ -5,20 +5,53 @@ import { getBaseAddress } from '../constants';
 import { Fiction, FictionAuthor, FictionStats } from '../common-types';
 
 export class FictionService {
+  /**
+   * Returns a Fiction object scraped from the specified fictions page, throws
+   * an error if it wasn't found.
+   *
+   * @param id - ID of the fiction to get. (royalroadl.com/fiction/<id>)
+   * @returns - Fiction object.
+   */
   public async getFiction(id: number): Promise<Fiction> {
     const url = `${getBaseAddress()}/fiction/${id.toString()}`;
 
-    const { body } = await get(url);
+    const body = await this.getHTML(url);
 
     return FictionParser.parseFiction(body);
   }
 
+  /**
+   * Equivalent of royalroadl.com/fictions/random AKA 'Surprise me!', returns a
+   * random fiction.
+   *
+   * @returns - Fiction object.
+   */
   public async getRandom(): Promise<Fiction> {
     const url = `${getBaseAddress()}/fiction/random`;
 
-    const { body } = await get(url);
+    const body = await this.getHTML(url);
 
     return FictionParser.parseFiction(body);
+  }
+/**
+ * @param url - The URL to scrape from.
+ * @returns - Raw HTML found on the given URL.
+ */
+private async getHTML(url: string): Promise<string> {
+    const res = await get(url);
+
+    if (res.statusCode !== 200) {
+      throw new Error(String(res.statusMessage || res.statusCode));
+    }
+
+    const { body } = res;
+
+    // RRL always responds with a 200, no matter if the data was found or not.
+    if (body.includes('Page Not Found') && body.includes('404')) {
+      throw new Error('Page not found.');
+    }
+
+    return body;
   }
 }
 

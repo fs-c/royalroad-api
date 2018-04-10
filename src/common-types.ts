@@ -25,7 +25,7 @@ export interface PopularBlurb extends FictionBlurb {
   };
 }
 
-export type BestBlurb = PopularBlurb;
+export interface BestBlurb extends PopularBlurb {}
 
 export interface SearchBlurb {
   id: number;

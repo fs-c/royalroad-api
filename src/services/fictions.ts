@@ -13,6 +13,13 @@ import {
 } from '../common-types';
 
 export class FictionsService {
+  /**
+   * Scrapes fictions from royalroadl.com/fictions/latest-updates at the
+   * given page.
+   *
+   * @param page - Desired page to scrape from.
+   * @returns - Array of fiction blurbs.
+   */
   public async getLatest(page: number = 1): Promise<LatestBlurb[]> {
     const params = new URLSearchParams({ page: page.toString() });
     const url = `${getBaseAddress()}/fictions/latest-updates?${params}`;
@@ -22,6 +29,13 @@ export class FictionsService {
     return FictionsParser.parseLatest(body);
   }
 
+  /**
+   * Scrapes fictions from royalroadl.com/fictions/active-popular at the
+   * given page.
+   *
+   * @param page - Desired page to scrape from.
+   * @returns - Array of fiction blurbs.
+   */
   public async getPopular(page: number = 1): Promise<PopularBlurb[]> {
     const params = new URLSearchParams({ page: page.toString() });
     const url = `${getBaseAddress()}/fictions/active-popular?${params}`;
@@ -31,6 +45,13 @@ export class FictionsService {
     return FictionsParser.parsePopular(body);
   }
 
+  /**
+   * Scrapes fictions from royalroadl.com/fictions/best-rated at the
+   * given page.
+   *
+   * @param page - Desired page to scrape from.
+   * @returns - Array of fiction blurbs.
+   */
   public async getBest(page: number = 1): Promise<BestBlurb[]> {
     const params = new URLSearchParams({ page: page.toString() });
     const url = `${getBaseAddress()}/fictions/best-rated?${params}`;
@@ -40,6 +61,13 @@ export class FictionsService {
     return FictionsParser.parsePopular(body) as BestBlurb[];
   }
 
+  /**
+   * Scrapes fictions from royalroadl.com/fictions/search at the given page.
+   *
+   * @param keyword - Keyword to search for, case sensitive.
+   * @param page - Desired page to scrape from.
+   * @returns - Array of search fiction blurbs.
+   */
   public async search(
     keyword: string, page: number = 1,
   ): Promise<SearchBlurb[]> {
