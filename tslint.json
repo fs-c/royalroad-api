@@ -5,6 +5,12 @@
   ],
   "jsRules": {},
   "rules": {
+      "no-empty": [
+          false
+      ],
+      "no-var-requires": [
+          false
+      ],
       "no-empty-interface": [
           false
       ],
