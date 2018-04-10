@@ -1,4 +1,6 @@
 import * as request from 'request-promise-native';
+
+import { UserService } from './services/user';
 import { FictionService } from './services/fiction';
 import { FictionsService } from './services/fictions';
 import { getBaseAddress, getUserAgent } from './constants';
@@ -42,6 +44,7 @@ export class Requester {
  * Container class, creating instances of the seperate Service classses.
  */
 export class RoyalRoadAPI {
+  public readonly user: UserService;
   public readonly fiction: FictionService;
   public readonly fictions: FictionsService;
 
@@ -50,6 +53,7 @@ export class RoyalRoadAPI {
   constructor(insecure?: boolean) {
     this.req = new Requester(insecure);
 
+    this.user = new UserService(this.req);
     this.fiction = new FictionService(this.req);
     this.fictions = new FictionsService(this.req);
   }
