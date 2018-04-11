@@ -7,6 +7,13 @@ export class UserService {
     this.req = req;
   }
 
+  /**
+   * Log on to royalroadl, saving the cookies for use in subsequent
+   * requests.
+   *
+   * @param username
+   * @param password
+   */
   public async login(username: string, password: string) {
     const res = await this.req.post(
       '/user/login', { username, password }, true,
