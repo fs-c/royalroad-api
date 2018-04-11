@@ -915,6 +915,12 @@ img { max-width: 100%; }
 		<li class="current tsd-kind-class">
 			<a href="fictionservice.html" class="tsd-kind-icon">Fiction<wbr>Service</a>
 			<ul>
+				<li class=" tsd-kind-constructor tsd-parent-kind-class">
+					<a href="fictionservice.html#constructor" class="tsd-kind-icon">constructor</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a href="fictionservice.html#req" class="tsd-kind-icon">req</a>
+				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="fictionservice.html#getfiction" class="tsd-kind-icon">get<wbr>Fiction</a>
 				</li>
@@ -923,6 +929,9 @@ img { max-width: 100%; }
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="fictionservice.html#getrandom" class="tsd-kind-icon">get<wbr>Random</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="fictionservice.html#publishchapter" class="tsd-kind-icon">publish<wbr>Chapter</a>
 				</li>
 			</ul>
 		</li>
@@ -933,7 +942,13 @@ img { max-width: 100%; }
 			<a href="fictionsservice.html" class="tsd-kind-icon">Fictions<wbr>Service</a>
 		</li>
 		<li class=" tsd-kind-class">
+			<a href="requester.html" class="tsd-kind-icon">Requester</a>
+		</li>
+		<li class=" tsd-kind-class">
 			<a href="royalroadapi.html" class="tsd-kind-icon">Royal<wbr>RoadAPI</a>
+		</li>
+		<li class=" tsd-kind-class">
+			<a href="userservice.html" class="tsd-kind-icon">User<wbr>Service</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/bestblurb.html" class="tsd-kind-icon">Best<wbr>Blurb</a>
@@ -954,6 +969,9 @@ img { max-width: 100%; }
 			<a href="../interfaces/latestblurb.html" class="tsd-kind-icon">Latest<wbr>Blurb</a>
 		</li>
 		<li class=" tsd-kind-interface">
+			<a href="../interfaces/newchapter.html" class="tsd-kind-icon">New<wbr>Chapter</a>
+		</li>
+		<li class=" tsd-kind-interface">
 			<a href="../interfaces/popularblurb.html" class="tsd-kind-icon">Popular<wbr>Blurb</a>
 		</li>
 		<li class=" tsd-kind-interface">
@@ -968,8 +986,11 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-variable tsd-is-not-exported">
 			<a href="../index.html#protocol_prefix_insecure" class="tsd-kind-icon">PROTOCOL_<wbr>PREFIX_<wbr>INSECURE</a>
 		</li>
-		<li class=" tsd-kind-function tsd-is-private">
+		<li class=" tsd-kind-function">
 			<a href="../index.html#getbaseaddress" class="tsd-kind-icon">get<wbr>Base<wbr>Address</a>
+		</li>
+		<li class=" tsd-kind-function">
+			<a href="../index.html#getuseragent" class="tsd-kind-icon">get<wbr>User<wbr>Agent</a>
 		</li>
 	</ul>
 </nav>
@@ -988,14 +1009,66 @@ img { max-width: 100%; }
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
 					<section class="tsd-index-section ">
+						<h3>Constructors</h3>
+						<ul class="tsd-index-list">
+							<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="fictionservice.html#constructor" class="tsd-kind-icon">constructor</a></li>
+						</ul>
+					</section>
+					<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+						<h3>Properties</h3>
+						<ul class="tsd-index-list">
+							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="fictionservice.html#req" class="tsd-kind-icon">req</a></li>
+						</ul>
+					</section>
+					<section class="tsd-index-section ">
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="fictionservice.html#getfiction" class="tsd-kind-icon">get<wbr>Fiction</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="fictionservice.html#gethtml" class="tsd-kind-icon">getHTML</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="fictionservice.html#getrandom" class="tsd-kind-icon">get<wbr>Random</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="fictionservice.html#publishchapter" class="tsd-kind-icon">publish<wbr>Chapter</a></li>
 						</ul>
 					</section>
 				</div>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group ">
+			<h2>Constructors</h2>
+			<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<a name="constructor" class="tsd-anchor"></a>
+				<h3>constructor</h3>
+				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">new <wbr>Fiction<wbr>Service<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><a href="requester.html" class="tsd-signature-type">Requester</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="fictionservice.html" class="tsd-signature-type">FictionService</a></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in services/fiction.ts:50</li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>req: <a href="requester.html" class="tsd-signature-type">Requester</a></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="fictionservice.html" class="tsd-signature-type">FictionService</a></h4>
+					</li>
+				</ul>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+			<h2>Properties</h2>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<a name="req" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> req</h3>
+				<div class="tsd-signature tsd-kind-icon">req<span class="tsd-signature-symbol">:</span> <a href="requester.html" class="tsd-signature-type">Requester</a></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in services/fiction.ts:50</li>
+					</ul>
+				</aside>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
@@ -1010,7 +1083,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/fiction.ts:15</li>
+								<li>Defined in services/fiction.ts:89</li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1039,13 +1112,13 @@ img { max-width: 100%; }
 				<a name="gethtml" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagPrivate">Private</span> getHTML</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<li class="tsd-signature tsd-kind-icon">getHTML<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">getHTML<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/fiction.ts:40</li>
+								<li>Defined in services/fiction.ts:113</li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1053,10 +1126,7 @@ img { max-width: 100%; }
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>url: <span class="tsd-signature-type">string</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>The URL to scrape from.</p>
-								</div>
+								<h5>path: <span class="tsd-signature-type">string</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1076,7 +1146,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/fiction.ts:29</li>
+								<li>Defined in services/fiction.ts:102</li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1089,6 +1159,43 @@ img { max-width: 100%; }
 						<ul>
 							<li>Fiction object.</li>
 						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="publishchapter" class="tsd-anchor"></a>
+				<h3>publish<wbr>Chapter</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">publish<wbr>Chapter<span class="tsd-signature-symbol">(</span>fictionID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, chapter<span class="tsd-signature-symbol">: </span><a href="../interfaces/newchapter.html" class="tsd-signature-type">NewChapter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in services/fiction.ts:62</li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Add a chapter to a given fiction.</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>fictionID: <span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>ID of the fiction to publish a chapter for.</p>
+								</div>
+							</li>
+							<li>
+								<h5>chapter: <a href="../interfaces/newchapter.html" class="tsd-signature-type">NewChapter</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>Object describing the chapter.</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 					</li>
 				</ul>
 			</section>
