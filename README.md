@@ -1,5 +1,5 @@
 ```
-npm i -s node-royalroadl-api
+npm i -s @l1lly/royalroadl-api
 ```
 
 Documentation can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitlab.io/royalroadl-api/classes/royalroadapi.html).
