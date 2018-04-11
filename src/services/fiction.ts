@@ -2,13 +2,48 @@ import * as cheerio from 'cheerio';
 import { Requester } from '../royalroad';
 import { getBaseAddress } from '../constants';
 
-import { Fiction, FictionAuthor, FictionStats } from '../common-types';
-
 export interface NewChapter {
   title: string;
   content: string;
   preNote: undefined | string;
   postNote: undefined | string;
+}
+
+export interface Fiction {
+  type: string;
+  title: string;
+  image: string;
+  status: string;
+  tags: string[];
+  warnings: string[];
+  description: string;
+  stats: FictionStats;
+  author: FictionAuthor;
+}
+
+export interface FictionStats {
+  pages: number;
+  ratings: number;
+  favorites: number;
+  followers: number;
+  views: {
+    total: number;
+    average: number;
+  };
+  score: {
+    style: number;
+    story: number;
+    grammar: number;
+    overall: number;
+    character: number;
+  };
+}
+
+export interface FictionAuthor {
+  id: number;
+  name: string;
+  title: string;
+  avatar: string;
 }
 
 export class FictionService {
@@ -18,6 +53,13 @@ export class FictionService {
     this.req = req;
   }
 
+  /**
+   * __Note that this function is currently not funcional.__
+   * Add a chapter to a given fiction.
+   *
+   * @param fictionID - ID of the fiction to publish a chapter for.
+   * @param chapter - Object describing the chapter.
+   */
   public async publishChapter(fictionID: number, chapter: NewChapter) {
     const res = await this.req.post(
       `/fiction/chapter/new/${String(fictionID)}`, {
