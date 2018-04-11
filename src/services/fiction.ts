@@ -54,7 +54,6 @@ export class FictionService {
   }
 
   /**
-   * __Note that this function is currently not funcional.__
    * Add a chapter to a given fiction.
    *
    * @param fictionID - ID of the fiction to publish a chapter for.
