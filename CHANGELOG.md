@@ -1,3 +1,7 @@
+### 0.7.0
+
+- expose only relevant code to NPM
+
 ### 0.6.1
 
 - move types to the files they are primarily being used in
