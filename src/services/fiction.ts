@@ -4,11 +4,36 @@ import { getBaseAddress } from '../constants';
 
 import { Fiction, FictionAuthor, FictionStats } from '../common-types';
 
+export interface NewChapter {
+  title: string;
+  content: string;
+  preNote: undefined | string;
+  postNote: undefined | string;
+}
+
 export class FictionService {
   private readonly req: Requester;
 
   constructor(req: Requester) {
     this.req = req;
+  }
+
+  public async publishChapter(fictionID: number, chapter: NewChapter) {
+    const res = await this.req.post(
+      `/fiction/chapter/new/${String(fictionID)}`, {
+        Status: 'New',
+        fid: fictionID,
+        Title: chapter.title,
+        PreAuthorNote: chapter.preNote,
+        Content: chapter.content,
+        PostAuthorNote: chapter.postNote,
+        action: 'publish',
+      },
+    );
+
+    require('fs').writeFileSync('res.html', res);
+
+    return res;
   }
 
   /**
