@@ -58,9 +58,9 @@ export class FictionsService {
    */
   public async getLatest(page: number = 1): Promise<LatestBlurb[]> {
     const params = new URLSearchParams({ page: page.toString() });
-    const url = `${getBaseAddress()}/fictions/latest-updates?${params}`;
+    const path = `/fictions/latest-updates?${params}`;
 
-    const { body } = await this.req.get(url);
+    const body = await this.req.get(path);
 
     return FictionsParser.parseLatest(body);
   }
@@ -74,9 +74,9 @@ export class FictionsService {
    */
   public async getPopular(page: number = 1): Promise<PopularBlurb[]> {
     const params = new URLSearchParams({ page: page.toString() });
-    const url = `${getBaseAddress()}/fictions/active-popular?${params}`;
+    const path = `/fictions/active-popular?${params}`;
 
-    const { body } = await this.req.get(url);
+    const body = await this.req.get(path);
 
     return FictionsParser.parsePopular(body);
   }
@@ -90,9 +90,9 @@ export class FictionsService {
    */
   public async getBest(page: number = 1): Promise<BestBlurb[]> {
     const params = new URLSearchParams({ page: page.toString() });
-    const url = `${getBaseAddress()}/fictions/best-rated?${params}`;
+    const path = `/fictions/best-rated?${params}`;
 
-    const { body } = await this.req.get(url);
+    const body = await this.req.get(path);
 
     return FictionsParser.parsePopular(body) as BestBlurb[];
   }
@@ -108,9 +108,9 @@ export class FictionsService {
     keyword: string, page: number = 1,
   ): Promise<SearchBlurb[]> {
     const params = new URLSearchParams({ keyword, page: page.toString() });
-    const url = `${getBaseAddress()}/fictions/search?${params}`;
+    const path = `/fictions/search?${params}`;
 
-    const { body } = await this.req.get(url);
+    const body = await this.req.get(path);
 
     return FictionsParser.parseSearch(body);
   }

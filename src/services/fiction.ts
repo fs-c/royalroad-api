@@ -62,7 +62,8 @@ export class FictionService {
    */
   public async publishChapter(fictionID: number, chapter: NewChapter) {
     const res = await this.req.post(
-      `/fiction/chapter/new/${String(fictionID)}`, {
+      `/fiction/chapter/new/${String(fictionID)}`,
+      {
         Status: 'New',
         fid: fictionID,
         Title: chapter.title,
@@ -71,6 +72,7 @@ export class FictionService {
         PostAuthorNote: chapter.postNote,
         action: 'publish',
       },
+      true,
     );
 
     require('fs').writeFileSync('res.html', res);
@@ -86,9 +88,8 @@ export class FictionService {
    * @returns - Fiction object.
    */
   public async getFiction(id: number): Promise<Fiction> {
-    const url = `${getBaseAddress()}/fiction/${id.toString()}`;
-
-    const body = await this.getHTML(url);
+    const path = `/fiction/${id.toString()}`;
+    const body = await this.getHTML(path);
 
     return FictionParser.parseFiction(body);
   }
@@ -100,9 +101,8 @@ export class FictionService {
    * @returns - Fiction object.
    */
   public async getRandom(): Promise<Fiction> {
-    const url = `${getBaseAddress()}/fiction/random`;
-
-    const body = await this.getHTML(url);
+    const path = `/fiction/random`;
+    const body = await this.getHTML(path);
 
     return FictionParser.parseFiction(body);
   }
@@ -111,14 +111,8 @@ export class FictionService {
    * @param url - The URL to scrape from.
    * @returns - Raw HTML found on the given URL.
    */
-  private async getHTML(url: string): Promise<string> {
-    const res = await this.req.get(url);
-
-    if (res.statusCode !== 200) {
-      throw new Error(String(res.statusMessage || res.statusCode));
-    }
-
-    const { body } = res;
+  private async getHTML(path: string): Promise<string> {
+    const body = await this.req.get(path);
 
     // RRL always responds with a 200, no matter if the data was found or not.
     if (body.includes('Page Not Found') && body.includes('404')) {
