@@ -59,4 +59,4 @@ jspm_packages/
 
 dist/
 
-test.js
+test.ts
