@@ -68,7 +68,8 @@ export class Requester {
   private async fetchToken(path: string) {
     const $ = cheerio.load(await this.get(path));
 
-    const token = $('input[name="__RequestVerificationToken"]').prop('value');
+    const token: string = $('input[name="__RequestVerificationToken"]')
+      .prop('value');
 
     this.debug('got token %o', token);
 
