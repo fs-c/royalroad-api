@@ -42,18 +42,12 @@ export class Requester {
   public async post(path: string, data: any, fetchToken?: boolean) {
     const uri = this.url + path;
 
+    this.logCookies();
     this.debug('POST: %o', uri);
-    this.debug(data);
-
-    if (this.debug.enabled) {
-      this.logCookies();
-    }
 
     if (fetchToken) {
       data['__RequestVerificationToken'] = await this.fetchToken(path);
     }
-
-    this.debug(data);
 
     const res = await request.post({
       uri,
@@ -64,17 +58,14 @@ export class Requester {
     return res;
   }
 
-  private logCookies() {
-    const addr = getBaseAddress(this.insecure);
-    const cookies = this.cookies.getCookies(addr);
+  private logCookies(insecure?: boolean) {
+    const addr = getBaseAddress(insecure);
+    const cookies = this.cookies.getCookies(addr).filter((c: any) => c);
 
-    cookies.forEach((c: any) =>
-      c ? this.debug('%o - %o', c.key, c.value) : null);
+    this.debug(cookies);
   }
 
   private async fetchToken(path: string) {
-    this.debug('fetching token');
-
     const $ = cheerio.load(await this.get(path));
 
     const token = $('input[name="__RequestVerificationToken"]').prop('value');
