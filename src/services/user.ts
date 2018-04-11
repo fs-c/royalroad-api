@@ -16,7 +16,7 @@ export class UserService {
    */
   public async login(username: string, password: string) {
     const res = await this.req.post(
-      '/user/login', { username, password }, true,
+      '/user/login', { username, password },
     );
 
     if (res.statusCode === 200) {
