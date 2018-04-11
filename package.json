@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.7",
+    "@types/debug": "0.0.30",
     "@types/got": "^7.1.8",
     "@types/request-promise-native": "^1.0.14",
     "typescript": "^2.8.1"

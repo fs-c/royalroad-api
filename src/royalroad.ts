@@ -1,3 +1,4 @@
+import * as logger from 'debug';
 import * as request from 'request-promise-native';
 
 import { UserService } from './services/user';
@@ -14,15 +15,21 @@ export class Requester {
   public insecure: boolean;
 
   private readonly url: string;
+  private readonly debug: logger.IDebugger;
 
   constructor(insecure = false) {
     this.insecure = insecure;
-    this.url = getBaseAddress(insecure);
     this.cookies = request.jar();
+    this.debug = logger('requester');
+    this.url = getBaseAddress(insecure);
   }
 
   public async get(path: string) {
     const uri = this.url + path;
+
+    if (this.debug.enabled) {
+      this.logCookies();
+    }
 
     const res = await request.get({
       uri,
@@ -34,6 +41,10 @@ export class Requester {
 
   public async post(path: string, data: any, ignoreToken?: boolean) {
     const uri = this.url + path;
+
+    if (this.debug.enabled) {
+      this.logCookies();
+    }
 
     if (!ignoreToken) {
       data['__RequestVerificationToken'] = this.getToken(this.insecure);
@@ -59,13 +70,21 @@ export class Requester {
         continue;
       }
 
-      // TODO: Dangerous!
+      // TODO: Dangerous! ...but there's no good request cookie typings.
       const c = cookie as any as { key: string, value: string };
 
       if (c.key === '__RequestVerificationToken') {
         return decodeURIComponent(c.value);
       }
     }
+  }
+
+  private logCookies() {
+    const addr = getBaseAddress(this.insecure);
+    const cookies = this.cookies.getCookies(addr);
+
+    cookies.forEach((c: any) =>
+      c ? this.debug('%o - %o', c.key, c.value) : null);
   }
 }
 
