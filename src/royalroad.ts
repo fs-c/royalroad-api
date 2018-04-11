@@ -10,10 +10,15 @@ export class Requester {
     'User-Agent': getUserAgent(),
   };
 
+  public cookies: any; // TODO: Dangerous!
+  public insecure: boolean;
+
   private readonly url: string;
 
   constructor(insecure = false) {
+    this.insecure = insecure;
     this.url = getBaseAddress(insecure);
+    this.cookies = request.jar();
   }
 
   public async get(path: string) {
@@ -21,22 +26,46 @@ export class Requester {
 
     const res = await request.get({
       uri,
-      jar: true,
+      jar: this.cookies,
     });
 
     return res;
   }
 
-  public async post(path: string, data: any) {
+  public async post(path: string, data: any, ignoreToken?: boolean) {
     const uri = this.url + path;
+
+    if (!ignoreToken) {
+      data['__RequestVerificationToken'] = this.getToken(this.insecure);
+    }
+
+    console.log(data);
 
     const res = await request.post({
       uri,
-      jar: true,
+      jar: this.cookies,
       form: data,
     });
 
     return res;
+  }
+
+  private getToken(insecure: boolean = false) {
+    const addr = getBaseAddress(insecure);
+    const cookies = this.cookies.getCookies(addr);
+
+    for (const cookie of cookies) {
+      if (!cookie) {
+        continue;
+      }
+
+      // TODO: Dangerous!
+      const c = cookie as any as { key: string, value: string };
+
+      if (c.key === '__RequestVerificationToken') {
+        return decodeURIComponent(c.value);
+      }
+    }
   }
 }
 
