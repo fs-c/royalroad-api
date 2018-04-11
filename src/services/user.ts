@@ -19,9 +19,7 @@ export class UserService {
       '/user/login', { username, password },
     );
 
-    if (res.statusCode === 200) {
-      return;
-    }
+    return res;
   }
 
   public async getAccount() {
