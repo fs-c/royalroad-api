@@ -8,10 +8,18 @@ export class UserService {
   }
 
   public async login(username: string, password: string) {
-    const res = await this.req.post('/user/login', { username, password });
+    const res = await this.req.post(
+      '/user/login', { username, password }, true,
+    );
 
     if (res.statusCode === 200) {
       return;
     }
+  }
+
+  public async getAccount() {
+    const res = await this.req.get('/account');
+
+    return res;
   }
 }
