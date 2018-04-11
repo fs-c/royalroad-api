@@ -1,4 +1,5 @@
 import * as logger from 'debug';
+import * as cheerio from 'cheerio';
 import * as request from 'request-promise-native';
 
 import { UserService } from './services/user';
@@ -27,9 +28,8 @@ export class Requester {
   public async get(path: string) {
     const uri = this.url + path;
 
-    if (this.debug.enabled) {
-      this.logCookies();
-    }
+    this.logCookies();
+    this.debug('GET: %o', uri);
 
     const res = await request.get({
       uri,
@@ -39,44 +39,29 @@ export class Requester {
     return res;
   }
 
-  public async post(path: string, data: any, ignoreToken?: boolean) {
+  public async post(path: string, data: any, fetchToken?: boolean) {
     const uri = this.url + path;
+
+    this.debug('POST: %o', uri);
+    this.debug(data);
 
     if (this.debug.enabled) {
       this.logCookies();
     }
 
-    if (!ignoreToken) {
-      data['__RequestVerificationToken'] = this.getToken(this.insecure);
+    if (fetchToken) {
+      data['__RequestVerificationToken'] = await this.fetchToken(path);
     }
 
-    console.log(data);
+    this.debug(data);
 
     const res = await request.post({
       uri,
-      jar: this.cookies,
       form: data,
+      jar: this.cookies,
     });
 
     return res;
-  }
-
-  private getToken(insecure: boolean = false) {
-    const addr = getBaseAddress(insecure);
-    const cookies = this.cookies.getCookies(addr);
-
-    for (const cookie of cookies) {
-      if (!cookie) {
-        continue;
-      }
-
-      // TODO: Dangerous! ...but there's no good request cookie typings.
-      const c = cookie as any as { key: string, value: string };
-
-      if (c.key === '__RequestVerificationToken') {
-        return decodeURIComponent(c.value);
-      }
-    }
   }
 
   private logCookies() {
@@ -85,6 +70,20 @@ export class Requester {
 
     cookies.forEach((c: any) =>
       c ? this.debug('%o - %o', c.key, c.value) : null);
+  }
+
+  private async fetchToken(path: string) {
+    this.debug('fetching token');
+
+    const $ = cheerio.load(await this.get(path));
+
+    const token = $('input[name="__RequestVerificationToken"]').prop('value');
+
+    this.debug('got token %o', token);
+
+    if (token) {
+      return token;
+    } else { throw new Error('Token not found.'); }
   }
 }
 
