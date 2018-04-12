@@ -46,6 +46,9 @@ export interface FictionAuthor {
   avatar: string;
 }
 
+/**
+ * Fiction and chapter related methods.
+ */
 export class FictionService {
   private readonly req: Requester;
 
@@ -120,6 +123,9 @@ export class FictionService {
   }
 }
 
+/**
+ * Container class for all fiction related parsers.
+ */
 class FictionParser {
   public static parseFiction(html: string): Fiction {
     const $ = cheerio.load(html);

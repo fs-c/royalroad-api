@@ -6,6 +6,9 @@ interface MyFiction {
   title: string;
 }
 
+/**
+ * Methods related to logged in users.
+ */
 export class UserService {
   private readonly req: Requester;
 
@@ -33,12 +36,9 @@ export class UserService {
     return res;
   }
 
-  public async getAccount() {
-    const res = await this.req.get('/account');
-
-    return res;
-  }
-
+  /**
+   * @returns Array of fictions owned by logged in user.
+   */
   public async getMyFictions() {
     const html = await this.req.get('/my/fictions');
     const myFictions = UserParser.parseMyFictions(html);
@@ -47,6 +47,9 @@ export class UserService {
   }
 }
 
+/**
+ * Methods related to parsing user related HTML.
+ */
 class UserParser {
   public static parseMyFictions(html: string): MyFiction[] {
     const $ = cheerio.load(html);

@@ -42,6 +42,9 @@ export interface SearchBlurb {
   description: string;
 }
 
+/**
+ * Methods related to public fiction lists, and the search function.
+ */
 export class FictionsService {
   private readonly req: Requester;
 
@@ -116,6 +119,9 @@ export class FictionsService {
   }
 }
 
+/**
+ * Methods related to parsing fiction lists.
+ */
 class FictionsParser {
   public static parseLatest(html: string): LatestBlurb[] {
     const $ = cheerio.load(html);
