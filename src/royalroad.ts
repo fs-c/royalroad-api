@@ -7,6 +7,9 @@ import { FictionService } from './services/fiction';
 import { FictionsService } from './services/fictions';
 import { getBaseAddress, getUserAgent } from './constants';
 
+/**
+ * Class passed to all Services for consistent cookies accross requests.
+ */
 export class Requester {
   private static readonly headers = {
     'User-Agent': getUserAgent(),
@@ -25,6 +28,11 @@ export class Requester {
     this.url = getBaseAddress(insecure);
   }
 
+  /**
+   * GET request to the given path, under the base address.
+   *
+   * @param path
+   */
   public async get(path: string) {
     const uri = this.url + path;
 
@@ -39,6 +47,11 @@ export class Requester {
     return res;
   }
 
+  /**
+   * GET request to the given path, under the base address.
+   *
+   * @param path
+   */
   public async post(path: string, data: any, fetchToken?: boolean) {
     const uri = this.url + path;
 
@@ -58,6 +71,12 @@ export class Requester {
     return res;
   }
 
+  /**
+   * Log all cookies in the jar, shorten values which are longer than
+   * 20 characters.
+   *
+   * @param insecure
+   */
   private logCookies(insecure?: boolean) {
     const addr = getBaseAddress(insecure);
     const cookies = this.cookies.getCookies(addr)
@@ -68,6 +87,12 @@ export class Requester {
     this.debug(cookies);
   }
 
+  /**
+   * Fetch a request verification token from a hidden input on the
+   * target path. Throws if it couldn't find one.
+   *
+   * @param path
+   */
   private async fetchToken(path: string) {
     const $ = cheerio.load(await this.get(path));
 
@@ -76,7 +101,7 @@ export class Requester {
 
     this.debug('got token %o', token);
 
-    if (token) {
+    if (token.length !== 0) {
       return token;
     } else { throw new Error('Token not found.'); }
   }
