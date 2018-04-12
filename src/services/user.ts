@@ -25,6 +25,11 @@ export class UserService {
       '/user/login', { username, password },
     );
 
+    // RRL will always return 200 here.
+    if (!res.includes('success')) {
+      throw new Error('Login failed.');
+    }
+
     return res;
   }
 
