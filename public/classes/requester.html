@@ -959,6 +959,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-class">
 			<a href="royalroadapi.html" class="tsd-kind-icon">Royal<wbr>RoadAPI</a>
 		</li>
+		<li class=" tsd-kind-class tsd-is-not-exported">
+			<a href="userparser.html" class="tsd-kind-icon">User<wbr>Parser</a>
+		</li>
 		<li class=" tsd-kind-class">
 			<a href="userservice.html" class="tsd-kind-icon">User<wbr>Service</a>
 		</li>
@@ -979,6 +982,9 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/latestblurb.html" class="tsd-kind-icon">Latest<wbr>Blurb</a>
+		</li>
+		<li class=" tsd-kind-interface tsd-is-not-exported">
+			<a href="../interfaces/myfiction.html" class="tsd-kind-icon">My<wbr>Fiction</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/newchapter.html" class="tsd-kind-icon">New<wbr>Chapter</a>
@@ -1004,10 +1010,20 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-function">
 			<a href="../index.html#getuseragent" class="tsd-kind-icon">get<wbr>User<wbr>Agent</a>
 		</li>
+		<li class=" tsd-kind-function">
+			<a href="../index.html#getversion" class="tsd-kind-icon">get<wbr>Version</a>
+		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<section class="tsd-panel tsd-comment">
+			<div class="tsd-comment tsd-typography">
+				<div class="lead">
+					<p>Class passed to all Services for consistent cookies accross requests.</p>
+				</div>
+			</div>
+		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
@@ -1065,7 +1081,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in royalroad.ts:19</li>
+								<li>Defined in royalroad.ts:22</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1087,7 +1103,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">cookies<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in royalroad.ts:15</li>
+						<li>Defined in royalroad.ts:18</li>
 					</ul>
 				</aside>
 			</section>
@@ -1097,7 +1113,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">logger.IDebugger</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in royalroad.ts:19</li>
+						<li>Defined in royalroad.ts:22</li>
 					</ul>
 				</aside>
 			</section>
@@ -1107,7 +1123,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">insecure<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in royalroad.ts:16</li>
+						<li>Defined in royalroad.ts:19</li>
 					</ul>
 				</aside>
 			</section>
@@ -1117,7 +1133,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in royalroad.ts:18</li>
+						<li>Defined in royalroad.ts:21</li>
 					</ul>
 				</aside>
 			</section>
@@ -1134,13 +1150,21 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in royalroad.ts:68</li>
+								<li>Defined in royalroad.ts:96</li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Fetch a request verification token from a hidden input on the
+								target path. Throws if it couldn&#39;t find one.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>path: <span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1157,13 +1181,20 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in royalroad.ts:28</li>
+								<li>Defined in royalroad.ts:36</li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>GET request to the given path, under the base address.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>path: <span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1180,13 +1211,21 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in royalroad.ts:61</li>
+								<li>Defined in royalroad.ts:80</li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Log all cookies in the jar, shorten values which are longer than
+								20 characters.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> insecure: <span class="tsd-signature-type">boolean</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1203,13 +1242,20 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in royalroad.ts:42</li>
+								<li>Defined in royalroad.ts:55</li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>GET request to the given path, under the base address.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>path: <span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
 							</li>
 							<li>
 								<h5>data: <span class="tsd-signature-type">any</span></h5>
@@ -1231,7 +1277,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">headers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in royalroad.ts:11</li>
+						<li>Defined in royalroad.ts:14</li>
 					</ul>
 				</aside>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1240,7 +1286,7 @@ img { max-width: 100%; }
 					<div class="tsd-signature tsd-kind-icon">User-<wbr><wbr>Agent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;getUserAgent()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in royalroad.ts:12</li>
+							<li>Defined in royalroad.ts:15</li>
 						</ul>
 					</aside>
 				</section>

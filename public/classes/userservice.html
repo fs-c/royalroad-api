@@ -927,6 +927,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-class">
 			<a href="royalroadapi.html" class="tsd-kind-icon">Royal<wbr>RoadAPI</a>
 		</li>
+		<li class=" tsd-kind-class tsd-is-not-exported">
+			<a href="userparser.html" class="tsd-kind-icon">User<wbr>Parser</a>
+		</li>
 		<li class="current tsd-kind-class">
 			<a href="userservice.html" class="tsd-kind-icon">User<wbr>Service</a>
 			<ul>
@@ -937,7 +940,7 @@ img { max-width: 100%; }
 					<a href="userservice.html#req" class="tsd-kind-icon">req</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
-					<a href="userservice.html#getaccount" class="tsd-kind-icon">get<wbr>Account</a>
+					<a href="userservice.html#getmyfictions" class="tsd-kind-icon">get<wbr>MyFictions</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="userservice.html#login" class="tsd-kind-icon">login</a>
@@ -961,6 +964,9 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/latestblurb.html" class="tsd-kind-icon">Latest<wbr>Blurb</a>
+		</li>
+		<li class=" tsd-kind-interface tsd-is-not-exported">
+			<a href="../interfaces/myfiction.html" class="tsd-kind-icon">My<wbr>Fiction</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/newchapter.html" class="tsd-kind-icon">New<wbr>Chapter</a>
@@ -986,10 +992,20 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-function">
 			<a href="../index.html#getuseragent" class="tsd-kind-icon">get<wbr>User<wbr>Agent</a>
 		</li>
+		<li class=" tsd-kind-function">
+			<a href="../index.html#getversion" class="tsd-kind-icon">get<wbr>Version</a>
+		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<section class="tsd-panel tsd-comment">
+			<div class="tsd-comment tsd-typography">
+				<div class="lead">
+					<p>Methods related to logged in users.</p>
+				</div>
+			</div>
+		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
@@ -1017,7 +1033,7 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-method tsd-parent-kind-class"><a href="userservice.html#getaccount" class="tsd-kind-icon">get<wbr>Account</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="userservice.html#getmyfictions" class="tsd-kind-icon">get<wbr>MyFictions</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="userservice.html#login" class="tsd-kind-icon">login</a></li>
 						</ul>
 					</section>
@@ -1036,7 +1052,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/user.ts:4</li>
+								<li>Defined in services/user.ts:13</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1058,7 +1074,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">req<span class="tsd-signature-symbol">:</span> <a href="requester.html" class="tsd-signature-type">Requester</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in services/user.ts:4</li>
+						<li>Defined in services/user.ts:13</li>
 					</ul>
 				</aside>
 			</section>
@@ -1066,19 +1082,22 @@ img { max-width: 100%; }
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Methods</h2>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-				<a name="getaccount" class="tsd-anchor"></a>
-				<h3>get<wbr>Account</h3>
+				<a name="getmyfictions" class="tsd-anchor"></a>
+				<h3>get<wbr>MyFictions</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">get<wbr>Account<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">get<wbr>MyFictions<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/myfiction.html" class="tsd-signature-type">MyFiction</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/user.ts:25</li>
+								<li>Defined in services/user.ts:42</li>
 							</ul>
 						</aside>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						<div class="tsd-comment tsd-typography">
+						</div>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/myfiction.html" class="tsd-signature-type">MyFiction</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						<p>Array of fictions owned by logged in user.</p>
 					</li>
 				</ul>
 			</section>
@@ -1092,7 +1111,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/user.ts:17</li>
+								<li>Defined in services/user.ts:26</li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
