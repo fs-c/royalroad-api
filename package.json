@@ -4,7 +4,6 @@
   "description": "Minimal Node.js royalroadl API.",
   "main": "dist/lib.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "docs": "typedoc --out public --theme minimal --readme none --hideGenerator --mode file --name royalroadl-api src"
   },
   "keywords": [],
