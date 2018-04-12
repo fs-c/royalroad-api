@@ -42,12 +42,12 @@ export class Requester {
   public async post(path: string, data: any, fetchToken?: boolean) {
     const uri = this.url + path;
 
+    data['__RequestVerificationToken'] = fetchToken ? (
+      await this.fetchToken(path)
+    ) : undefined;
+
     this.logCookies();
     this.debug('POST: %o', uri);
-
-    if (fetchToken) {
-      data['__RequestVerificationToken'] = await this.fetchToken(path);
-    }
 
     const res = await request.post({
       uri,
@@ -60,7 +60,10 @@ export class Requester {
 
   private logCookies(insecure?: boolean) {
     const addr = getBaseAddress(insecure);
-    const cookies = this.cookies.getCookies(addr).filter((c: any) => c);
+    const cookies = this.cookies.getCookies(addr)
+      .filter((c: any) => c)
+      .map((c: any) => `cookie ${c.key} = ${c.value.length >= 18
+        ? c.value.slice(0, 17) + '...' : c.value}`);
 
     this.debug(cookies);
   }
