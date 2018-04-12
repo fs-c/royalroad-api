@@ -74,8 +74,6 @@ export class FictionService {
       true,
     );
 
-    require('fs').writeFileSync('res.html', res);
-
     return res;
   }
 
