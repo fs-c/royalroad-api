@@ -5,6 +5,9 @@ const PROTOCOL_PREFIX_INSECURE = 'http://';
 
 const HOST_NAME = 'royalroadl.com';
 
+/**
+ * @returns - Version read from package.json.
+ */
 export function getVersion() {
   const { version } = JSON.parse(readFileSync('./package.json', 'utf8'));
 
