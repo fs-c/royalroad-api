@@ -48,7 +48,7 @@ export class Requester {
   }
 
   /**
-   * GET request to the given path, under the base address.
+   * POST request to the given path, under the base address.
    *
    * @param path
    */
