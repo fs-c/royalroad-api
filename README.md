@@ -1,3 +1,5 @@
+An unofficial API for [royalroadl.com](https://royalroadl.com), written in TypeScript.
+
 ```
 npm i -s @l1lly/royalroadl-api
 ```
