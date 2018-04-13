@@ -3,13 +3,6 @@ import * as cheerio from 'cheerio';
 import { Requester } from '../royalroad';
 import { getBaseAddress } from '../constants';
 
-export interface NewChapter {
-  title: string;
-  content: string;
-  preNote: undefined | string;
-  postNote: undefined | string;
-}
-
 export interface Fiction {
   type: string;
   title: string;
@@ -62,30 +55,6 @@ export class FictionService {
 
   constructor(req: Requester) {
     this.req = req;
-  }
-
-  /**
-   * Add a chapter to a given fiction.
-   *
-   * @param fictionID - ID of the fiction to publish a chapter for.
-   * @param chapter - Object describing the chapter.
-   */
-  public async publishChapter(fictionID: number, chapter: NewChapter) {
-    const body = await this.req.post(
-      `/fiction/chapter/new/${String(fictionID)}`,
-      {
-        Status: 'New',
-        fid: fictionID,
-        Title: chapter.title,
-        PreAuthorNotes: chapter.preNote,
-        Content: chapter.content,
-        PostAuthorNotes: chapter.postNote,
-        action: 'publish',
-      },
-      true,
-    );
-
-    return body;
   }
 
   /**
