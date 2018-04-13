@@ -20,7 +20,7 @@ export interface Fiction {
   description: string;
   stats: FictionStats;
   author: FictionAuthor;
-  // chapters: FictionChapter[];
+  chapters: FictionChapter[];
 }
 
 export interface FictionChapter {
@@ -194,22 +194,20 @@ class FictionParser {
       },
     };
 
-    // const chapters: FictionChapter[] = [];
+    const chapters: FictionChapter[] = [];
 
-    // $('div.dataTables_wrapper').find('tbody').find('tr').each((i, el) => {
-    //   console.log(i);
-
-    //   chapters.push({
-    //     title: $(el).find('td').eq(0).find('a').text(),
-    //     id: parseInt(
-    //       $(el).find('td').eq(0).find('a').attr('href').split('/')[2], 10,
-    //     ),
-    //     release: date($(el).find('td').eq(1).find('time').text())
-    //     .getTime(),
-    //   });
-    // });
+    $('tbody').find('tr').each((i, el) => {
+      chapters.push({
+        title: $(el).find('td').eq(0).find('a').text().trim(),
+        id: parseInt(
+          $(el).find('td').eq(0).find('a').attr('href').split('/')[2], 10,
+        ),
+        release: date($(el).find('td').eq(1).find('time').text())
+        .getTime(),
+      });
+    });
 
     return { type, tags, stats, title, image, status,
-      author, warnings, description };
+      author, warnings, chapters, description };
   }
 }
