@@ -1,3 +1,4 @@
+import date = require( 'date.js');
 import * as cheerio from 'cheerio';
 import { Requester } from '../royalroad';
 import { getBaseAddress } from '../constants';
@@ -19,6 +20,13 @@ export interface Fiction {
   description: string;
   stats: FictionStats;
   author: FictionAuthor;
+  // chapters: FictionChapter[];
+}
+
+export interface FictionChapter {
+  id: number;
+  title: string;
+  release: number;
 }
 
 export interface FictionStats {
@@ -131,7 +139,7 @@ class FictionParser {
     const $ = cheerio.load(html);
 
     const title = $('div.fic-title').children('h1').text();
-    const image = $('cover-' + title).attr('src');
+    const image = $('div.fic-header').find('img').attr('src');
     const type = $('span.bg-blue-hoki').eq(0).text();
     const status = $('span.bg-blue-hoki').eq(1).text();
 
@@ -185,6 +193,21 @@ class FictionParser {
         character: parseRating(getContent($(ratingList).eq(7))),
       },
     };
+
+    // const chapters: FictionChapter[] = [];
+
+    // $('div.dataTables_wrapper').find('tbody').find('tr').each((i, el) => {
+    //   console.log(i);
+
+    //   chapters.push({
+    //     title: $(el).find('td').eq(0).find('a').text(),
+    //     id: parseInt(
+    //       $(el).find('td').eq(0).find('a').attr('href').split('/')[2], 10,
+    //     ),
+    //     release: date($(el).find('td').eq(1).find('time').text())
+    //     .getTime(),
+    //   });
+    // });
 
     return { type, tags, stats, title, image, status,
       author, warnings, description };
