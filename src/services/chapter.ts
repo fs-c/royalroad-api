@@ -12,7 +12,6 @@ export interface Chapter {
   content: string;
   preNote: string;
   postNote: string;
-  // comments: ChapterComment[];
 }
 
 export class ChapterService {
@@ -46,17 +45,25 @@ export class ChapterService {
     return body;
   }
 
+  /**
+   * Return a chapter from a given fiction.
+   *
+   * @param fictionID - ID of the fiction to get a chapter from.
+   * @param fictionName - Name of the fiction to get a chapter from.
+   * @param chapterID - ID of the chapter to get.
+   * @param chapterName - Name of the chapter to get.
+   */
   public async getChapter(
     fictionID: number,
     fictionName: string,
     chapterID: number,
     chapterName: string,
   ) {
-
     const ficName = fictionName.toLowerCase().replace(/\s/, '-');
+    const chapName = chapterName.toLowerCase().replace(/\s/, '-');
     const body = await this.req.get(
       `/fiction/${String(fictionID)}/${ficName}`
-      + `/chapter/${String(chapterID)}/${chapterName}`,
+      + `/chapter/${String(chapterID)}/${chapName}`,
     );
 
     return ChapterParser.parseChapter(body);
