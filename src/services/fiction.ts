@@ -63,7 +63,7 @@ export class FictionService {
    * @param chapter - Object describing the chapter.
    */
   public async publishChapter(fictionID: number, chapter: NewChapter) {
-    const res = await this.req.post(
+    const body = await this.req.post(
       `/fiction/chapter/new/${String(fictionID)}`,
       {
         Status: 'New',
@@ -77,7 +77,7 @@ export class FictionService {
       true,
     );
 
-    return res;
+    return body;
   }
 
   /**
