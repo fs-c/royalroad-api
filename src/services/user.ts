@@ -24,19 +24,23 @@ export class UserService {
    * @param password
    */
   public async login(username: string, password: string) {
-    const res = await this.req.post(
+    const body = await this.req.post(
       '/user/login', { username, password },
     );
 
-    return res;
+    const err = UserParser.getAlert(body);
+
+    if (err && err.length) {
+      throw new Error(err);
+    } else { return body; }
   }
 
   /**
    * @returns Array of fictions owned by logged in user.
    */
   public async getMyFictions() {
-    const html = await this.req.get('/my/fictions');
-    const myFictions = UserParser.parseMyFictions(html);
+    const body = await this.req.get('/my/fictions');
+    const myFictions = UserParser.parseMyFictions(body);
 
     return myFictions;
   }
@@ -46,6 +50,16 @@ export class UserService {
  * Methods related to parsing user related HTML.
  */
 class UserParser {
+  public static getAlert(html: string) {
+    const $ = cheerio.load(html);
+
+    const error = $('div.alert.alert-danger').eq(0).text().trim();
+
+    if (error.length) {
+      return error;
+    } else { return false; }
+  }
+
   public static parseMyFictions(html: string): MyFiction[] {
     const $ = cheerio.load(html);
 
