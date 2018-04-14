@@ -33,6 +33,10 @@ export class ChapterService {
       throw new RoyalError('Not authenticated.');
     }
 
+    if (!this.isValidNewChapter(chapter)) {
+      throw new RoyalError('Invalid chapter');
+    }
+
     const body = await this.req.post(
       `/fiction/chapter/new/${String(fictionID)}`,
       {
@@ -71,6 +75,11 @@ export class ChapterService {
     if (error) {
       throw new RoyalError(error);
     } else { return new RoyalResponse(chapter); }
+  }
+
+  private isValidNewChapter(chapter: NewChapter) {
+    // TODO: Pre and post author notes maxlength?
+    return chapter.content.length >= 500;
   }
 }
 
