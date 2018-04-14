@@ -930,9 +930,6 @@ img { max-width: 100%; }
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="fictionservice.html#getfiction" class="tsd-kind-icon">get<wbr>Fiction</a>
 				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a href="fictionservice.html#gethtml" class="tsd-kind-icon">getHTML</a>
-				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="fictionservice.html#getrandom" class="tsd-kind-icon">get<wbr>Random</a>
 				</li>
@@ -946,6 +943,12 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-class">
 			<a href="requester.html" class="tsd-kind-icon">Requester</a>
+		</li>
+		<li class=" tsd-kind-class">
+			<a href="royalerror.html" class="tsd-kind-icon">Royal<wbr>Error</a>
+		</li>
+		<li class=" tsd-kind-class">
+			<a href="royalresponse.html" class="tsd-kind-icon">Royal<wbr>Response</a>
 		</li>
 		<li class=" tsd-kind-class">
 			<a href="royalroadapi.html" class="tsd-kind-icon">Royal<wbr>RoadAPI</a>
@@ -1049,7 +1052,6 @@ img { max-width: 100%; }
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="fictionservice.html#getfiction" class="tsd-kind-icon">get<wbr>Fiction</a></li>
-							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="fictionservice.html#gethtml" class="tsd-kind-icon">getHTML</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="fictionservice.html#getrandom" class="tsd-kind-icon">get<wbr>Random</a></li>
 						</ul>
 					</section>
@@ -1068,7 +1070,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/fiction.ts:54</li>
+								<li>Defined in services/fiction.ts:55</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1090,7 +1092,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">req<span class="tsd-signature-symbol">:</span> <a href="requester.html" class="tsd-signature-type">Requester</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in services/fiction.ts:54</li>
+						<li>Defined in services/fiction.ts:55</li>
 					</ul>
 				</aside>
 			</section>
@@ -1101,13 +1103,13 @@ img { max-width: 100%; }
 				<a name="getfiction" class="tsd-anchor"></a>
 				<h3>get<wbr>Fiction</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">get<wbr>Fiction<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fiction.html" class="tsd-signature-type">Fiction</a><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">get<wbr>Fiction<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/fiction.ts:67</li>
+								<li>Defined in services/fiction.ts:68</li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1125,37 +1127,9 @@ img { max-width: 100%; }
 								</div>
 							</li>
 						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fiction.html" class="tsd-signature-type">Fiction</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						<ul>
 							<li>Fiction object.</li>
-						</ul>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-				<a name="gethtml" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagPrivate">Private</span> getHTML</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<li class="tsd-signature tsd-kind-icon">getHTML<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in services/fiction.ts:91</li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>path: <span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						<ul>
-							<li>Raw HTML found on the given URL.</li>
 						</ul>
 					</li>
 				</ul>
@@ -1164,13 +1138,13 @@ img { max-width: 100%; }
 				<a name="getrandom" class="tsd-anchor"></a>
 				<h3>get<wbr>Random</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">get<wbr>Random<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fiction.html" class="tsd-signature-type">Fiction</a><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">get<wbr>Random<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/fiction.ts:80</li>
+								<li>Defined in services/fiction.ts:82</li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1179,7 +1153,7 @@ img { max-width: 100%; }
 								random fiction.</p>
 							</div>
 						</div>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/fiction.html" class="tsd-signature-type">Fiction</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						<ul>
 							<li>Fiction object.</li>
 						</ul>

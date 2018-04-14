@@ -924,6 +924,9 @@ img { max-width: 100%; }
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="chapterservice.html#getchapter" class="tsd-kind-icon">get<wbr>Chapter</a>
 				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a href="chapterservice.html#isvalidnewchapter" class="tsd-kind-icon">is<wbr>Valid<wbr>New<wbr>Chapter</a>
+				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="chapterservice.html#publish" class="tsd-kind-icon">publish</a>
 				</li>
@@ -943,6 +946,12 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-class">
 			<a href="requester.html" class="tsd-kind-icon">Requester</a>
+		</li>
+		<li class=" tsd-kind-class">
+			<a href="royalerror.html" class="tsd-kind-icon">Royal<wbr>Error</a>
+		</li>
+		<li class=" tsd-kind-class">
+			<a href="royalresponse.html" class="tsd-kind-icon">Royal<wbr>Response</a>
 		</li>
 		<li class=" tsd-kind-class">
 			<a href="royalroadapi.html" class="tsd-kind-icon">Royal<wbr>RoadAPI</a>
@@ -1039,6 +1048,7 @@ img { max-width: 100%; }
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="chapterservice.html#getchapter" class="tsd-kind-icon">get<wbr>Chapter</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="chapterservice.html#isvalidnewchapter" class="tsd-kind-icon">is<wbr>Valid<wbr>New<wbr>Chapter</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="chapterservice.html#publish" class="tsd-kind-icon">publish</a></li>
 						</ul>
 					</section>
@@ -1090,31 +1100,53 @@ img { max-width: 100%; }
 				<a name="getchapter" class="tsd-anchor"></a>
 				<h3>get<wbr>Chapter</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">get<wbr>Chapter<span class="tsd-signature-symbol">(</span>fictionID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, fictionName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, chapterID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, chapterName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/chapter.html" class="tsd-signature-type">Chapter</a><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">get<wbr>Chapter<span class="tsd-signature-symbol">(</span>chapterID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/chapter.ts:49</li>
+								<li>Defined in services/chapter.ts:67</li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Return a chapter given its unique ID.</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>chapterID: <span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>ID of the chapter to get.</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+				<a name="isvalidnewchapter" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> is<wbr>Valid<wbr>New<wbr>Chapter</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<li class="tsd-signature tsd-kind-icon">is<wbr>Valid<wbr>New<wbr>Chapter<span class="tsd-signature-symbol">(</span>chapter<span class="tsd-signature-symbol">: </span><a href="../interfaces/newchapter.html" class="tsd-signature-type">NewChapter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in services/chapter.ts:80</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>fictionID: <span class="tsd-signature-type">number</span></h5>
-							</li>
-							<li>
-								<h5>fictionName: <span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li>
-								<h5>chapterID: <span class="tsd-signature-type">number</span></h5>
-							</li>
-							<li>
-								<h5>chapterName: <span class="tsd-signature-type">string</span></h5>
+								<h5>chapter: <a href="../interfaces/newchapter.html" class="tsd-signature-type">NewChapter</a></h5>
 							</li>
 						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/chapter.html" class="tsd-signature-type">Chapter</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 					</li>
 				</ul>
 			</section>
@@ -1122,7 +1154,7 @@ img { max-width: 100%; }
 				<a name="publish" class="tsd-anchor"></a>
 				<h3>publish</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">publish<span class="tsd-signature-symbol">(</span>fictionID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, chapter<span class="tsd-signature-symbol">: </span><a href="../interfaces/newchapter.html" class="tsd-signature-type">NewChapter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">publish<span class="tsd-signature-symbol">(</span>fictionID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, chapter<span class="tsd-signature-symbol">: </span><a href="../interfaces/newchapter.html" class="tsd-signature-type">NewChapter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
@@ -1151,7 +1183,7 @@ img { max-width: 100%; }
 								</div>
 							</li>
 						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
 					</li>
 				</ul>
 			</section>
