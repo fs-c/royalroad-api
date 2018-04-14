@@ -7,6 +7,7 @@ import { ChapterService } from './services/chapter';
 import { FictionService } from './services/fiction';
 import { FictionsService } from './services/fictions';
 import { getBaseAddress, getUserAgent } from './constants';
+import { RoyalError } from './responses';
 
 /**
  * Class passed to all Services for consistent cookies accross requests.
@@ -27,6 +28,23 @@ export class Requester {
     this.cookies = request.jar();
     this.debug = logger('requester');
     this.url = getBaseAddress(insecure);
+  }
+
+  get isAuthenticated() {
+    const cookies = this.cookies.getCookies(
+      getBaseAddress(this.insecure),
+    );
+
+    for (const cookie of cookies) {
+      // TODO: Dangerous.
+      const c = cookie as any as { key: string, value: string };
+
+      if (c.key === 'mybbuser' && c.value) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**
@@ -75,8 +93,16 @@ export class Requester {
     this.debug('%o: %o', options.method || 'GET', options.uri);
 
     request(options, (err, res, body) => {
+      this.debug('%o < %o (%o)',
+        res.method || 'GET', res.statusCode, res.statusMessage);
+
       if (err || res.statusCode !== 200) {
         return reject(err || res);
+      }
+
+      const genericError = this.catchGenericError(body);
+      if (genericError !== null) {
+        reject(new RoyalError(genericError));
       }
 
       resolve(body);
@@ -106,7 +132,13 @@ export class Requester {
    * @param path
    */
   private async fetchToken(path: string) {
-    const $ = cheerio.load(await this.get(path) as string);
+    const body = await this.get(path);
+    const $ = cheerio.load(body);
+
+    const genericError = this.catchGenericError(body);
+    if (genericError !== null) {
+      throw new RoyalError(genericError);
+    }
 
     const token: string = $('input[name="__RequestVerificationToken"]')
       .prop('value');
@@ -116,6 +148,13 @@ export class Requester {
     if (token && token.length !== 0) {
       return token;
     } else { throw new Error('Token not found.'); }
+  }
+
+  private catchGenericError(html: string) {
+    const $ = cheerio.load(html);
+    const message = $('div.page-404').find('h3').text().trim();
+
+    return (message && message.length !== 0) ? message : null;
   }
 }
 
