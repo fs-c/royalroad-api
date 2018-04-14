@@ -1,6 +1,6 @@
 import * as logger from 'debug';
 import * as cheerio from 'cheerio';
-import * as request from 'request-promise-native';
+import * as request from 'request';
 
 import { UserService } from './services/user';
 import { ChapterService } from './services/chapter';
@@ -40,12 +40,13 @@ export class Requester {
     this.logCookies();
     this.debug('GET: %o', uri);
 
-    const res = await request.get({
+    const body = await this.request({
       uri,
       jar: this.cookies,
+      headers: Requester.headers,
     });
 
-    return res;
+    return body;
   }
 
   /**
@@ -63,14 +64,31 @@ export class Requester {
     this.logCookies();
     this.debug('POST: %o', uri);
 
-    const res = await request.post({
+    const body = await this.request({
       uri,
       form: data,
+      method: 'POST',
       jar: this.cookies,
     });
 
-    return res;
+    return body;
   }
+
+  private request(
+    options: request.UriOptions & request.CoreOptions,
+  ): Promise<string> { return new Promise((resolve, reject) => {
+    request(options, (err, res, body) => {
+      if (err) {
+        return reject(err);
+      }
+
+      if (res.statusCode === 200) {
+        return resolve(body);
+      }
+
+      reject(res);
+    });
+  }); }
 
   /**
    * Log all cookies in the jar, shorten values which are longer than
@@ -95,7 +113,7 @@ export class Requester {
    * @param path
    */
   private async fetchToken(path: string) {
-    const $ = cheerio.load(await this.get(path));
+    const $ = cheerio.load(await this.get(path) as string);
 
     const token: string = $('input[name="__RequestVerificationToken"]')
       .prop('value');

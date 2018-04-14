@@ -13,14 +13,12 @@
     "@types/request": "^2.47.0",
     "cheerio": "^1.0.0-rc.2",
     "date.js": "^0.3.2",
-    "request": "^2.85.0",
-    "request-promise-native": "^1.0.5"
+    "request": "^2.85.0"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.7",
     "@types/debug": "0.0.30",
     "@types/got": "^7.1.8",
-    "@types/request-promise-native": "^1.0.14",
     "typescript": "^2.8.1"
   }
 }
