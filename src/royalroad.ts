@@ -97,7 +97,7 @@ export class Requester {
         res.method || 'GET', res.statusCode, res.statusMessage);
 
       if (err || res.statusCode !== 200) {
-        return reject(err || res);
+        return reject(new RoyalError(err || res));
       }
 
       const genericError = this.catchGenericError(body);
@@ -150,6 +150,12 @@ export class Requester {
     } else { throw new Error('Token not found.'); }
   }
 
+  /**
+   * Catch generic errors like 404 and 403, since RRL always returns with status
+   * code 200.
+   *
+   * @param html
+   */
   private catchGenericError(html: string) {
     const $ = cheerio.load(html);
     const message = $('div.page-404').find('h3').text().trim();
