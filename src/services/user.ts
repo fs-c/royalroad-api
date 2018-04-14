@@ -36,21 +36,8 @@ export class UserService {
     } else { return body; }
   }
 
-  get loggedIn() {
-    const cookies = this.req.cookies.getCookies(
-      getBaseAddress(this.req.insecure),
-    );
-
-    for (const cookie of cookies) {
-      // TODO: Dangerous.
-      const c = cookie as any as { key: string, value: string };
-
-      if (c.key === 'mybbuser' && c.value) {
-        return true;
-      }
-    }
-
-    return false;
+  get isLoggedIn() {
+    return this.req.isAuthenticated;
   }
 
   /**
