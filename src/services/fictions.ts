@@ -111,6 +111,13 @@ export class FictionsService {
     return new RoyalResponse(fictions);
   }
 
+  /**
+   * Gets a list of chapters as raw HTML.
+   *
+   * @param type - Name of the list.
+   * @param page - Page to scrape from, will throw if out of bounds.
+   * @param opts - Additional URL parameters.
+   */
   public async getList(type: string, page: number = 1, opts?: object) {
     const params = new URLSearchParams(
       Object.assign({ page: page.toString() }, opts),
