@@ -4,8 +4,8 @@ import { Requester } from '../royalroad';
 export interface NewChapter {
   title: string;
   content: string;
-  preNote: undefined | string;
-  postNote: undefined | string;
+  preNote?: undefined | string;
+  postNote?: undefined | string;
 }
 
 export interface Chapter {
@@ -34,15 +34,19 @@ export class ChapterService {
         Status: 'New',
         fid: fictionID,
         Title: chapter.title,
-        PreAuthorNotes: chapter.preNote,
+        PreAuthorNotes: chapter.preNote || '',
         Content: chapter.content,
-        PostAuthorNotes: chapter.postNote,
+        PostAuthorNotes: chapter.postNote || '',
         action: 'publish',
       },
       true,
     );
 
-    return body;
+    const alert = ChapterParser.getAlert(body);
+
+    if (alert !== null) {
+      throw new Error(alert);
+    } else { return body; }
   }
 
   /**
@@ -71,6 +75,16 @@ export class ChapterService {
 }
 
 export class ChapterParser {
+  public static getAlert(html: string) {
+    const $ = cheerio.load(html);
+
+    const error = $('div.alert.alert-danger').find('li').text().trim();
+
+    if (error.length) {
+      return error;
+    } else { return null; }
+  }
+
   public static parseChapter(html: string): Chapter {
     const $ = cheerio.load(html);
 
