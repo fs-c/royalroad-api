@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { Requester } from '../royalroad';
 import { getBaseAddress } from '../constants';
+import { RoyalError, RoyalResponse } from '../responses';
 
 interface MyFiction {
   id: number;
@@ -32,8 +33,8 @@ export class UserService {
     const err = UserParser.getAlert(body);
 
     if (err !== null) {
-      throw new Error(err);
-    } else { return body; }
+      throw new RoyalError(err);
+    } else { return new RoyalResponse('Logged in.'); }
   }
 
   get isLoggedIn() {
@@ -44,10 +45,14 @@ export class UserService {
    * @returns Array of fictions owned by logged in user.
    */
   public async getMyFictions() {
+    if (!this.isLoggedIn) {
+      throw new RoyalError('Not authenticated.');
+    }
+
     const body = await this.req.get('/my/fictions');
     const myFictions = UserParser.parseMyFictions(body);
 
-    return myFictions;
+    return new RoyalResponse(myFictions);
   }
 }
 
@@ -60,7 +65,7 @@ class UserParser {
 
     const error = $('div.alert.alert-danger').eq(0).text().trim();
 
-    if (error.length) {
+    if (error && error.length !== 0) {
       return error;
     } else { return null; }
   }
