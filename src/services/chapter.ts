@@ -105,13 +105,7 @@ class ChapterParser {
     const preNote = $(notes).eq(0).find('p').text();
     const postNote = $(notes).eq(1).find('p').text();
 
-    let content = $('div.chapter-inner.chapter-content')
-      .find('div').eq(0).text();
-
-    // Legacy format.
-    if (!content) {
-      content = $('div.chapter-inner.chapter-content').text();
-    }
+    const content = $('div.chapter-inner.chapter-content').html().trim();
 
     return { content, preNote, postNote };
   }
