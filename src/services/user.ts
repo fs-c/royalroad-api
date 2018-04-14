@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import { Requester } from '../royalroad';
+import { getBaseAddress } from '../constants';
 
 interface MyFiction {
   id: number;
@@ -33,6 +34,23 @@ export class UserService {
     if (err !== null) {
       throw new Error(err);
     } else { return body; }
+  }
+
+  get loggedIn() {
+    const cookies = this.req.cookies.getCookies(
+      getBaseAddress(this.req.insecure),
+    );
+
+    for (const cookie of cookies) {
+      // TODO: Dangerous.
+      const c = cookie as any as { key: string, value: string };
+
+      if (c.key === 'mybbuser' && c.value) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**
