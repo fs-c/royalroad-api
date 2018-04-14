@@ -78,15 +78,11 @@ export class Requester {
     options: request.UriOptions & request.CoreOptions,
   ): Promise<string> { return new Promise((resolve, reject) => {
     request(options, (err, res, body) => {
-      if (err) {
-        return reject(err);
+      if (err || res.statusCode !== 200) {
+        return reject(err || res);
       }
 
-      if (res.statusCode === 200) {
-        return resolve(body);
-      }
-
-      reject(res);
+      resolve(body);
     });
   }); }
 
