@@ -2,6 +2,7 @@ import date = require( 'date.js');
 import * as cheerio from 'cheerio';
 import { Requester } from '../royalroad';
 import { getBaseAddress } from '../constants';
+import { RoyalResponse } from '../responses';
 
 export interface Fiction {
   type: string;
@@ -64,11 +65,12 @@ export class FictionService {
    * @param id - ID of the fiction to get. (royalroadl.com/fiction/<id>)
    * @returns - Fiction object.
    */
-  public async getFiction(id: number): Promise<Fiction> {
+  public async getFiction(id: number): Promise<RoyalResponse> {
     const path = `/fiction/${id.toString()}`;
     const body = await this.req.get(path);
+    const fiction =  FictionParser.parseFiction(body);
 
-    return FictionParser.parseFiction(body);
+    return new RoyalResponse(fiction);
   }
 
   /**
@@ -77,11 +79,12 @@ export class FictionService {
    *
    * @returns - Fiction object.
    */
-  public async getRandom(): Promise<Fiction> {
+  public async getRandom(): Promise<RoyalResponse> {
     const path = `/fiction/random`;
     const body = await this.req.get(path);
+    const fiction = FictionParser.parseFiction(body);
 
-    return FictionParser.parseFiction(body);
+    return new RoyalResponse(fiction);
   }
 }
 
