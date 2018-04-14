@@ -66,7 +66,7 @@ export class FictionService {
    */
   public async getFiction(id: number): Promise<Fiction> {
     const path = `/fiction/${id.toString()}`;
-    const body = await this.getHTML(path);
+    const body = await this.req.get(path);
 
     return FictionParser.parseFiction(body);
   }
@@ -79,24 +79,9 @@ export class FictionService {
    */
   public async getRandom(): Promise<Fiction> {
     const path = `/fiction/random`;
-    const body = await this.getHTML(path);
-
-    return FictionParser.parseFiction(body);
-  }
-
-  /**
-   * @param url - The URL to scrape from.
-   * @returns - Raw HTML found on the given URL.
-   */
-  private async getHTML(path: string): Promise<string> {
     const body = await this.req.get(path);
 
-    // RRL always responds with a 200, no matter if the data was found or not.
-    if (body.includes('Page Not Found') && body.includes('404')) {
-      throw new Error('Page not found.');
-    }
-
-    return body;
+    return FictionParser.parseFiction(body);
   }
 }
 
