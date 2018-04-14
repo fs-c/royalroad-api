@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 import { URLSearchParams } from 'url';
 import { Requester } from '../royalroad';
 import { getBaseAddress } from '../constants';
+import { RoyalError, RoyalResponse } from '../responses';
 
 export interface FictionBlurb {
   id: number;
@@ -59,13 +60,11 @@ export class FictionsService {
    * @param page - Desired page to scrape from.
    * @returns - Array of fiction blurbs.
    */
-  public async getLatest(page: number = 1): Promise<LatestBlurb[]> {
-    const params = new URLSearchParams({ page: page.toString() });
-    const path = `/fictions/latest-updates?${params}`;
+  public async getLatest(page: number = 1): Promise<RoyalResponse> {
+    const body = await this.getList('latest-updates', page);
+    const fictions = FictionsParser.parseLatest(body);
 
-    const body = await this.req.get(path);
-
-    return FictionsParser.parseLatest(body);
+    return new RoyalResponse(fictions);
   }
 
   /**
@@ -75,13 +74,11 @@ export class FictionsService {
    * @param page - Desired page to scrape from.
    * @returns - Array of fiction blurbs.
    */
-  public async getPopular(page: number = 1): Promise<PopularBlurb[]> {
-    const params = new URLSearchParams({ page: page.toString() });
-    const path = `/fictions/active-popular?${params}`;
+  public async getPopular(page: number = 1): Promise<RoyalResponse> {
+    const body = await this.getList('active-popular', page);
+    const fictions = FictionsParser.parsePopular(body);
 
-    const body = await this.req.get(path);
-
-    return FictionsParser.parsePopular(body);
+    return new RoyalResponse(fictions);
   }
 
   /**
@@ -91,13 +88,11 @@ export class FictionsService {
    * @param page - Desired page to scrape from.
    * @returns - Array of fiction blurbs.
    */
-  public async getBest(page: number = 1): Promise<BestBlurb[]> {
-    const params = new URLSearchParams({ page: page.toString() });
-    const path = `/fictions/best-rated?${params}`;
+  public async getBest(page: number = 1): Promise<RoyalResponse> {
+    const body = await this.getList('best-rated', page);
+    const fictions = FictionsParser.parsePopular(body) as BestBlurb[];
 
-    const body = await this.req.get(path);
-
-    return FictionsParser.parsePopular(body) as BestBlurb[];
+    return new RoyalResponse(fictions);
   }
 
   /**
@@ -109,13 +104,27 @@ export class FictionsService {
    */
   public async search(
     keyword: string, page: number = 1,
-  ): Promise<SearchBlurb[]> {
-    const params = new URLSearchParams({ keyword, page: page.toString() });
-    const path = `/fictions/search?${params}`;
+  ): Promise<RoyalResponse> {
+    const body = await this.getList('search', page, { keyword });
+    const fictions = FictionsParser.parseSearch(body);
+
+    return new RoyalResponse(fictions);
+  }
+
+  public async getList(type: string, page: number = 1, opts?: object) {
+    const params = new URLSearchParams(
+      Object.assign({ page: page.toString() }, opts),
+    );
+
+    const path = `/fictions/${type}?${params}`;
 
     const body = await this.req.get(path);
 
-    return FictionsParser.parseSearch(body);
+    const error = FictionsParser.getError(body);
+
+    if (error) {
+      throw new RoyalError(error);
+    } else { return body; }
   }
 }
 
@@ -123,6 +132,18 @@ export class FictionsService {
  * Methods related to parsing fiction lists.
  */
 class FictionsParser {
+  public static getError(html: string) {
+    const $ = cheerio.load(html);
+
+    function isOutOfBounds() {
+      const message = $('div.fiction-list').children('div.text-center').text();
+
+      return message && message.length !== 0;
+    }
+
+    return isOutOfBounds() ? 'Page not found.' : null;
+  }
+
   public static parseLatest(html: string): LatestBlurb[] {
     const $ = cheerio.load(html);
 
