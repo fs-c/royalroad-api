@@ -147,7 +147,7 @@ export class Requester {
 
     if (token && token.length !== 0) {
       return token;
-    } else { throw new Error('Token not found.'); }
+    } else { throw new RoyalError('Token not found.'); }
   }
 
   /**
