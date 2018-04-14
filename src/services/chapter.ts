@@ -83,7 +83,7 @@ export class ChapterService {
   }
 }
 
-export class ChapterParser {
+class ChapterParser {
   public static getError(html: string) {
     const $ = cheerio.load(html);
 

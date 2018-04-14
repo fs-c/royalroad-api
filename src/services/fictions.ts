@@ -60,7 +60,7 @@ export class FictionsService {
    * @param page - Desired page to scrape from.
    * @returns - Array of fiction blurbs.
    */
-  public async getLatest(page: number = 1): Promise<RoyalResponse> {
+  public async getLatest(page: number = 1) {
     const body = await this.getList('latest-updates', page);
     const fictions = FictionsParser.parseLatest(body);
 
@@ -74,7 +74,7 @@ export class FictionsService {
    * @param page - Desired page to scrape from.
    * @returns - Array of fiction blurbs.
    */
-  public async getPopular(page: number = 1): Promise<RoyalResponse> {
+  public async getPopular(page: number = 1) {
     const body = await this.getList('active-popular', page);
     const fictions = FictionsParser.parsePopular(body);
 
@@ -88,7 +88,7 @@ export class FictionsService {
    * @param page - Desired page to scrape from.
    * @returns - Array of fiction blurbs.
    */
-  public async getBest(page: number = 1): Promise<RoyalResponse> {
+  public async getBest(page: number = 1) {
     const body = await this.getList('best-rated', page);
     const fictions = FictionsParser.parsePopular(body) as BestBlurb[];
 
@@ -102,9 +102,7 @@ export class FictionsService {
    * @param page - Desired page to scrape from.
    * @returns - Array of search fiction blurbs.
    */
-  public async search(
-    keyword: string, page: number = 1,
-  ): Promise<RoyalResponse> {
+  public async search(keyword: string, page: number = 1) {
     const body = await this.getList('search', page, { keyword });
     const fictions = FictionsParser.parseSearch(body);
 

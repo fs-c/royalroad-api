@@ -65,7 +65,7 @@ export class FictionService {
    * @param id - ID of the fiction to get. (royalroadl.com/fiction/<id>)
    * @returns - Fiction object.
    */
-  public async getFiction(id: number): Promise<RoyalResponse> {
+  public async getFiction(id: number) {
     const path = `/fiction/${id.toString()}`;
     const body = await this.req.get(path);
     const fiction =  FictionParser.parseFiction(body);
@@ -79,7 +79,7 @@ export class FictionService {
    *
    * @returns - Fiction object.
    */
-  public async getRandom(): Promise<RoyalResponse> {
+  public async getRandom() {
     const path = `/fiction/random`;
     const body = await this.req.get(path);
     const fiction = FictionParser.parseFiction(body);
