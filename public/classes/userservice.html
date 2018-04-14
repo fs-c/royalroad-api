@@ -938,6 +938,9 @@ img { max-width: 100%; }
 					<a href="userservice.html#isloggedin" class="tsd-kind-icon">is<wbr>Logged<wbr>In</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="userservice.html#getmybookmarks" class="tsd-kind-icon">get<wbr>MyBookmarks</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="userservice.html#getmyfictions" class="tsd-kind-icon">get<wbr>MyFictions</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -947,6 +950,12 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/bestblurb.html" class="tsd-kind-icon">Best<wbr>Blurb</a>
+		</li>
+		<li class=" tsd-kind-interface">
+			<a href="../interfaces/bookmark.html" class="tsd-kind-icon">Bookmark</a>
+		</li>
+		<li class=" tsd-kind-interface">
+			<a href="../interfaces/bookmarkchapter.html" class="tsd-kind-icon">Bookmark<wbr>Chapter</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/chapter.html" class="tsd-kind-icon">Chapter</a>
@@ -968,6 +977,9 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/latestblurb.html" class="tsd-kind-icon">Latest<wbr>Blurb</a>
+		</li>
+		<li class=" tsd-kind-interface">
+			<a href="../interfaces/myfiction.html" class="tsd-kind-icon">My<wbr>Fiction</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/newchapter.html" class="tsd-kind-icon">New<wbr>Chapter</a>
@@ -994,7 +1006,7 @@ img { max-width: 100%; }
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>Methods related to logged in users.</p>
+					<p>Methods related to the logged in user.</p>
 				</div>
 			</div>
 		</section>
@@ -1025,6 +1037,7 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="userservice.html#getmybookmarks" class="tsd-kind-icon">get<wbr>MyBookmarks</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="userservice.html#getmyfictions" class="tsd-kind-icon">get<wbr>MyFictions</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="userservice.html#login" class="tsd-kind-icon">login</a></li>
 						</ul>
@@ -1044,7 +1057,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/user.ts:15</li>
+								<li>Defined in services/user.ts:34</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1066,7 +1079,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">is<wbr>Logged<wbr>In<span class="tsd-signature-symbol">:</span> </div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in services/user.ts:40</li>
+						<li>Defined in services/user.ts:59</li>
 					</ul>
 				</aside>
 			</section>
@@ -1074,21 +1087,44 @@ img { max-width: 100%; }
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Methods</h2>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-				<a name="getmyfictions" class="tsd-anchor"></a>
-				<h3>get<wbr>MyFictions</h3>
+				<a name="getmybookmarks" class="tsd-anchor"></a>
+				<h3>get<wbr>MyBookmarks</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">get<wbr>MyFictions<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">MyFiction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">get<wbr>MyBookmarks<span class="tsd-signature-symbol">(</span>page<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/bookmark.html" class="tsd-signature-type">Bookmark</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/user.ts:47</li>
+								<li>Defined in services/user.ts:77</li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> page: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/bookmark.html" class="tsd-signature-type">Bookmark</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="getmyfictions" class="tsd-anchor"></a>
+				<h3>get<wbr>MyFictions</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">get<wbr>MyFictions<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/myfiction.html" class="tsd-signature-type">MyFiction</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in services/user.ts:66</li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 						</div>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">MyFiction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="royalresponse.html" class="tsd-signature-type">RoyalResponse</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/myfiction.html" class="tsd-signature-type">MyFiction</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						<p>Array of fictions owned by logged in user.</p>
 					</li>
 				</ul>
@@ -1103,7 +1139,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in services/user.ts:28</li>
+								<li>Defined in services/user.ts:47</li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
