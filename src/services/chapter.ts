@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import { Requester } from '../royalroad';
+import { RoyalError, RoyalResponse } from '../responses';
 
 export interface NewChapter {
   title: string;
@@ -28,6 +29,10 @@ export class ChapterService {
    * @param chapter - Object describing the chapter.
    */
   public async publish(fictionID: number, chapter: NewChapter) {
+    if (!this.req.isAuthenticated) {
+      throw new RoyalError('Not authenticated.');
+    }
+
     const body = await this.req.post(
       `/fiction/chapter/new/${String(fictionID)}`,
       {
@@ -42,45 +47,46 @@ export class ChapterService {
       true,
     );
 
-    const alert = ChapterParser.getAlert(body);
+    const error = ChapterParser.getError(body);
 
-    if (alert !== null) {
-      throw new Error(alert);
-    } else { return body; }
+    if (error) {
+      throw new RoyalError(error);
+    } else { return new RoyalResponse(chapter); }
   }
 
   /**
-   * Return a chapter from a given fiction.
+   * Return a chapter given its unique ID.
    *
-   * @param fictionID - ID of the fiction to get a chapter from.
-   * @param fictionName - Name of the fiction to get a chapter from.
    * @param chapterID - ID of the chapter to get.
    */
 
-  public async getChapter(
-    fictionID: number,
-    fictionName: string,
-    chapterID: number,
-  ) {
-    const ficName = fictionName.toLowerCase().replace(/\s/, '-');
+  public async getChapter(chapterID: number) {
     const body = await this.req.get(
-      `/fiction/${String(fictionID)}/${ficName}`
-      + `/chapter/${String(chapterID)}/_`,
+      `/fiction/0/_/chapter/${String(chapterID)}/_`,
     );
 
-    return ChapterParser.parseChapter(body);
+    const error = ChapterParser.getError(body);
+    const chapter = ChapterParser.parseChapter(body);
+
+    if (error) {
+      throw new RoyalError(error);
+    } else { return new RoyalResponse(chapter); }
   }
 }
 
 export class ChapterParser {
-  public static getAlert(html: string) {
+  public static getError(html: string) {
     const $ = cheerio.load(html);
 
-    const error = $('div.alert.alert-danger').find('li').text().trim();
+    function isMissingInput() {
+      const message = $('div.alert.alert-danger').find('li').text().trim();
+      return (message && message.length !== 0) ? message : false;
+    }
 
-    if (error.length) {
-      return error;
-    } else { return null; }
+    const missingInput = isMissingInput();
+    const error = missingInput;
+
+    return error || null;
   }
 
   public static parseChapter(html: string): Chapter {
@@ -90,11 +96,13 @@ export class ChapterParser {
     const preNote = $(notes).eq(0).find('p').text();
     const postNote = $(notes).eq(1).find('p').text();
 
-    let content: string = '';
+    let content = $('div.chapter-inner.chapter-content')
+      .find('div').eq(0).text();
 
-    $('div.chapter-content').find('p').each((i, el) => {
-      content += $(el).text() + '\n';
-    });
+    // Legacy format.
+    if (!content) {
+      content = $('div.chapter-inner.chapter-content').text();
+    }
 
     return { content, preNote, postNote };
   }
