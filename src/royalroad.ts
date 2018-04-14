@@ -37,9 +37,6 @@ export class Requester {
   public async get(path: string) {
     const uri = this.url + path;
 
-    this.logCookies();
-    this.debug('GET: %o', uri);
-
     const body = await this.request({
       uri,
       jar: this.cookies,
@@ -61,9 +58,6 @@ export class Requester {
       await this.fetchToken(path)
     ) : undefined;
 
-    this.logCookies();
-    this.debug('POST: %o', uri);
-
     const body = await this.request({
       uri,
       form: data,
@@ -77,6 +71,9 @@ export class Requester {
   private request(
     options: request.UriOptions & request.CoreOptions,
   ): Promise<string> { return new Promise((resolve, reject) => {
+    this.logCookies();
+    this.debug('%o: %o', options.method || 'GET', options.uri);
+
     request(options, (err, res, body) => {
       if (err || res.statusCode !== 200) {
         return reject(err || res);
@@ -116,7 +113,7 @@ export class Requester {
 
     this.debug('got token %o', token);
 
-    if (token.length !== 0) {
+    if (token && token.length !== 0) {
       return token;
     } else { throw new Error('Token not found.'); }
   }
