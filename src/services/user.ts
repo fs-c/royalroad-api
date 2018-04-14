@@ -30,7 +30,7 @@ export class UserService {
 
     const err = UserParser.getAlert(body);
 
-    if (err && err.length) {
+    if (err !== null) {
       throw new Error(err);
     } else { return body; }
   }
@@ -57,7 +57,7 @@ class UserParser {
 
     if (error.length) {
       return error;
-    } else { return false; }
+    } else { return null; }
   }
 
   public static parseMyFictions(html: string): MyFiction[] {
