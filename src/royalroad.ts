@@ -97,7 +97,9 @@ export class Requester {
         res.method || 'GET', res.statusCode, res.statusMessage);
 
       if (err || res.statusCode !== 200) {
-        return reject(new RoyalError(err || res));
+        return reject(new RoyalError(
+          err.message || res.statusMessage || 'Requester error',
+        ));
       }
 
       const genericError = this.catchGenericError(body);
