@@ -3,7 +3,8 @@ image: alpine:latest
 pages:
   stage: deploy
   script:
-  - echo 'Nope.'
+  - mkdir public
+  - cp -r docs/* public/
   artifacts:
     paths:
     - public
