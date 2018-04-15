@@ -8,8 +8,6 @@ This is an attempt to write a predictable and consistent wrapper around the  mes
 
 Documentation can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitlab.io/royalroadl-api/classes/royalroadapi.html).
 
-This is a clone of [node-royalroadl-api@0.4.1](https://github.com/LW2904/node-royalroadl-api/tree/b1f98341551119f2b8423f5ec5f7e17a2423c6fb), which got removed shortly after it was published.
-
 ## Example usage
 
 __Fetching the top 10 popular fictions__
@@ -31,6 +29,7 @@ console.log(`The top 10 popular fictions are: ${titles.join(', ')}`);
 __Logging on and publishing a chapter__
 ```javascript
 const { RoyalRoadAPI } = require('@l1lly/royalroadl-api');
+
 const api = new RoyalRoadAPI();
 
 (async () => {
@@ -39,7 +38,7 @@ try {
   await api.user.login('username', 'password');
   console.log('logged in');
 } catch (err) { // RoyalError object.
-  console.error(`something went wrong during login: ${err.message}`);
+  console.error(`Something went wrong during login: ${err.message}`);
   return;
 }
 
@@ -55,7 +54,7 @@ try {
   await api.chapter.publish(0000, chapter);
   console.log('Chapter published successfully.');
 } catch (err) { // Guess which object.
-  console.error(`error while publishing chapter: ${err.message}`);
+  console.error(`Error while publishing chapter: ${err.message}`);
 }
 
 })();
