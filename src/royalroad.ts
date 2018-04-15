@@ -8,6 +8,7 @@ import { FictionService } from './services/fiction';
 import { FictionsService } from './services/fictions';
 import { getBaseAddress, getUserAgent } from './constants';
 import { RoyalError } from './responses';
+import { ProfileService } from './services/profile';
 
 /**
  * Class passed to all Services for consistent cookies accross requests.
@@ -171,6 +172,7 @@ export class Requester {
  */
 export class RoyalRoadAPI {
   public readonly user: UserService;
+  public readonly profile: ProfileService;
   public readonly chapter: ChapterService;
   public readonly fiction: FictionService;
   public readonly fictions: FictionsService;
@@ -181,6 +183,7 @@ export class RoyalRoadAPI {
     this.req = new Requester(insecure);
 
     this.user = new UserService(this.req);
+    this.profile = new ProfileService(this.req);
     this.chapter = new ChapterService(this.req);
     this.fiction = new FictionService(this.req);
     this.fictions = new FictionsService(this.req);
