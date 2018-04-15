@@ -9,6 +9,13 @@ export interface MyFiction {
   title: string;
 }
 
+export interface Notification {
+  link: string;
+  image: string;
+  message: string;
+  timestamp: number;
+}
+
 export interface Bookmark {
   id: number;
   title: string;
@@ -37,6 +44,10 @@ export class UserService {
     this.req = req;
   }
 
+  public get isLoggedIn() {
+    return this.req.isAuthenticated;
+  }
+
   /**
    * Log on to royalroadl, saving the cookies for use in subsequent
    * requests.
@@ -54,10 +65,6 @@ export class UserService {
     if (err !== null) {
       throw new RoyalError(err);
     } else { return new RoyalResponse('Logged in.'); }
-  }
-
-  get isLoggedIn() {
-    return this.req.isAuthenticated;
   }
 
   /**
@@ -88,6 +95,17 @@ export class UserService {
 
     const myBookmarks = UserParser.parseMyBookmarks(body);
     return new RoyalResponse(myBookmarks);
+  }
+
+  public async getNotifications() {
+    if (!this.isLoggedIn) {
+      return new RoyalError('Not authenticated.');
+    }
+
+    const body = await this.req.get('/notifications/get');
+    const notifications = UserParser.parseNotifications(body);
+
+    return new RoyalResponse(notifications);
   }
 }
 
@@ -167,5 +185,22 @@ class UserParser {
     });
 
     return fictions;
+  }
+
+  public static parseNotifications(html: string): Notification[] {
+    const $ = cheerio.load(html);
+
+    const notifications: Notification[] = [];
+
+    $('li').each((i, el) => {
+      const image = $(el).find('img').attr('src');
+      const message = $(el).find('span').eq(0).text().trim();
+      const link = getBaseAddress() + $(el).find('a').attr('href');
+      const timestamp = date($(el).find('time').text() + ' ago').getTime();
+
+      notifications.push({ link, image, message, timestamp });
+    });
+
+    return notifications;
   }
 }
