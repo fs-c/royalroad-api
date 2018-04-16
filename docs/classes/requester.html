@@ -916,6 +916,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-class">
 			<a href="fictionsservice.html" class="tsd-kind-icon">Fictions<wbr>Service</a>
 		</li>
+		<li class=" tsd-kind-class">
+			<a href="profileservice.html" class="tsd-kind-icon">Profile<wbr>Service</a>
+		</li>
 		<li class="current tsd-kind-class">
 			<a href="requester.html" class="tsd-kind-icon">Requester</a>
 			<ul>
@@ -964,6 +967,9 @@ img { max-width: 100%; }
 			<a href="../interfaces/chapter.html" class="tsd-kind-icon">Chapter</a>
 		</li>
 		<li class=" tsd-kind-interface">
+			<a href="../interfaces/chaptercomment.html" class="tsd-kind-icon">Chapter<wbr>Comment</a>
+		</li>
+		<li class=" tsd-kind-interface">
 			<a href="../interfaces/fiction.html" class="tsd-kind-icon">Fiction</a>
 		</li>
 		<li class=" tsd-kind-interface">
@@ -992,6 +998,15 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/popularblurb.html" class="tsd-kind-icon">Popular<wbr>Blurb</a>
+		</li>
+		<li class=" tsd-kind-interface">
+			<a href="../interfaces/profileauthorstats.html" class="tsd-kind-icon">Profile<wbr>Author<wbr>Stats</a>
+		</li>
+		<li class=" tsd-kind-interface">
+			<a href="../interfaces/profileoverview.html" class="tsd-kind-icon">Profile<wbr>Overview</a>
+		</li>
+		<li class=" tsd-kind-interface">
+			<a href="../interfaces/requestoptions.html" class="tsd-kind-icon">Request<wbr>Options</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/searchblurb.html" class="tsd-kind-icon">Search<wbr>Blurb</a>
@@ -1069,7 +1084,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in royalroad.ts:24</li>
+								<li>Defined in royalroad.ts:30</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1091,7 +1106,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">cookies<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in royalroad.ts:20</li>
+						<li>Defined in royalroad.ts:26</li>
 					</ul>
 				</aside>
 			</section>
@@ -1101,7 +1116,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">insecure<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in royalroad.ts:21</li>
+						<li>Defined in royalroad.ts:27</li>
 					</ul>
 				</aside>
 			</section>
@@ -1114,7 +1129,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">is<wbr>Authenticated<span class="tsd-signature-symbol">:</span> </div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in royalroad.ts:33</li>
+						<li>Defined in royalroad.ts:39</li>
 					</ul>
 				</aside>
 			</section>
@@ -1131,7 +1146,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in royalroad.ts:55</li>
+								<li>Defined in royalroad.ts:61</li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1155,13 +1170,13 @@ img { max-width: 100%; }
 				<a name="post" class="tsd-anchor"></a>
 				<h3>post</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">post<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, fetchToken<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">post<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/requestoptions.html" class="tsd-signature-type">RequestOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in royalroad.ts:72</li>
+								<li>Defined in royalroad.ts:78</li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1180,7 +1195,7 @@ img { max-width: 100%; }
 								<h5>data: <span class="tsd-signature-type">any</span></h5>
 							</li>
 							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> fetchToken: <span class="tsd-signature-type">boolean</span></h5>
+								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/requestoptions.html" class="tsd-signature-type">RequestOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
