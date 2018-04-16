@@ -179,7 +179,7 @@ export class RoyalRoadAPI {
 
   private readonly req: Requester;
 
-  constructor(insecure?: boolean) {
+  constructor(insecure: boolean = false) {
     this.req = new Requester(insecure);
 
     this.user = new UserService(this.req);
