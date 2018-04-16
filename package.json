@@ -4,7 +4,7 @@
   "description": "Minimal Node.js royalroadl API.",
   "main": "dist/lib.js",
   "scripts": {
-    "docs": "typedoc --out docs --theme minimal --readme none --hideGenerator --mode file --name royalroadl-api --excludePrivate --excludeNotExported --excludeExternals src"
+    "docs": "typedoc --out docs --theme minimal --readme none --hideGenerator --mode file --name royalroadl-api src"
   },
   "keywords": [],
   "author": "",
