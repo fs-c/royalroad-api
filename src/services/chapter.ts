@@ -43,9 +43,7 @@ export class ChapterService {
    * @param chapter - Object describing the chapter.
    */
   public async publish(fictionID: number, chapter: NewChapter) {
-    if (!this.req.isAuthenticated) {
-      throw new RoyalError('Not authenticated.');
-    }
+    this.requireAuth();
 
     if (!this.isValidNewChapter(chapter)) {
       throw new RoyalError('Invalid chapter');
@@ -62,7 +60,7 @@ export class ChapterService {
         PostAuthorNotes: chapter.postNote || '',
         action: 'publish',
       },
-      true,
+      { fetchToken: true },
     );
 
     const error = ChapterParser.getError(body);
@@ -103,6 +101,28 @@ export class ChapterService {
     const comments = ChapterParser.parseComments(body);
 
     return new RoyalResponse(comments);
+  }
+
+  public async postComment(chapterID: number, content: string) {
+    this.requireAuth();
+
+    const body = await this.req.post(
+      `/fiction/0/_/chapter/${String(chapterID)}/_`,
+      {
+        cid: chapterID,
+        action: 'submit',
+        comment: content.split('\n').map((e) => `<p>${e}</p>`).join(''),
+      },
+      { fetchToken: true, ignoreStatus: true },
+    );
+
+    return new RoyalResponse(null);
+  }
+
+  private requireAuth() {
+    if (!this.req.isAuthenticated) {
+      throw new RoyalError('Not authenticated.');
+    }
   }
 
   private isValidNewChapter(chapter: NewChapter) {
