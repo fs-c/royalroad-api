@@ -25,6 +25,7 @@ export interface ChapterComment {
     id: number;
     name: string;
     avatar: string;
+    premium: boolean;
   };
 }
 
@@ -176,6 +177,8 @@ class ChapterParser {
       const author = {
         avatar: $(el).find('img').attr('src'),
         name: $(el).find('span.name').find('a').text().split('@')[0],
+        premium: $(el).find('div.upcase.label.bg-yellow-crusta')
+          .text().length !== 0,
         id: parseInt(
           $(el).find('span.name').find('a').attr('href').split('/')[2], 10,
         ),
