@@ -19,7 +19,7 @@ export class RoyalResponse<T> {
 }
 
 export class RoyalError extends RoyalResponse<object> {
-  constructor(message: string) {
-    super({ message }, false);
+  constructor(message: string, data: object = {}) {
+    super(Object.assign({ message }, data), false);
   }
 }
