@@ -1,5 +1,5 @@
 export class RoyalResponse<T> {
-  public data: any;
+  public data: T;
   public error: any;
   public success: boolean;
   public timestamp: number;
