@@ -8,13 +8,8 @@ export class RoyalResponse<T> {
     this.success = success;
     this.timestamp = Date.now();
 
-    if (success) {
-      this.data = data;
-      this.error = null;
-    } else {
-      this.data = null;
-      this.error = data;
-    }
+    this.data = success ? data : null;
+    this.error = success ? null : data;
   }
 }
 
