@@ -20,6 +20,7 @@ export class RoyalResponse<T> {
 
 export class RoyalError extends RoyalResponse<object> {
   constructor(message: string, data: object = {}) {
-    super(Object.assign({ message }, data), false);
+    const stack = new Error().stack.split('\n');
+    super(Object.assign({ message }, { stack }, data), false);
   }
 }
