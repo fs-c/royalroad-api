@@ -10,7 +10,8 @@ Documentation can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitl
 
 ## Example usage
 
-__Fetching the top 10 popular fictions__
+For more examples check out the `/examples` directory.
+
 ```javascript
 const { RoyalRoadAPI } = require('@l1lly/royalroadl-api');
 
@@ -22,40 +23,6 @@ const popular = await api.fictions.getPopular();
 const titles = popular.slice(10).map((fic) => fic.title);
 
 console.log(`The top 10 popular fictions are: ${titles.join(', ')}`);
-
-})();
-```
-
-__Logging on and publishing a chapter__
-```javascript
-const { RoyalRoadAPI } = require('@l1lly/royalroadl-api');
-
-const api = new RoyalRoadAPI();
-
-(async () => {
-
-try {
-  await api.user.login('username', 'password');
-  console.log('logged in');
-} catch (err) { // RoyalError object.
-  console.error(`Something went wrong during login: ${err.message}`);
-  return;
-}
-
-const content = require('fs').readFileSync('chapter.html', 'utf8');
-const chapter = {
-  content,
-  title: 'My Chapter Title',
-  preNote: 'This chapter was published using the royalroadl-api.'
-}
-
-try {
-  // Fiction ID, chapter object.
-  await api.chapter.publish(0000, chapter);
-  console.log('Chapter published successfully.');
-} catch (err) { // Guess which object.
-  console.error(`Error while publishing chapter: ${err.message}`);
-}
 
 })();
 ```
