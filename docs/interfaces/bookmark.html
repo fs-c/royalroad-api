@@ -895,6 +895,8 @@ img { max-width: 100%; }
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 							<input type="checkbox" id="tsd-filter-only-exported" />
 							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
@@ -907,14 +909,26 @@ img { max-width: 100%; }
 </header>
 <nav class="tsd-navigation secondary">
 	<ul>
+		<li class=" tsd-kind-class tsd-is-not-exported">
+			<a href="../classes/chapterparser.html" class="tsd-kind-icon">Chapter<wbr>Parser</a>
+		</li>
 		<li class=" tsd-kind-class">
 			<a href="../classes/chapterservice.html" class="tsd-kind-icon">Chapter<wbr>Service</a>
+		</li>
+		<li class=" tsd-kind-class tsd-is-not-exported">
+			<a href="../classes/fictionparser.html" class="tsd-kind-icon">Fiction<wbr>Parser</a>
 		</li>
 		<li class=" tsd-kind-class">
 			<a href="../classes/fictionservice.html" class="tsd-kind-icon">Fiction<wbr>Service</a>
 		</li>
+		<li class=" tsd-kind-class tsd-is-not-exported">
+			<a href="../classes/fictionsparser.html" class="tsd-kind-icon">Fictions<wbr>Parser</a>
+		</li>
 		<li class=" tsd-kind-class">
 			<a href="../classes/fictionsservice.html" class="tsd-kind-icon">Fictions<wbr>Service</a>
+		</li>
+		<li class=" tsd-kind-class tsd-is-not-exported">
+			<a href="../classes/profileparser.html" class="tsd-kind-icon">Profile<wbr>Parser</a>
 		</li>
 		<li class=" tsd-kind-class">
 			<a href="../classes/profileservice.html" class="tsd-kind-icon">Profile<wbr>Service</a>
@@ -931,6 +945,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-class">
 			<a href="../classes/royalroadapi.html" class="tsd-kind-icon">Royal<wbr>RoadAPI</a>
 		</li>
+		<li class=" tsd-kind-class tsd-is-not-exported">
+			<a href="../classes/userparser.html" class="tsd-kind-icon">User<wbr>Parser</a>
+		</li>
 		<li class=" tsd-kind-class">
 			<a href="../classes/userservice.html" class="tsd-kind-icon">User<wbr>Service</a>
 		</li>
@@ -944,7 +961,7 @@ img { max-width: 100%; }
 					<a href="bookmark.html#author" class="tsd-kind-icon">author</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="bookmark.html#id" class="tsd-kind-icon">id</a>
+					<a href="bookmark.html#id-1" class="tsd-kind-icon">id</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
 					<a href="bookmark.html#image" class="tsd-kind-icon">image</a>
@@ -1011,6 +1028,15 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-interface">
 			<a href="searchblurb.html" class="tsd-kind-icon">Search<wbr>Blurb</a>
 		</li>
+		<li class=" tsd-kind-variable tsd-is-not-exported">
+			<a href="../index.html#host_name" class="tsd-kind-icon">HOST_<wbr>NAME</a>
+		</li>
+		<li class=" tsd-kind-variable tsd-is-not-exported">
+			<a href="../index.html#protocol_prefix" class="tsd-kind-icon">PROTOCOL_<wbr>PREFIX</a>
+		</li>
+		<li class=" tsd-kind-variable tsd-is-not-exported">
+			<a href="../index.html#protocol_prefix_insecure" class="tsd-kind-icon">PROTOCOL_<wbr>PREFIX_<wbr>INSECURE</a>
+		</li>
 		<li class=" tsd-kind-function">
 			<a href="../index.html#getbaseaddress" class="tsd-kind-icon">get<wbr>Base<wbr>Address</a>
 		</li>
@@ -1040,7 +1066,7 @@ img { max-width: 100%; }
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="bookmark.html#author" class="tsd-kind-icon">author</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="bookmark.html#id" class="tsd-kind-icon">id</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="bookmark.html#id-1" class="tsd-kind-icon">id</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="bookmark.html#image" class="tsd-kind-icon">image</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="bookmark.html#pages" class="tsd-kind-icon">pages</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="bookmark.html#recent" class="tsd-kind-icon">recent</a></li>
@@ -1064,11 +1090,17 @@ img { max-width: 100%; }
 				<div class="tsd-type-declaration">
 					<h4>Type declaration</h4>
 					<ul class="tsd-parameters">
+						<li class="tsd-parameter">
+							<h5>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+						</li>
+						<li class="tsd-parameter">
+							<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+						</li>
 					</ul>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="id" class="tsd-anchor"></a>
+				<a name="id-1" class="tsd-anchor"></a>
 				<h3>id</h3>
 				<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
