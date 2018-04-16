@@ -2,13 +2,13 @@ import * as logger from 'debug';
 import * as cheerio from 'cheerio';
 import * as request from 'request';
 
+import { RoyalError } from './responses';
 import { UserService } from './services/user';
+import { ProfileService } from './services/profile';
 import { ChapterService } from './services/chapter';
 import { FictionService } from './services/fiction';
 import { FictionsService } from './services/fictions';
 import { getBaseAddress, getUserAgent } from './constants';
-import { RoyalError } from './responses';
-import { ProfileService } from './services/profile';
 
 /**
  * Class passed to all Services for consistent cookies accross requests.
@@ -99,7 +99,7 @@ export class Requester {
 
       if (err || res.statusCode !== 200) {
         return reject(new RoyalError(
-          err.message || res.statusMessage || 'Requester error',
+          err ? err.message || err : res.statusMessage || 'Requester error',
         ));
       }
 

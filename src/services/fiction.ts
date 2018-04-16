@@ -1,8 +1,8 @@
 import date = require( 'date.js');
 import * as cheerio from 'cheerio';
 import { Requester } from '../royalroad';
-import { getBaseAddress } from '../constants';
 import { RoyalResponse } from '../responses';
+import { getBaseAddress } from '../constants';
 
 export interface Fiction {
   type: string;
