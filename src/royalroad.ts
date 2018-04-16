@@ -94,14 +94,14 @@ export class Requester {
     this.debug('%o: %o', options.method || 'GET', options.uri);
 
     request(options, (err, res, body) => {
-      this.debug('%o < %o (%o)',
-        res.method || 'GET', res.statusCode, res.statusMessage);
-
       if (err || res.statusCode !== 200) {
         return reject(new RoyalError(
           err ? err.message || err : res.statusMessage || 'Requester error',
         ));
       }
+
+      this.debug('%o < %o (%o)',
+        res.method || 'GET', res.statusCode, res.statusMessage);
 
       const genericError = this.catchGenericError(body);
       if (genericError !== null) {
