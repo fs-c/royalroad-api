@@ -1,4 +1,6 @@
+import date = require('date.js');
 import * as cheerio from 'cheerio';
+import { URLSearchParams } from 'url';
 import { Requester } from '../royalroad';
 import { RoyalError, RoyalResponse } from '../responses';
 
@@ -13,6 +15,17 @@ export interface Chapter {
   content: string;
   preNote: string;
   postNote: string;
+}
+
+export interface ChapterComment {
+  id: number;
+  posted: number;
+  content: string;
+  author: {
+    id: number;
+    name: string;
+    avatar: string;
+  };
 }
 
 export class ChapterService {
@@ -77,6 +90,20 @@ export class ChapterService {
     } else { return new RoyalResponse(chapter); }
   }
 
+  public async getComments(chapterID: number, page: number | 'last' = 1) {
+    const base = `/fiction/0/_/chapter/${String(chapterID)}/_`;
+    const path = base + '?' + new URLSearchParams({
+      page: String(page === 'last'
+        ? ChapterParser.getLastPage(await this.req.get(base)) : page,
+      ),
+    });
+
+    const body = await this.req.get(path);
+    const comments = ChapterParser.parseComments(body);
+
+    return new RoyalResponse(comments);
+  }
+
   private isValidNewChapter(chapter: NewChapter) {
     // TODO: Pre and post author notes maxlength?
     return chapter.content.length >= 500;
@@ -108,5 +135,55 @@ class ChapterParser {
     const content = $('div.chapter-inner.chapter-content').html().trim();
 
     return { content, preNote, postNote };
+  }
+
+  public static getLastPage(html: string) {
+    const $ = cheerio.load(html);
+
+    const href = $('ul.pagination').find('li').last().find('a').attr('href');
+
+    if (!href) {
+      return 1;
+    }
+
+    // Get whatever is before '#' and after '=', (?page=1#comments).
+    const page = parseInt(href.split('#')[0].split('=')[1], 10);
+
+    return page;
+  }
+
+  public static parseComments(html: string): ChapterComment[] {
+    const $ = cheerio.load(html);
+
+    const comments: ChapterComment[] = [];
+
+    $('div.media.media-v2').each((i, el) => {
+      const id = parseInt($(el).attr('id').split('-')[2], 10);
+
+      const posted = date($(el).find('time').text() + ' ago').getTime();
+
+      let raw = '';
+      $(el).find('div.media-body').find('p').each((j, p) => {
+        const text = $(p).text();
+
+        if (text) {
+          raw += text.trim() + '\n';
+        }
+      });
+
+      const content = raw.trim();
+
+      const author = {
+        avatar: $(el).find('img').attr('src'),
+        name: $(el).find('span.name').find('a').text().split('@')[0],
+        id: parseInt(
+          $(el).find('span.name').find('a').attr('href').split('/')[2], 10,
+        ),
+      };
+
+      comments.push({ id, author, posted, content });
+    });
+
+    return comments;
   }
 }
