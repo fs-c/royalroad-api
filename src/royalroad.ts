@@ -10,7 +10,7 @@ import { FictionService } from './services/fiction';
 import { FictionsService } from './services/fictions';
 import { getBaseAddress, getUserAgent } from './constants';
 
-export interface RequestOptions {
+interface RequestOptions {
   fetchToken?: boolean;
   ignoreStatus?: boolean;
 }
@@ -18,7 +18,7 @@ export interface RequestOptions {
 /**
  * Class passed to all Services for consistent cookies accross requests.
  */
-export class Requester {
+class Requester {
   private static readonly headers = {
     'User-Agent': getUserAgent(),
   };
