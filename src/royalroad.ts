@@ -10,6 +10,11 @@ import { FictionService } from './services/fiction';
 import { FictionsService } from './services/fictions';
 import { getBaseAddress, getUserAgent } from './constants';
 
+export interface RequestOptions {
+  fetchToken?: boolean;
+  ignoreStatus?: boolean;
+}
+
 /**
  * Class passed to all Services for consistent cookies accross requests.
  */
@@ -70,10 +75,10 @@ export class Requester {
    *
    * @param path
    */
-  public async post(path: string, data: any, fetchToken?: boolean) {
+  public async post(path: string, data: any, options: RequestOptions = {}) {
     const uri = this.url + path;
 
-    data['__RequestVerificationToken'] = fetchToken ? (
+    data['__RequestVerificationToken'] = options.fetchToken ? (
       await this.fetchToken(path)
     ) : undefined;
 
@@ -82,19 +87,20 @@ export class Requester {
       form: data,
       method: 'POST',
       jar: this.cookies,
-    });
+    }, options);
 
     return body;
   }
 
   private request(
-    options: request.UriOptions & request.CoreOptions,
+    req: request.UriOptions & request.CoreOptions, options: RequestOptions = {},
   ): Promise<string> { return new Promise((resolve, reject) => {
     this.logCookies();
-    this.debug('%o: %o', options.method || 'GET', options.uri);
+    this.debug('%o: %o', req.method || 'GET', req.uri);
 
-    request(options, (err, res, body) => {
-      if (err || res.statusCode !== 200) {
+    request(req, (err, res, body) => {
+      if (err || (res.statusCode !== 200 && !options.ignoreStatus)) {
+        console.log(res.statusCode);
         return reject(new RoyalError(
           err ? err.message || err : res.statusMessage || 'Requester error',
         ));
