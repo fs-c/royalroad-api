@@ -12,7 +12,7 @@ A more elaborate description of this package and its functionality (both interna
 
 ## Example usage
 
-For more examples check out the [/examples](/tree/master/examples) directory.
+For more examples check out the `/examples` directory.
 
 ```javascript
 const { RoyalRoadAPI } = require('@l1lly/royalroadl-api');
