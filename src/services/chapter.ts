@@ -136,7 +136,9 @@ class ChapterParser {
     const $ = cheerio.load(html);
 
     function isMissingInput() {
-      const message = $('div.alert.alert-danger').find('li').text().trim();
+      const message = $('div.alert.alert-danger')
+        .find('li').text().trim();
+
       return (message && message.length !== 0) ? message : false;
     }
 
@@ -153,7 +155,8 @@ class ChapterParser {
     const preNote = $(notes).eq(0).find('p').text();
     const postNote = $(notes).eq(1).find('p').text();
 
-    const content = $('div.chapter-inner.chapter-content').html().trim();
+    const content = ($('div.chapter-inner.chapter-content').html() || '')
+      .trim();
 
     return { content, preNote, postNote };
   }
@@ -161,7 +164,8 @@ class ChapterParser {
   public static getLastPage(html: string) {
     const $ = cheerio.load(html);
 
-    const href = $('ul.pagination').find('li').last().find('a').attr('href');
+    const href = $('ul.pagination').find('li').last()
+      .find('a').attr('href');
 
     if (!href) {
       return 1;
@@ -200,7 +204,8 @@ class ChapterParser {
         premium: $(el).find('div.upcase.label.bg-yellow-crusta')
           .text().length !== 0,
         id: parseInt(
-          $(el).find('span.name').find('a').attr('href').split('/')[2], 10,
+          $(el).find('span.name').find('a').attr('href').split('/')[2]
+          , 10,
         ),
       };
 

@@ -12,7 +12,7 @@ export class RoyalResponse<T> {
 
 export class RoyalError extends RoyalResponse<object> {
   constructor(message: string, data: object = {}) {
-    const stack = new Error().stack.split('\n');
+    const stack = (new Error().stack || '').split('\n');
     super(Object.assign({ message }, { stack }, data), false);
   }
 }
