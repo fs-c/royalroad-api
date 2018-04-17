@@ -19,7 +19,7 @@ interface RequestOptions {
 /**
  * Class passed to all Services for consistent cookies accross requests.
  */
-class Requester {
+export class Requester {
   private static readonly headers = {
     'User-Agent': getUserAgent(),
   };
