@@ -6,9 +6,7 @@ npm i -s @l1lly/royalroadl-api
 
 This is an attempt to write a predictable and consistent wrapper around the  mess that is RRL. Since no official public API is exposed, this module scrapes all data straight from the HTML, which makes it very prone to spontaneous and horrible death.
 
-Documentation can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitlab.io/royalroadl-api/classes/royalroadapi.html). Since this is very barebones and I am rather averse to the idea of adding huge comment blocks to my code, an elaboration on the parts of this module can be found below, in the [about](#about) section.
-
-Documentation generated from [TypeDoc](http://typedoc.org/) can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitlab.io/royalroadl-api/classes/royalroadapi.html).
+Barebones documentation generated from [TypeDoc](http://typedoc.org/) can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitlab.io/royalroadl-api/classes/royalroadapi.html).
 
 A more elaborate description of this package and its functionality (both internal and exposed) can be found further below in the [about](#about) section.
 
@@ -54,12 +52,12 @@ All services are structured in a very similar way: with a `<Service>Class` expos
 A quick wrap-up of all the existing services is: 
 - `ChapterService`, contains methods for fetching and publishing chapters and chapter comments.
 - `FictionService`, returns fiction objects.
-- `FictionsService`, methods for fetching all types of fiction lists RRL offers, with their respective levels of detail for an individual fiction.
+- `FictionsService`, methods for fetching all types of fiction lists RRL offers, with their respective levels of per fiction detail.
 - `ProfileService`, handling profiles, returns parsed user profiles.
-- `UserService`, actions related to the logged-in user like logon, getting their fictions, bookmarks, and notifications.
+- `UserService`, actions related to the logged-in user like logon, getting the users' fictions, bookmarks, or notifications.
 
 ### Parsing
 
-This uses [cheerio](https://github.com/cheeriojs/cheerio) to parse HTML, which is very forgiving. Even if RRL were to make minor changes to their layout, it would not crash and burn but simply return empty values for information it could not fetch.
+This uses [cheerio](https://github.com/cheeriojs/cheerio) to parse HTML, which is a very forgiving parser. This means that even if RRL were to make minor changes to their page layouts, large parts of the API (even those parts responsible for changed areas) would still remain functional.
 
-It should be obvious, but I cannot stress this enough: this module is entirely dependent on RRL keeping their layout and HTML the same, expect all information to be potentially missing or incorrect.
+Therefore, expect properties to be empty or `null`, and know that an error will not be thrown just because some values could not be parsed.
