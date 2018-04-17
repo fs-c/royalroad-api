@@ -29,7 +29,7 @@ console.log(`The top 10 popular fictions are: ${titles.join(', ')}`);
 
 ## About
 
-The module itself exports only a `RoyalRoadAPI` class which, by itself, has no methods. All functionality is delegated to service classses which are properties of the exported class. This allows for a very concise seperation of concerns, and a modular and atomic approach both to the development and usage of this module.
+The module itself exports only a `RoyalRoadAPI` class which, by itself, has no methods. All functionality is delegated to service classes which are properties of the `RoyalRoadAPI` instance. This allows for a very concise seperation of concerns, and a modular and atomic approach to both the development, and usage of this module.
 
 ### Responses
 
@@ -37,11 +37,11 @@ All responses and errors are either an instance of a `RoyalResponse` or an exten
 
 ### Internal requester
 
-All service classes use the same instance of a `Requester`, the class responsible for making HTTP requests and returning their responses. By default, it will throw a `RoyalError` if it encounters a status code other than 200 (this can be turned off with the `ignoreStatus` option), or an error is parsed from the page. Also note that, by default, all requests will be sent over HTTPS - this can be turned off by passing a falsy value to the `RoyalRoadAPI` constructor.
+All service classes use the same instance of the `Requester`, the class responsible for making HTTP requests and returning their responses. By default, it will throw a `RoyalError` if it encounters a status code other than 200 (this can be disabled with the `ignoreStatus` option). Also note that, by default, all requests will be sent over HTTPS - this can be controlled with the first argument of the `RoyalRoadAPI` constructor.
 
-Since RRL likes to return the status code 200 even when the actual response should be a 404 or 304, the `Requester` will read the HTML it has gotten (if it got any), and try and read an error from it. If it finds signs that the request has failed, it will throw (this can be disabled with the `ignoreParser` option).
+Since RRL likes to return 200 even when the actual response should be a 404 or 304, the `Requester` will parse the HTML it has gotten (if it got any), and try to read an error from it. If it finds signs that the request has failed, it will throw - this can be disabled with the `ignoreParser` option.
 
-The `Requester`s main goal is to keeps track of cookies and to automatically fetch a `__ResponseVerificationToken` often needed for POST requests as a part of anti CSRF measures. This fetching of tokens is disabled by default and can be enabled with the `fetchToken` option.
+The `Requester`s main goal is to keep track of cookies and to automatically fetch a `__ResponseVerificationToken` often needed for POST requests as a part of anti CSRF measures. This fetching of tokens is disabled by default and can be enabled with the `fetchToken` option.
 
 ### Structure
 
