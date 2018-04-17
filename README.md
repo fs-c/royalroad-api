@@ -8,9 +8,13 @@ This is an attempt to write a predictable and consistent wrapper around the  mes
 
 Documentation can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitlab.io/royalroadl-api/classes/royalroadapi.html). Since this is very barebones and I am rather averse to the idea of adding huge comment blocks to my code, an elaboration on the parts of this module can be found below, in the [about](#about) section.
 
+Documentation generated from [TypeDoc](http://typedoc.org/) can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitlab.io/royalroadl-api/classes/royalroadapi.html).
+
+A more elaborate description of this package and its functionality (both internal and exposed) can be found further below in the [about](#about) section.
+
 ## Example usage
 
-For more examples check out the `/examples` directory.
+For more examples check out the [/examples](/tree/master/examples) directory.
 
 ```javascript
 const { RoyalRoadAPI } = require('@l1lly/royalroadl-api');
@@ -19,12 +23,12 @@ const api = new RoyalRoadAPI();
 
 (async () => {
 
-const popular = await api.fictions.getPopular();
-const titles = popular.slice(10).map((fic) => fic.title);
+const { data } = await api.fictions.getPopular();
+const titles = data.slice(10).map((fic) => fic.title);
 
 console.log(`The top 10 popular fictions are: ${titles.join(', ')}`);
 
-})();
+})().catch(console.error);
 ```
 
 ## About
