@@ -2,7 +2,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es2017",
-    "noImplicitAny": true,
+    "strict": true,
+    "removeComments": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "outDir": "dist",
     "sourceMap": true,
     "typeRoots": [
