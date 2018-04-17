@@ -13,6 +13,7 @@ import { getBaseAddress, getUserAgent } from './constants';
 interface RequestOptions {
   fetchToken?: boolean;
   ignoreStatus?: boolean;
+  ignoreParser?: boolean;
 }
 
 /**
@@ -109,9 +110,11 @@ class Requester {
       this.debug('%o < %o (%o)',
         res.method || 'GET', res.statusCode, res.statusMessage);
 
-      const genericError = this.catchGenericError(body);
-      if (genericError !== null) {
-        reject(new RoyalError(genericError));
+      if (!options.ignoreParser) {
+        const genericError = this.catchGenericError(body);
+        if (genericError !== null) {
+          reject(new RoyalError(genericError));
+        }
       }
 
       resolve(body);
