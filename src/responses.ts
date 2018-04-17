@@ -1,15 +1,12 @@
 export class RoyalResponse<T> {
   public data: T;
-  public error: any;
   public success: boolean;
   public timestamp: number;
 
   constructor(data: T, success: boolean = true) {
+    this.data = data;
     this.success = success;
     this.timestamp = Date.now();
-
-    this.data = success ? data : null;
-    this.error = success ? null : data;
   }
 }
 
