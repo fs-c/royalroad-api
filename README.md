@@ -35,7 +35,7 @@ The module itself exports only a `RoyalRoadAPI` class which, by itself, has no m
 
 ### Responses
 
-All responses and errors are either an instance of a `RoyalResponse` or an extension of it - a  `RoyalError`. This is done to easily allow for meta information to be tacked onto responses, and to have a consistent interface between user and module. Note that the `RoyalError` acts similarly to the NodeJS `Error` object, in that it captures and returns a short stack trace.
+All responses and errors are either an instance of a `RoyalResponse` or an `RoyalError`, which extends `RoyalResponse`. This is done to easily allow for meta information to be tacked onto responses, and to have a consistent interface between user and module. Note that the `RoyalError` acts similarly to the NodeJS `Error` object, in that it captures and returns a short stack trace.
 
 ### Internal requester
 
