@@ -83,6 +83,8 @@ export class Requester {
       await this.fetchToken(path)
     ) : undefined;
 
+    this.debug(data);
+
     const body = await this.request({
       uri,
       form: data,
@@ -96,11 +98,12 @@ export class Requester {
   private request(
     req: request.UriOptions & request.CoreOptions, options: RequestOptions = {},
   ): Promise<string> { return new Promise((resolve, reject) => {
-    this.logCookies();
     this.debug('%o: %o', req.method || 'GET', req.uri);
 
     request(req, (err, res, body) => {
       if (err || (res.statusCode !== 200 && !options.ignoreStatus)) {
+        this.logCookies();
+
         return reject(new RoyalError(
           err ? err.message || err : res.statusMessage || 'Requester error',
         ));
