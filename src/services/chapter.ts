@@ -106,7 +106,7 @@ export class ChapterService {
   public async postComment(chapterID: number, content: string) {
     this.requireAuth();
 
-    const body = await this.req.post(
+    await this.req.post(
       `/fiction/0/_/chapter/${String(chapterID)}/_`,
       {
         cid: chapterID,
