@@ -101,7 +101,6 @@ export class Requester {
 
     request(req, (err, res, body) => {
       if (err || (res.statusCode !== 200 && !options.ignoreStatus)) {
-        console.log(res.statusCode);
         return reject(new RoyalError(
           err ? err.message || err : res.statusMessage || 'Requester error',
         ));
