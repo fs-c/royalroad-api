@@ -2,7 +2,6 @@ import  date = require('date.js');
 import * as cheerio from 'cheerio';
 import { URLSearchParams } from 'url';
 import { Requester } from '../royalroad';
-import { getBaseAddress } from '../constants';
 import { RoyalError, RoyalResponse } from '../responses';
 
 export interface FictionBlurb {
