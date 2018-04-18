@@ -12,6 +12,10 @@ export interface FictionBlurb {
   tags: string[];
 }
 
+export interface NewReleaseBlurb extends FictionBlurb {
+  description: string;
+}
+
 export interface LatestBlurb extends FictionBlurb {
   latest: {
     name: string;
@@ -90,6 +94,13 @@ export class FictionsService {
   public async getBest(page: number = 1) {
     const body = await this.getList('best-rated', page);
     const fictions = FictionsParser.parsePopular(body) as BestBlurb[];
+
+    return new RoyalResponse(fictions);
+  }
+
+  public async getNewReleases(page: number = 1) {
+    const body = await this.getList('new-releases', page);
+    const fictions = FictionsParser.parseNewReleases(body);
 
     return new RoyalResponse(fictions);
   }
@@ -243,6 +254,25 @@ class FictionsParser {
       });
 
       fictions.push({ id, title, pages, author, image, description });
+    });
+
+    return fictions;
+  }
+
+  public static parseNewReleases(html: string): NewReleaseBlurb[] {
+    const $ = cheerio.load(html);
+
+    const fictions: NewReleaseBlurb[] = [];
+
+    $('div.fiction-list-item').each((i, el) => {
+      let description = '';
+      $(el).find('div.hidden-content').find('p')
+        .each((j, p) => description += $(p).text().trim() + '\n');
+      description = description.trim();
+
+      fictions.push(Object.assign(
+        FictionsParser.parseBlurb($, el), { description },
+      ));
     });
 
     return fictions;
