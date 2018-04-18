@@ -47,11 +47,11 @@ The `Requester`s main goal is to keep track of cookies and to automatically fetc
 
 ### Structure
 
-All services are structured in a very similar way: with a `<Service>Class` exposing all relevant methods, and a `<Service>Parser`, which usually exposes a number of static methods used to parse HTML responses.
+All services are structured in a very similar way: with a `<Type>Service` exposing all relevant methods, and a `<Type>Parser`, which usually exposes a number of static methods used to parse HTML responses.
 
 A quick wrap-up of all the existing services is: 
 - `ChapterService`, contains methods for fetching and publishing chapters and chapter comments.
-- `FictionService`, returns fiction objects.
+- `FictionService`, fetching fiction data and reviews.
 - `FictionsService`, methods for fetching all types of fiction lists RRL offers, with their respective levels of per fiction detail.
 - `ProfileService`, handling profiles, returns parsed user profiles.
 - `UserService`, actions related to the logged-in user like logon, getting the users' fictions, bookmarks, or notifications.
