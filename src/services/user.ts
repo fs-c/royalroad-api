@@ -22,6 +22,7 @@ export interface Bookmark {
   image: string;
   pages: number;
   recent: BookmarkChapter[];
+
   author: {
     id: number;
     name: string;

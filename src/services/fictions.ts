@@ -25,6 +25,7 @@ export interface LatestBlurb extends FictionBlurb {
 
 export interface PopularBlurb extends FictionBlurb {
   description: string;
+
   stats: {
     pages: number;
     latest: number;

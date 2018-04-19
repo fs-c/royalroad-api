@@ -20,6 +20,7 @@ export interface ChapterComment {
   id: number;
   posted: number;
   content: string;
+
   author: {
     id: number;
     name: string;
