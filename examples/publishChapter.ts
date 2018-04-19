@@ -16,8 +16,8 @@ const content = require('fs').readFileSync('chapter.html', 'utf8');
 const chapter = {
   content,
   title: 'My Chapter Title',
-  preNote: 'This chapter was published using the royalroadl-api.'
-}
+  preNote: 'This chapter was published using the royalroadl-api.',
+};
 
 try {
   // Fiction ID, chapter object.
