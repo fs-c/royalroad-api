@@ -1,6 +1,5 @@
 import date = require( 'date.js');
 import * as cheerio from 'cheerio';
-import { URLSearchParams } from 'url';
 import { Requester } from '../royalroad';
 import { RoyalResponse } from '../responses';
 
@@ -121,13 +120,12 @@ export class FictionService {
    * @param page - Page number or 'last'.
    */
   public async getReviews(id: number, page: number | 'last' = 1) {
-    const base = `/fiction/${String(id)}`;
-    const path = base + '?' + new URLSearchParams({
+    const path = `/fiction/${String(id)}`;
+    const body = await this.req.get(path, {
       page: String(page === 'last'
-        ? FictionParser.getLastPage(await this.req.get(base)) : page),
+        ? FictionParser.getLastPage(await this.req.get(path)) : page),
     });
 
-    const body = await this.req.get(path);
     const reviews = FictionParser.parseReviews(body);
 
     return new RoyalResponse(reviews);

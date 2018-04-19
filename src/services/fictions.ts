@@ -1,6 +1,5 @@
 import  date = require('date.js');
 import * as cheerio from 'cheerio';
-import { URLSearchParams } from 'url';
 import { Requester } from '../royalroad';
 import { RoyalError, RoyalResponse } from '../responses';
 
@@ -127,13 +126,8 @@ export class FictionsService {
    * @param opts - Additional URL parameters.
    */
   public async getList(type: string, page: number = 1, opts?: object) {
-    const params = new URLSearchParams(
-      Object.assign({ page: page.toString() }, opts),
-    );
-
-    const path = `/fictions/${type}?${params}`;
-
-    const body = await this.req.get(path);
+    const path = `/fictions/${type}`;
+    const body = await this.req.get(path, { page: String(page) });
 
     const error = FictionsParser.getError(body);
 

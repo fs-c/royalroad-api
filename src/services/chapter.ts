@@ -1,6 +1,5 @@
 import date = require('date.js');
 import * as cheerio from 'cheerio';
-import { URLSearchParams } from 'url';
 import { Requester } from '../royalroad';
 import { RoyalError, RoyalResponse } from '../responses';
 
@@ -96,14 +95,13 @@ export class ChapterService {
    * @param page - Either the page of comments to load, or 'last'.
    */
   public async getComments(chapterID: number, page: number | 'last' = 1) {
-    const base = `/fiction/0/_/chapter/${String(chapterID)}/_`;
-    const path = base + '?' + new URLSearchParams({
+    const path = `/fiction/0/_/chapter/${String(chapterID)}/_`;
+    const body = await this.req.get(path, {
       page: String(page === 'last'
-        ? ChapterParser.getLastPage(await this.req.get(base)) : page,
+        ? ChapterParser.getLastPage(await this.req.get(path)) : page,
       ),
     });
 
-    const body = await this.req.get(path);
     const comments = ChapterParser.parseComments(body);
 
     return new RoyalResponse(comments);
