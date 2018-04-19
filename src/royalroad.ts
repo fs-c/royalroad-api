@@ -1,6 +1,7 @@
 import * as logger from 'debug';
 import * as cheerio from 'cheerio';
 import * as request from 'request';
+import { URLSearchParams } from 'url';
 
 import { RoyalError } from './responses';
 import { UserService } from './services/user';
@@ -59,8 +60,9 @@ export class Requester {
    *
    * @param path
    */
-  public async get(path: string) {
-    const uri = this.url + path;
+  public async get(path: string, data: { [key: string]: string } = {}) {
+    const query = new URLSearchParams(data);
+    const uri = this.url + path + query ? ('?' + query) : '';
 
     const body = await this.request({
       uri,
