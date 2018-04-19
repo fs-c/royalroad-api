@@ -114,6 +114,12 @@ export class FictionService {
     return new RoyalResponse(fiction);
   }
 
+  /**
+   * Returns reviews of a given fiction.
+   *
+   * @param id - ID of the fiction to get reviews for.
+   * @param page - Page number or 'last'.
+   */
   public async getReviews(id: number, page: number | 'last' = 1) {
     const base = `/fiction/${String(id)}`;
     const path = base + '?' + new URLSearchParams({

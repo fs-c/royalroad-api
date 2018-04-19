@@ -89,6 +89,12 @@ export class ChapterService {
     } else { return new RoyalResponse(chapter); }
   }
 
+  /**
+   * Return an array of comments for a given chapter.
+   *
+   * @param chapterID - ID of the chapter to get comments from.
+   * @param page - Either the page of comments to load, or 'last'.
+   */
   public async getComments(chapterID: number, page: number | 'last' = 1) {
     const base = `/fiction/0/_/chapter/${String(chapterID)}/_`;
     const path = base + '?' + new URLSearchParams({
@@ -103,6 +109,12 @@ export class ChapterService {
     return new RoyalResponse(comments);
   }
 
+  /**
+   * Post a comment for a given fiction.
+   *
+   * @param chapterID - ID of the chapter to post a comment to.
+   * @param content - Content to post, seperate paragraphs with '\n'.
+   */
   public async postComment(chapterID: number, content: string) {
     this.requireAuth();
 
@@ -119,15 +131,23 @@ export class ChapterService {
     return new RoyalResponse(null);
   }
 
+  /**
+   * Throw if the requester doesn't have authentication.
+   */
   private requireAuth() {
     if (!this.req.isAuthenticated) {
       throw new RoyalError('Not authenticated.');
     }
   }
 
+  /**
+   * Basic checks for a chapter opjects' validity.
+   *
+   * @param chapter
+   */
   private isValidNewChapter(chapter: NewChapter) {
     // TODO: Pre and post author notes maxlength?
-    return chapter.content.length >= 500;
+    return chapter.content.length >= 500 && chapter.title.length <= 150;
   }
 }
 

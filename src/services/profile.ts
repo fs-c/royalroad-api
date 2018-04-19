@@ -31,6 +31,11 @@ export class ProfileService {
     this.req = req;
   }
 
+  /**
+   * Returns a RRL user profile given its ID.
+   *
+   * @param id - Profile ID, found in /profile/<id>.
+   */
   public async getProfile(id: number) {
     const url = `/profile/${String(id)}`;
     const body = await this.req.get(url);

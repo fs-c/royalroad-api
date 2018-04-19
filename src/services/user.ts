@@ -68,7 +68,7 @@ export class UserService {
   }
 
   /**
-   * @returns Array of fictions owned by logged in user.
+   * Gets fictions owned and published by the currently logged in user.
    */
   public async getMyFictions() {
     if (!this.isLoggedIn) {
@@ -81,6 +81,11 @@ export class UserService {
     return new RoyalResponse(myFictions);
   }
 
+  /**
+   * Get the logged in users bookmarks.
+   *
+   * @param page
+   */
   public async getMyBookmarks(page: number = 1) {
     if (!this.isLoggedIn) {
       throw new RoyalError('Not authenticated.');
@@ -97,6 +102,9 @@ export class UserService {
     return new RoyalResponse(myBookmarks);
   }
 
+  /**
+   * Get a list of notifications.
+   */
   public async getNotifications() {
     if (!this.isLoggedIn) {
       return new RoyalError('Not authenticated.');
