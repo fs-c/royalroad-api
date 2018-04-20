@@ -53,25 +53,21 @@ export class ChapterService {
       throw new RoyalError('Invalid chapter');
     }
 
-    const body = await this.req.post(
+    await this.req.post(
       `/fiction/chapter/new/${String(fictionID)}`,
       {
         Status: 'New',
         fid: fictionID,
         Title: chapter.title,
-        PreAuthorNotes: chapter.preNote || '',
         Content: chapter.content,
+        PreAuthorNotes: chapter.preNote || '',
         PostAuthorNotes: chapter.postNote || '',
         action: 'publish',
       },
       { fetchToken: true },
     );
 
-    const error = ChapterParser.getError(body);
-
-    if (error) {
-      throw new RoyalError(error);
-    } else { return new RoyalResponse(chapter); }
+    return new RoyalResponse(chapter);
   }
 
   /**
@@ -84,12 +80,9 @@ export class ChapterService {
       `/fiction/0/_/chapter/${String(chapterID)}/_`,
     );
 
-    const error = ChapterParser.getError(body);
     const chapter = ChapterParser.parseChapter(body);
 
-    if (error) {
-      throw new RoyalError(error);
-    } else { return new RoyalResponse(chapter); }
+    return new RoyalResponse(chapter);
   }
 
   /**
@@ -152,22 +145,6 @@ export class ChapterService {
 }
 
 class ChapterParser {
-  public static getError(html: string) {
-    const $ = cheerio.load(html);
-
-    function isMissingInput() {
-      const message = $('div.alert.alert-danger')
-        .find('li').text().trim();
-
-      return (message && message.length !== 0) ? message : false;
-    }
-
-    const missingInput = isMissingInput();
-    const error = missingInput;
-
-    return error || null;
-  }
-
   public static parseChapter(html: string): Chapter {
     const $ = cheerio.load(html);
 

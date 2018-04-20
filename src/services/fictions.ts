@@ -130,10 +130,11 @@ export class FictionsService {
     const path = `/fictions/${type}`;
     const body = await this.req.get(path, { page: String(page) });
 
-    const error = FictionsParser.getError(body);
-
-    if (error) {
-      throw new RoyalError(error);
+    function validPage(html: string) {
+      return !html.includes('There is nothing here :(');
+    }
+    if (!validPage(body)) {
+      throw new RoyalError('No fictions found.');
     } else { return body; }
   }
 }
@@ -142,18 +143,6 @@ export class FictionsService {
  * Methods related to parsing fiction lists.
  */
 class FictionsParser {
-  public static getError(html: string) {
-    const $ = cheerio.load(html);
-
-    function isOutOfBounds(el: Cheerio) {
-      const message = $(el).children('div.text-center').text();
-
-      return message && message.length !== 0;
-    }
-
-    return isOutOfBounds($('div.fiction-list')) ? 'Page not found.' : null;
-  }
-
   public static parseLatest(html: string): LatestBlurb[] {
     const $ = cheerio.load(html);
 
