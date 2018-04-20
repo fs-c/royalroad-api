@@ -45,7 +45,7 @@ export class Requester {
 
     for (const cookie of cookies) {
       // TODO: Dangerous.
-      const c = cookie as any as { key: string, value: string };
+      const c = cookie as { key: string, value: string };
 
       if (c.key === 'mybbuser' && c.value) {
         return true;
@@ -114,11 +114,9 @@ export class Requester {
       this.debug('%o < %o (%o)',
         res.method || 'GET', res.statusCode, res.statusMessage);
 
-      if (!options.ignoreParser) {
-        const genericError = this.catchGenericError(body);
-        if (genericError !== null) {
-          reject(new RoyalError(genericError));
-        }
+      const genericError = this.catchGenericError(body);
+      if (!options.ignoreParser && genericError !== null) {
+        reject(new RoyalError(genericError));
       }
 
       resolve(body);
@@ -135,8 +133,12 @@ export class Requester {
     const addr = getBaseAddress(insecure);
     const cookies = this.cookies.getCookies(addr)
       .filter((c: any) => c)
-      .map((c: any) => `cookie ${c.key} = ${c.value.length >= 18
-        ? c.value.slice(0, 17) + '...' : c.value}`);
+      // Shorten values longer than 18 chars.
+      .map((c: { [key: string]: string }) =>
+        `cookie ${c.key} = ${c.value.length >= 18
+          ? c.value.slice(0, 17) + '...'
+          : c.value}`,
+      );
 
     this.debug(cookies);
   }
@@ -151,6 +153,8 @@ export class Requester {
     const body = await this.get(path);
     const $ = cheerio.load(body);
 
+    // Disregard ignoreParser option here, we need to know when we weren't able
+    // to fetch the token.
     const genericError = this.catchGenericError(body);
     if (genericError !== null) {
       throw new RoyalError(genericError);
