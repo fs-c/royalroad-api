@@ -87,14 +87,12 @@ export class Requester {
 
     this.debug(data);
 
-    const body = await this.request({
+    return await this.request({
       uri,
       form: data,
       method: 'POST',
       jar: this.cookies,
     }, options);
-
-    return body;
   }
 
   private request(
@@ -132,8 +130,7 @@ export class Requester {
   private logCookies(insecure?: boolean) {
     const addr = getBaseAddress(insecure);
     const cookies = this.cookies.getCookies(addr)
-      .filter((c: any) => c)
-      // Shorten values longer than 18 chars.
+      .filter((c: any) => c) // Because for some reason values can be undefined.
       .map((c: { [key: string]: string }) =>
         `cookie ${c.key} = ${c.value.length >= 18
           ? c.value.slice(0, 17) + '...'
@@ -154,7 +151,7 @@ export class Requester {
     const $ = cheerio.load(body);
 
     // Disregard ignoreParser option here, we need to know when we weren't able
-    // to fetch the token.
+    // to fetch the token, even for operations where it would be set to true.
     const genericError = this.catchGenericError(body);
     if (genericError !== null) {
       throw new RoyalError(genericError);
@@ -179,7 +176,9 @@ export class Requester {
   private catchGenericError(html: string) {
     const $ = cheerio.load(html);
 
+    // Usually 4xx, mostly 404 and 403.
     const error =  $('div.page-404').find('h3').text().trim();
+    // These often are a result of invalid POSTs.
     const alert = $('div.alert.alert-danger').eq(0).text().trim();
 
     const message = error || alert;
