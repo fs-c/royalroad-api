@@ -9,9 +9,13 @@ const HOST_NAME = 'royalroadl.com';
  * @returns - Version read from package.json.
  */
 export function getVersion() {
-  const { version } = JSON.parse(readFileSync('./package.json', 'utf8'));
+  try {
+    const { version } = JSON.parse(readFileSync('./package.json', 'utf8'));
 
-  return version;
+    return version;
+  } catch (err) {
+    return '0.0.0';
+  }
 }
 
 /**
