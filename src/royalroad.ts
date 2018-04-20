@@ -62,7 +62,7 @@ export class Requester {
    */
   public async get(path: string, data: { [key: string]: string } = {}) {
     const query = new URLSearchParams(data);
-    const uri = this.url + path + query ? ('?' + query) : '';
+    const uri = this.url + path + (query ? ('?' + query) : '');
 
     const body = await this.request({
       uri,
