@@ -178,7 +178,11 @@ export class Requester {
    */
   private catchGenericError(html: string) {
     const $ = cheerio.load(html);
-    const message = $('div.page-404').find('h3').text().trim();
+
+    const error =  $('div.page-404').find('h3').text().trim();
+    const alert = $('div.alert.alert-danger').eq(0).text().trim();
+
+    const message = error || alert;
 
     return (message && message.length !== 0) ? message : null;
   }
