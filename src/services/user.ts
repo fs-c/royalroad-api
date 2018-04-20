@@ -57,15 +57,11 @@ export class UserService {
    * @param password
    */
   public async login(username: string, password: string) {
-    const body = await this.req.post(
+    await this.req.post(
       '/user/login', { username, password },
     );
 
-    const err = UserParser.getAlert(body);
-
-    if (err !== null) {
-      throw new RoyalError(err);
-    } else { return new RoyalResponse('Logged in.'); }
+    return new RoyalResponse('Logged in.');
   }
 
   /**
@@ -92,8 +88,17 @@ export class UserService {
       throw new RoyalError('Not authenticated.');
     }
 
-    const body = await this.req.get('/my/bookmarks');
-    const outOfBounds = UserParser.isOutOfBounds(body);
+    function bookmarksOutOfBounds(html: string) {
+      const $ = cheerio.load(html);
+
+      let fictions = 0;
+      $('div.fiction-list-item').each((i, el) => fictions++);
+
+      return fictions === 0;
+    }
+
+    const body = await this.req.get('/my/bookmarks', { page: String(page) });
+    const outOfBounds = bookmarksOutOfBounds(body);
 
     if (outOfBounds) {
       throw new RoyalError('Out of bounds.');
@@ -122,25 +127,6 @@ export class UserService {
  * Methods related to parsing user related HTML.
  */
 class UserParser {
-  public static isOutOfBounds(html: string) {
-    const $ = cheerio.load(html);
-
-    let fictions = 0;
-    $('div.fiction-list-item').each((i, el) => fictions++);
-
-    return fictions === 0;
-  }
-
-  public static getAlert(html: string) {
-    const $ = cheerio.load(html);
-
-    const error = $('div.alert.alert-danger').eq(0).text().trim();
-
-    if (error && error.length !== 0) {
-      return error;
-    } else { return null; }
-  }
-
   public static parseMyBookmarks(html: string) {
     const $ = cheerio.load(html);
 
