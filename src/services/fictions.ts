@@ -145,13 +145,13 @@ class FictionsParser {
   public static getError(html: string) {
     const $ = cheerio.load(html);
 
-    function isOutOfBounds() {
-      const message = $('div.fiction-list').children('div.text-center').text();
+    function isOutOfBounds(el: Cheerio) {
+      const message = $(el).children('div.text-center').text();
 
       return message && message.length !== 0;
     }
 
-    return isOutOfBounds() ? 'Page not found.' : null;
+    return isOutOfBounds($('div.fiction-list')) ? 'Page not found.' : null;
   }
 
   public static parseLatest(html: string): LatestBlurb[] {
@@ -190,8 +190,6 @@ class FictionsParser {
 
     const fictions: PopularBlurb[] = [];
 
-    // Using .each instead of the more concise .map because the typings are
-    // suboptimal. (TODO, maybe)
     $('.fiction-list-item').each((i, el) => {
       let description = '';
 
