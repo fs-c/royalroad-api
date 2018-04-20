@@ -1,3 +1,4 @@
+import * as logger from 'debug';
 import date = require('date.js');
 import * as cheerio from 'cheerio';
 import { Requester } from '../royalroad';
@@ -30,10 +31,13 @@ export interface ChapterComment {
 }
 
 export class ChapterService {
+  public debug: logger.IDebugger;
+
   private readonly req: Requester;
 
   constructor(req: Requester) {
     this.req = req;
+    this.debug = logger('chapter');
   }
 
   /**
@@ -75,7 +79,6 @@ export class ChapterService {
    *
    * @param chapterID - ID of the chapter to get.
    */
-
   public async getChapter(chapterID: number) {
     const body = await this.req.get(
       `/fiction/0/_/chapter/${String(chapterID)}/_`,
@@ -97,12 +100,10 @@ export class ChapterService {
    */
   public async getComments(chapterID: number, page: number | 'last' = 1) {
     const path = `/fiction/0/_/chapter/${String(chapterID)}/_`;
-    const body = await this.req.get(path, {
-      page: String(page === 'last'
-        ? ChapterParser.getLastPage(await this.req.get(path)) : page,
-      ),
-    });
+    const lastPage = page === 'last'
+      ? ChapterParser.getLastPage(await this.req.get(path)) : page;
 
+    const body = await this.req.get(path, { page: String(lastPage) });
     const comments = ChapterParser.parseComments(body);
 
     return new RoyalResponse(comments);
