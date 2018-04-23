@@ -97,6 +97,7 @@ export class ChapterService {
       ? ChapterParser.getLastPage(await this.req.get(path)) : page;
 
     const body = await this.req.get(path, { page: String(lastPage) });
+
     const comments = ChapterParser.parseComments(body);
 
     return new RoyalResponse(comments);
@@ -164,7 +165,7 @@ class ChapterParser {
     const href = $('ul.pagination').find('li').last()
       .find('a').attr('href');
 
-    if (!href) {
+    if (!href || href === 'javascript:;') {
       return 1;
     }
 
