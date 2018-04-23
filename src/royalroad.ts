@@ -15,6 +15,7 @@ interface RequestOptions {
   fetchToken?: boolean;
   ignoreStatus?: boolean;
   ignoreParser?: boolean;
+  ignoreCookies?: boolean;
 }
 
 /**
@@ -60,14 +61,16 @@ export class Requester {
    *
    * @param path
    */
-  public async get(path: string, data: { [key: string]: string } = {}) {
+  public async get(
+    path: string, data: { [key: string]: string } = {},
+    options: RequestOptions = {},
+  ) {
     const query = new URLSearchParams(data);
     const uri = this.url + path + (query ? ('?' + query) : '');
 
     const body = await this.request({
       uri,
-      jar: this.cookies,
-      headers: Requester.headers,
+      jar: options.ignoreCookies ? undefined : this.cookies,
     });
 
     return body;
@@ -99,6 +102,8 @@ export class Requester {
     req: request.UriOptions & request.CoreOptions, options: RequestOptions = {},
   ): Promise<string> { return new Promise((resolve, reject) => {
     this.debug('%o: %o', req.method || 'GET', req.uri);
+
+    req.headers = Requester.headers;
 
     request(req, (err, res, body) => {
       if (err || (res.statusCode !== 200 && !options.ignoreStatus)) {
