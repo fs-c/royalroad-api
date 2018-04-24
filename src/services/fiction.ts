@@ -201,7 +201,7 @@ class FictionParser {
       chapters.push({
         title: $(el).find('td').eq(0).find('a').text().trim(),
         id: parseInt(
-          $(el).find('td').eq(0).find('a').attr('href').split('/')[2], 10,
+          $(el).find('td').eq(0).find('a').attr('href').split('/')[5], 10,
         ),
         release: date($(el).find('td').eq(1).find('time').text())
         .getTime(),
