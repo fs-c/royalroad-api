@@ -1,5 +1,8 @@
 import { RoyalRoadAPI } from '../src/lib';
 
+// To be replaced with the fiction ID you want to post a chapter to.
+const fiction = 0;
+
 const api = new RoyalRoadAPI();
 
 (async () => {
@@ -20,8 +23,7 @@ const chapter = {
 };
 
 try {
-  // Fiction ID, chapter object.
-  await api.chapter.publish(0, chapter);
+  await api.chapter.publish(fiction, chapter);
   console.log('Chapter published successfully.');
 } catch (err) { // Guess which object.
   console.error(`Error while publishing chapter: ${err.message}`);
