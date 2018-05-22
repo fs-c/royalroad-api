@@ -88,7 +88,7 @@ export class UserService {
       throw new RoyalError('Not authenticated.');
     }
 
-    function bookmarksOutOfBounds(html: string) {
+    function noContent(html: string) {
       const $ = cheerio.load(html);
 
       let fictions = 0;
@@ -98,7 +98,7 @@ export class UserService {
     }
 
     const body = await this.req.get('/my/bookmarks', { page: String(page) });
-    const outOfBounds = bookmarksOutOfBounds(body);
+    const outOfBounds = noContent(body);
 
     if (outOfBounds) {
       throw new RoyalError('Out of bounds.');
@@ -123,9 +123,6 @@ export class UserService {
   }
 }
 
-/**
- * Methods related to parsing user related HTML.
- */
 class UserParser {
   public static parseMyBookmarks(html: string) {
     const $ = cheerio.load(html);
