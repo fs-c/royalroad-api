@@ -26,7 +26,7 @@ export class Requester {
     'User-Agent': getUserAgent(),
   };
 
-  public cookies: any; // TODO: Dangerous!
+  public cookies: any; // TODO: Dangerous! Find/Make proper cookie typings.
   public insecure: boolean;
 
   private readonly url: string;
@@ -45,7 +45,7 @@ export class Requester {
     );
 
     for (const cookie of cookies) {
-      // TODO: Dangerous.
+      // TODO: Dangerous, see above.
       const c = cookie as { key: string, value: string };
 
       if (c.key === 'mybbuser' && c.value) {
@@ -69,8 +69,7 @@ export class Requester {
     const uri = this.url + path + (query ? ('?' + query) : '');
 
     const body = await this.request({
-      uri,
-      jar: options.ignoreCookies ? undefined : this.cookies,
+      uri, jar: options.ignoreCookies ? undefined : this.cookies,
     });
 
     return body;
@@ -88,8 +87,6 @@ export class Requester {
       await this.fetchToken(path)
     ) : undefined;
 
-    this.debug(data);
-
     return await this.request({
       uri,
       form: data,
@@ -98,6 +95,13 @@ export class Requester {
     }, options);
   }
 
+  /**
+   * Helper function for the public, method-specific functions. Asynchronous
+   * abstraction over the request module with some additional functionality.
+   *
+   * @param req
+   * @param options
+   */
   private request(
     req: request.UriOptions & request.CoreOptions, options: RequestOptions = {},
   ): Promise<string> { return new Promise((resolve, reject) => {
@@ -107,7 +111,7 @@ export class Requester {
 
     request(req, (err, res, body) => {
       if (err || (res.statusCode !== 200 && !options.ignoreStatus)) {
-        this.logCookies();
+        this.logCookies(); // Debug log the cookies.
 
         return reject(new RoyalError(
           err ? err.message || err : res.statusMessage || 'Requester error',
