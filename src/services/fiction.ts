@@ -132,9 +132,6 @@ export class FictionService {
   }
 }
 
-/**
- * Container class for all fiction related parsers.
- */
 class FictionParser {
   public static parseFiction(html: string): Fiction {
     const $ = cheerio.load(html);

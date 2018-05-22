@@ -139,9 +139,6 @@ export class FictionsService {
   }
 }
 
-/**
- * Methods related to parsing fiction lists.
- */
 class FictionsParser {
   public static parseLatest(html: string): LatestBlurb[] {
     const $ = cheerio.load(html);

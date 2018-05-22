@@ -30,6 +30,9 @@ export interface ChapterComment {
   };
 }
 
+/**
+ * Methods related to chapters.
+ */
 export class ChapterService {
   public debug: logger.IDebugger;
 

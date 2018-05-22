@@ -24,6 +24,9 @@ export interface ProfileAuthorStats {
   favorites: number;
 }
 
+/**
+ * Methods related to (foreign) user profiles.
+ */
 export class ProfileService {
   private readonly req: Requester;
 
