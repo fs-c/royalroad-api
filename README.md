@@ -58,7 +58,7 @@ RoyalResponse {
       { name: 'Komikhan',
         title: '',
         avatar:
-         'https://www.royalroadcdn.com/(...),
+         'https://www.royalroadcdn.com/(...)',
         id: 66486 },
      warnings: [ 'Gore', 'Profanity' ],
      chapters: [ [Object], [Object], [Object], ... 71 more items ],
