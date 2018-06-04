@@ -35,7 +35,49 @@ The module itself exports only a `RoyalRoadAPI` class which, by itself, has no m
 
 ### Responses
 
-All responses and errors are either an instance of a `RoyalResponse` or an `RoyalError`, which extends `RoyalResponse`. This is done to easily allow for meta information to be tacked onto responses, and to have a consistent interface between user and module. Note that the `RoyalError` acts similarly to the NodeJS `Error` object, in that it captures and returns a short stack trace.
+All responses and errors are either an instance of a [`RoyalResponse`](https://fsoc.gitlab.io/royalroadl-api/classes/royalresponse.html) or a [`RoyalError`](https://fsoc.gitlab.io/royalroadl-api/classes/royalerror.html), which extends `RoyalResponse`. This is done to easily allow for meta information to be tacked onto responses, and to have a consistent interface between user and module. Note that the `RoyalError` acts similarly to the NodeJS `Error` object, in that it captures and returns a short stack trace.
+
+For example, a call to `fiction.getFiction()` might yield the following response on success:
+```javascript
+RoyalResponse {
+  data:
+   { type: 'Original',
+     tags: [ 'Action', 'Adventure', 'Sci-fi', ... 3 more items ],
+     stats:
+      { pages: 766,
+        ratings: 719,
+        followers: 2991,
+        favorites: 690,
+        views: [Object],
+        score: [Object] },
+     title: 'Paladin',
+     image:
+      'https://www.royalroadcdn.com/(...)',
+     status: 'HIATUS',
+     author:
+      { name: 'Komikhan',
+        title: '',
+        avatar:
+         'https://www.royalroadcdn.com/(...),
+        id: 66486 },
+     warnings: [ 'Gore', 'Profanity' ],
+     chapters: [ [Object], [Object], [Object], ... 71 more items ],
+     description:
+      'When the first derelict alien spacecraft fell to Earth, (...)' },
+  success: true,
+  timestamp: 1528119296799 }
+```
+...or on error:
+```javascript
+RoyalError {
+  data:
+   { message: 'Page Not Found',
+     stack:
+      [ 'Error',
+        '    at new RoyalError', ... 8 more items ] },
+  success: false,
+  timestamp: 1528119381034 }
+```
 
 ### Internal requester
 
