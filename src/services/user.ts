@@ -58,7 +58,7 @@ export class UserService {
    */
   public async login(username: string, password: string) {
     await this.req.post(
-      '/user/login', { username, password },
+      '/account/login', { username, password },
     );
 
     return new RoyalResponse('Logged in.');

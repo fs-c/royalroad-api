@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 const PROTOCOL_PREFIX = 'https://';
 const PROTOCOL_PREFIX_INSECURE = 'http://';
 
-const HOST_NAME = 'royalroadl.com';
+const HOST_NAME = 'www.royalroad.com';
 
 /**
  * Get the version read from package.json.
@@ -32,5 +32,6 @@ export function getBaseAddress(insecure = false) {
  * and version.
  */
 export function getUserAgent() {
-  return `royalroadl-api/${getVersion()}`;
+  return `gitlab.com/fsoc/royalroadl-api (${getVersion()}) -- `
+        + `fsoc@firemail.cc`;
 }
