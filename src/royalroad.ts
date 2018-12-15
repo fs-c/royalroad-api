@@ -110,6 +110,9 @@ export class Requester {
     req.headers = Requester.headers;
 
     request(req, (err, res, body) => {
+      this.debug('%o < %o (%o)',
+        req.method || 'GET', res.statusCode, res.statusMessage);
+
       if (err || (res.statusCode !== 200 && !options.ignoreStatus)) {
         this.logCookies(); // Debug log the cookies.
 
@@ -117,9 +120,6 @@ export class Requester {
           err ? err.message || err : res.statusMessage || 'Requester error',
         ));
       }
-
-      this.debug('%o < %o (%o)',
-        res.method || 'GET', res.statusCode, res.statusMessage);
 
       const genericError = this.catchGenericError(body);
       if (!options.ignoreParser && genericError !== null) {
