@@ -15,6 +15,7 @@ interface RequestOptions {
   fetchToken?: boolean;
   ignoreStatus?: boolean;
   ignoreParser?: boolean;
+  successStatus?: number;
   ignoreCookies?: boolean;
 }
 
@@ -83,6 +84,8 @@ export class Requester {
   public async post(path: string, data: any, options: RequestOptions = {}) {
     const uri = this.url + path;
 
+    this.debug('sending POST to %o with %o options', path, options);
+
     data['__RequestVerificationToken'] = options.fetchToken ? (
       await this.fetchToken(path)
     ) : undefined;
@@ -105,7 +108,7 @@ export class Requester {
   private request(
     req: request.UriOptions & request.CoreOptions, options: RequestOptions = {},
   ): Promise<string> { return new Promise((resolve, reject) => {
-    this.debug('%o: %o', req.method || 'GET', req.uri);
+    this.debug('%o > %o', req.method || 'GET', req.uri);
 
     req.headers = Requester.headers;
 
@@ -113,9 +116,10 @@ export class Requester {
       this.debug('%o < %o (%o)',
         req.method || 'GET', res.statusCode, res.statusMessage);
 
-      if (err || (res.statusCode !== 200 && !options.ignoreStatus)) {
-        this.logCookies(); // Debug log the cookies.
+      this.logCookies();
 
+      const success = options.successStatus || 200;
+      if (err || (res.statusCode !== success && !options.ignoreStatus)) {
         return reject(new RoyalError(
           err ? err.message || err : res.statusMessage || 'Requester error',
         ));
@@ -182,11 +186,25 @@ export class Requester {
    *
    * @param html
    */
-  private catchGenericError(html: string) {
+  private catchGenericError(html: string): string | null {
+    // TODO: Check if these legacy errors are still used anywhere on the site.
+    const legacy = this.catchGenericErrorLegacy(html);
+
+    const $ = cheerio.load(html);
+
+    const error = $('div.text-danger').find('li').first().text().trim();
+
+    // TODO: Add other errors and warnings of the 3.x site.
+
+    return error || legacy || null;
+  }
+
+  private catchGenericErrorLegacy(html: string): string | null {
     const $ = cheerio.load(html);
 
     // Usually 4xx, mostly 404 and 403.
-    const error =  $('div.page-404').find('h3').text().trim();
+    const error =  $('div.page-404').find('h3').text().trim()
+      || $('div.validation-summary-errors')
     // These often are a result of invalid POSTs.
     const alert = $('div.alert.alert-danger').eq(0).text().trim();
 
