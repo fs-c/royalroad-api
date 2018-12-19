@@ -60,3 +60,4 @@ jspm_packages/
 dist/
 
 test.ts
+playground.ts
