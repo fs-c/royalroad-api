@@ -56,9 +56,13 @@ export class UserService {
    * @param username
    * @param password
    */
-  public async login(username: string, password: string) {
+  public async login(username: string, password: string, force = false) {
+    if (this.isLoggedIn && !force) {
+      return new RoyalResponse('Already logged in.');
+    }
+
     await this.req.post(
-      '/account/login', { username, password },
+      '/account/login', { username, password }, { fetchToken: true }
     );
 
     return new RoyalResponse('Logged in.');
