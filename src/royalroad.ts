@@ -203,14 +203,11 @@ export class Requester {
     const $ = cheerio.load(html);
 
     // Usually 4xx, mostly 404 and 403.
-    const error =  $('div.page-404').find('h3').text().trim()
-      || $('div.validation-summary-errors')
+    const error =  $('div.page-404').find('h3').text().trim();
     // These often are a result of invalid POSTs.
     const alert = $('div.alert.alert-danger').eq(0).text().trim();
 
-    const message = error || alert;
-
-    return (message && message.length !== 0) ? message : null;
+    return error || alert || null;
   }
 }
 

@@ -10,6 +10,8 @@ const HOST_NAME = 'www.royalroad.com';
  */
 export function getVersion() {
   try {
+    // TODO: This isn't going to change at runtime, just fetch it once and
+    //       return that on subsequent calls.
     const { version } = JSON.parse(readFileSync('./package.json', 'utf8'));
 
     return version;

@@ -62,7 +62,7 @@ export class UserService {
     }
 
     await this.req.post(
-      '/account/login', { username, password }, { fetchToken: true }
+      '/account/login', { username, password }, { fetchToken: true },
     );
 
     return new RoyalResponse('Logged in.');
