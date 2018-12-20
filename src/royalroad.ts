@@ -49,7 +49,7 @@ export class Requester {
       // TODO: Dangerous, see above.
       const c = cookie as { key: string, value: string };
 
-      if (c.key === 'mybbuser' && c.value) {
+      if (c.key === '.AspNetCore.Identity.Application' && c.value) {
         return true;
       }
     }
@@ -192,11 +192,13 @@ export class Requester {
 
     const $ = cheerio.load(html);
 
-    const error = $('div.text-danger').find('li').first().text().trim();
+    const error = $('div.text-danger').find('li').first().text().trim() || null;
 
     // TODO: Add other errors and warnings of the 3.x site.
 
-    return error || legacy || null;
+    this.debug('parsed page for generic errors %O', { error, legacy });
+
+    return error || legacy;
   }
 
   private catchGenericErrorLegacy(html: string): string | null {
