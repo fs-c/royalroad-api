@@ -62,7 +62,9 @@ export class UserService {
     }
 
     await this.req.post(
-      '/account/login', { username, password }, { fetchToken: true },
+      '/account/login', { username, password }, {
+        fetchToken: true, successStatus: 302,
+      },
     );
 
     return new RoyalResponse('Logged in.');
