@@ -119,7 +119,7 @@ export class UserService {
    */
   public async getNotifications() {
     if (!this.isLoggedIn) {
-      return new RoyalError('Not authenticated.');
+      throw new RoyalError('Not authenticated.');
     }
 
     const body = await this.req.get('/notifications/get');
