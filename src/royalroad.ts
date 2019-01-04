@@ -121,7 +121,7 @@ export class Requester {
       const success = options.successStatus || 200;
       if (err || (res.statusCode !== success && !options.ignoreStatus)) {
         return reject(new RoyalError(
-          err ? err.message || err : res.statusMessage || 'Requester error',
+          err ? err.message || err : `Request error: ${res.statusMessage}`,
         ));
       }
 
