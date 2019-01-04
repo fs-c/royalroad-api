@@ -61,9 +61,12 @@ export class UserService {
       return new RoyalResponse('Already logged in.');
     }
 
+    // TODO: RR will respond with a 302 if the login was successful and a
+    //       200 (!) if it wasn't. Therefore we just ignore the status and rely
+    //       on the generic error parsing.
     await this.req.post(
       '/account/login', { username, password }, {
-        fetchToken: true, successStatus: 302,
+        fetchToken: true, ignoreStatus: true,
       },
     );
 
