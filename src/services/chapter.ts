@@ -15,6 +15,9 @@ export interface Chapter {
   content: string;
   preNote: string;
   postNote: string;
+
+  next: number;
+  previous: number;
 }
 
 export interface ChapterComment {
@@ -159,7 +162,15 @@ class ChapterParser {
     const content = ($('div.chapter-inner.chapter-content').html() || '')
       .trim();
 
-    return { content, preNote, postNote };
+    const next = ChapterParser.getChapterID(
+        $('i.fa-chevron-double-right').parent().attr('href') || '',
+    );
+
+    const previous = ChapterParser.getChapterID(
+        $('i.fa-chevron-double-left').parent().attr('href') || '',
+    );
+
+    return { content, preNote, postNote, next, previous };
   }
 
   public static getLastPage(html: string) {
@@ -214,5 +225,12 @@ class ChapterParser {
     });
 
     return comments;
+  }
+
+  public static getChapterID(url: string): number {
+    // TODO: This is really inflexible.
+    const split  = url.split('/');
+
+    return split.length < 5 ? -1 : parseInt(split[5], 10);
   }
 }
