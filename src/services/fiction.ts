@@ -1,5 +1,6 @@
 import date = require( 'date.js');
 import * as cheerio from 'cheerio';
+import { getLastPage } from '../utils';
 import { Requester } from '../royalroad';
 import { RoyalResponse } from '../responses';
 
@@ -122,8 +123,9 @@ export class FictionService {
   public async getReviews(id: number, page: number | 'last' = 1) {
     const path = `/fiction/${String(id)}`;
     const body = await this.req.get(path, {
-      page: String(page === 'last'
-        ? FictionParser.getLastPage(await this.req.get(path)) : page),
+      page: String(page === 'last' ? (
+          getLastPage(await this.req.get(path))
+      ) : page),
     });
 
     const reviews = FictionParser.parseReviews(body);
@@ -207,22 +209,6 @@ class FictionParser {
 
     return { type, tags, stats, title, image, status,
       author, warnings, chapters, description };
-  }
-
-  public static getLastPage(html: string) {
-    const $ = cheerio.load(html);
-
-    const href = $('ul.pagination').find('li').last()
-      .find('a').attr('href');
-
-    if (!href) {
-      return 1;
-    }
-
-    // Get whatever is before '#' and after '=', (?page=1#comments).
-    const page = parseInt(href.split('#')[0].split('=')[1], 10);
-
-    return page;
   }
 
   public static parseReviews(html: string): Review[] {
