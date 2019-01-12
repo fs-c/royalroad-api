@@ -55,6 +55,7 @@ export class UserService {
    *
    * @param username
    * @param password
+   * @param force Whether or not to login even if the user is already logged on
    */
   public async login(username: string, password: string, force = false) {
     if (this.isLoggedIn && !force) {
@@ -101,7 +102,7 @@ export class UserService {
       const $ = cheerio.load(html);
 
       let fictions = 0;
-      $('div.fiction-list-item').each((i, el) => fictions++);
+      $('div.fiction-list-item').each(() => fictions++);
 
       return fictions === 0;
     }

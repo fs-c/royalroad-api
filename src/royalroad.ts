@@ -20,7 +20,7 @@ interface RequestOptions {
 }
 
 /**
- * Class passed to all Services for consistent cookies accross requests.
+ * Class passed to all Services for consistent cookies across requests.
  */
 export class Requester {
   private static readonly headers = {
@@ -61,6 +61,8 @@ export class Requester {
    * GET request to the given path, under the base address.
    *
    * @param path
+   * @param data
+   * @param options
    */
   public async get(
     path: string, data: { [key: string]: string } = {},
@@ -69,17 +71,17 @@ export class Requester {
     const query = new URLSearchParams(data);
     const uri = this.url + path + (query ? ('?' + query) : '');
 
-    const body = await this.request({
+    return await this.request({
       uri, jar: options.ignoreCookies ? undefined : this.cookies,
     });
-
-    return body;
   }
 
   /**
    * POST request to the given path, under the base address.
    *
    * @param path
+   * @param data
+   * @param options
    */
   public async post(path: string, data: any, options: RequestOptions = {}) {
     const uri = this.url + path;
@@ -188,7 +190,7 @@ export class Requester {
    */
   private catchGenericError(html: string): string | null {
     // TODO: Check if these legacy errors are still used anywhere on the site.
-    const legacy = this.catchGenericErrorLegacy(html);
+    const legacy = Requester.catchGenericErrorLegacy(html);
 
     const $ = cheerio.load(html);
 
@@ -201,7 +203,7 @@ export class Requester {
     return error || legacy;
   }
 
-  private catchGenericErrorLegacy(html: string): string | null {
+  private static catchGenericErrorLegacy(html: string): string | null {
     const $ = cheerio.load(html);
 
     // Usually 4xx, mostly 404 and 403.
@@ -214,7 +216,7 @@ export class Requester {
 }
 
 /**
- * Container class, creating instances of the seperate Service classses.
+ * Container class, creating instances of the separate Service classes.
  */
 export class RoyalRoadAPI {
   public readonly user: UserService;

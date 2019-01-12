@@ -56,7 +56,7 @@ export class ChapterService {
   public async publish(fictionID: number, chapter: NewChapter) {
     this.requireAuth();
 
-    if (!this.isValidNewChapter(chapter)) {
+    if (!ChapterService.isValidNewChapter(chapter)) {
       throw new RoyalError('Invalid chapter');
     }
 
@@ -115,7 +115,7 @@ export class ChapterService {
    * Post a comment for a given fiction.
    *
    * @param chapterID - ID of the chapter to post a comment to.
-   * @param content - Content to post, seperate paragraphs with '\n'.
+   * @param content - Content to post, separate paragraphs with '\n'.
    */
   public async postComment(chapterID: number, content: string) {
     this.requireAuth();
@@ -143,11 +143,11 @@ export class ChapterService {
   }
 
   /**
-   * Basic checks for a chapter opjects' validity.
+   * Basic checks for a chapter object's validity.
    *
    * @param chapter
    */
-  private isValidNewChapter(chapter: NewChapter) {
+  private static isValidNewChapter(chapter: NewChapter) {
     // TODO: Pre and post author notes maxlength?
     return chapter.content.length >= 500 && chapter.title.length <= 150;
   }

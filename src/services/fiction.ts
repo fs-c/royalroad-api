@@ -140,8 +140,11 @@ class FictionParser {
 
     const title = $('div.fic-title').children('h1').text();
     const image = $('div.fic-header').find('img').attr('src');
-    const type = $('span.bg-blue-hoki').eq(0).text();
-    const status = $('span.bg-blue-hoki').eq(1).text();
+
+    const labels = $('span.bg-blue-hoki');
+
+    const type = labels.eq(0).text();
+    const status = labels.eq(1).text();
 
     const tags = $('span.tags').find('span.label')
       .map((i, el) => $(el).text()).get();

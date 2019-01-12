@@ -63,7 +63,9 @@ class ProfileParser {
     const fictions = parseInt($(statsEls).eq(3).text(), 10);
     const favorites = parseInt($(statsEls).eq(1).text(), 10);
 
-    const pInfoEl = $('tbody').eq(0);
+    const tbody = $('tbody');
+
+    const pInfoEl = tbody.eq(0);
 
     const timeEls = $(pInfoEl).find('time');
     const joined = parseInt($(timeEls).eq(0).attr('unixtime'), 10);
@@ -74,7 +76,7 @@ class ProfileParser {
     const location = $(metaEls).eq(3).text().trim();
     const biography = $(metaEls).eq(4).text().trim();
 
-    const aInfoEl = $('tbody').eq(1);
+    const aInfoEl = tbody.eq(1);
 
     const aStatsEls = $(aInfoEl).find('td');
     const authorStats = {
