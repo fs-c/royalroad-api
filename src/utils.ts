@@ -7,7 +7,7 @@ export const getLastPage = (html: string): number => {
         .find('a').attr('href');
 
     if (!href || href === 'javascript:;') {
-        return 1;
+        return -1;
     }
 
     // Get whatever is before '#' and after '=', (?page=1#comments).
