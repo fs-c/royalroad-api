@@ -9,15 +9,15 @@ const HOST_NAME = 'www.royalroad.com';
  * Get the version read from package.json.
  */
 export function getVersion() {
-  try {
-    // TODO: This isn't going to change at runtime, just fetch it once and
-    //       return that on subsequent calls.
-    const { version } = JSON.parse(readFileSync('./package.json', 'utf8'));
+    try {
+        // TODO: This isn't going to change at runtime, just fetch it once and
+        //       return that on subsequent calls.
+        const { version } = JSON.parse(readFileSync('./package.json', 'utf8'));
 
-    return version;
-  } catch (err) {
-    return '0.0.0';
-  }
+        return version;
+    } catch (err) {
+        return '0.0.0';
+    }
 }
 
 /**
@@ -26,7 +26,7 @@ export function getVersion() {
  * @param insecure - HTTP / HTTPS
  */
 export function getBaseAddress(insecure = false) {
-  return (insecure ? PROTOCOL_PREFIX_INSECURE : PROTOCOL_PREFIX) + HOST_NAME;
+    return (insecure ? PROTOCOL_PREFIX_INSECURE : PROTOCOL_PREFIX) + HOST_NAME;
 }
 
 /**
@@ -34,6 +34,5 @@ export function getBaseAddress(insecure = false) {
  * and version.
  */
 export function getUserAgent() {
-  return `gitlab.com/fsoc/royalroadl-api (${getVersion()}) -- `
-        + `fsoc@firemail.cc`;
+    return `royalroad-api@${getVersion()} by fsoc@firemail.cc`;
 }
