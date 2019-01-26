@@ -61,3 +61,5 @@ dist/
 
 test.json
 playground.*
+
+.idea
