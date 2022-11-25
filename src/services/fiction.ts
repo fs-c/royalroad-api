@@ -138,7 +138,7 @@ class FictionParser {
     public static parseFiction(html: string): Fiction {
         const $ = cheerio.load(html);
 
-        const title = $('div.fic-title').children('h1').text();
+        const title = $('div.fic-title').find('h1').text();
         const image = $('div.fic-header').find('img').attr('src');
 
         const labels = $('span.bg-blue-hoki');
@@ -158,14 +158,10 @@ class FictionParser {
         const authorEl = $('.portlet-body').eq(0);
 
         const author: FictionAuthor = {
-            name: $(authorEl).find('.mt-card-name').find('a').text(),
+            name: $(authorEl).find('.mt-card-content').find('a').text().trim(),
             title: $(authorEl).find('.mt-card-desc').text(),
-            avatar: $(authorEl).find('.mt-card-avatar').find('img').attr('src'),
-            id: parseInt(
-                $(authorEl).find('.mt-card-name').find('a').attr('href')
-                    .split('/')[2]
-                , 10,
-            ),
+            avatar: $(authorEl).find('img[data-type="avatar"]').attr('src'),
+            id: +(($(authorEl).find('.mt-card-content').find('a').attr('href') || '').split('/')[2]),
         };
 
         const statsEl = $('div.stats-content');
