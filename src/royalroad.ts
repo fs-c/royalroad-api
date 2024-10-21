@@ -81,7 +81,7 @@ export class Requester {
     ) {
         const query = new URLSearchParams(data);
         const uri = this.url + path + (query ? ('?' + query) : '');
-        console.log(uri)
+
         return await this.request({
             uri, jar: options.ignoreCookies ? undefined : this.cookies,
         });
@@ -102,7 +102,6 @@ export class Requester {
         data['__RequestVerificationToken'] = options.fetchToken ? (
             await this.fetchToken(path)
         ) : undefined;
-
 
         return await this.request({
             uri,
