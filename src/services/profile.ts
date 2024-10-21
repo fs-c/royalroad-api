@@ -77,15 +77,15 @@ class ProfileParser {
         const location = $(metaEls).eq(3).text().trim();
         const biography = $(metaEls).eq(4).text().trim();
 
-        const aInfoEl = tbody.eq(1);
+        const aInfoEl = tbody.eq(2);
 
         const aStatsEls = $(aInfoEl).find('td');
         const authorStats = {
             fictions,
-            words: parseInt($(aStatsEls).eq(1).text(), 10),
-            reviews: parseInt($(aStatsEls).eq(2).text(), 10),
-            followers: parseInt($(aStatsEls).eq(3).text(), 10),
-            favorites: parseInt($(aStatsEls).eq(4).text(), 10),
+            words: parseInt($(aStatsEls).eq(1).text().replace(',', ''), 10),
+            reviews: parseInt($(aStatsEls).eq(2).text().replace(',', ''), 10),
+            followers: parseInt($(aStatsEls).eq(3).text().replace(',', ''), 10),
+            favorites: parseInt($(aStatsEls).eq(4).text().replace(',', ''), 10),
         };
 
         return {

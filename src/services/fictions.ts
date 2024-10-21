@@ -113,6 +113,7 @@ export class FictionsService {
      * @returns - Array of search fiction blurbs.
      */
     public async search(keyword: string, page: number = 1) {
+        //TODO: change/fix
         const body = await this.getList('search', page, { keyword });
         const fictions = FictionsParser.parseSearch(body);
 

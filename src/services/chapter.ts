@@ -30,7 +30,6 @@ export interface ChapterComment {
         id: number;
         name: string;
         avatar: string;
-        premium: boolean;
     };
 }
 
@@ -109,13 +108,12 @@ export class ChapterService {
      * @param page - Either the page of comments to load, or 'last'.
      */
     public async getComments(chapterID: number, page: number | 'last' = 1) {
-        const path = `/fiction/0/_/chapter/${String(chapterID)}/_`;
+        const path = `/fiction/chapter/${String(chapterID)}/comments/`;
         const lastPage = page === 'last' ? (
             getLastPage(await this.req.get(path))
         ) : page;
-
-        const body = await this.req.get(path, { page: String(lastPage) });
-
+        const body = await this.req.get(path+lastPage);
+        
         const comments = ChapterParser.parseComments(body);
 
         return new RoyalResponse(comments);
@@ -140,7 +138,7 @@ export class ChapterService {
             { fetchToken: true, ignoreStatus: true },
         );
 
-        return new RoyalResponse(null);
+        return new RoyalResponse("Comment posted");
     }
 
     /**
@@ -177,7 +175,6 @@ class ChapterParser {
 
     public static parseComments(html: string): ChapterComment[] {
         const $ = cheerio.load(html);
-
         const comments: ChapterComment[] = [];
 
         $('div.media.media-v2').each((i, el) => {
@@ -199,8 +196,6 @@ class ChapterParser {
             const author = {
                 avatar: $(el).find('img').attr('src'),
                 name: $(el).find('span.name').find('a').text().split('@')[0],
-                premium: $(el).find('div.upcase.label.bg-yellow-crusta')
-                    .text().length !== 0,
                 id: parseInt(
                     $(el).find('span.name').find('a').attr('href').split('/')[2]
                     , 10,
