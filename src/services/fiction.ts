@@ -227,13 +227,16 @@ class FictionParser {
                 avatar: $(el).find('img').attr('src'),
                 id: parseInt($(authorLink).attr('href').split('/')[2], 10),
             };
-            let overallScore = 0;
-            $(el).find('div.review-side').find('div.scores')
-                .find('div.overall-score-container').children().each((i, el) =>{
-                    if($(el).attr('aria-label').includes("stars")){
-                        overallScore = parseFloat($(el).attr('aria-label').replace("stars", "").trim());
-                    }
-                });
+
+            const overallScore = parseFloat($(el)
+                .find('div.overall-score-container')
+                .children()
+                .filter((i, el) => $(el).attr('aria-label').includes("stars"))
+                .first()
+                .attr('aria-label')
+                .replace("stars", "")
+                .trim()
+            ) || 0;
 
             //TODO: handle advanced reviews
             const score = {

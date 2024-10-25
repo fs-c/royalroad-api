@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 import { Requester } from '../royalroad';
 import { getBaseAddress } from '../constants';
 import { RoyalError, RoyalResponse } from '../responses';
+import { isAd } from '../utils';
 
 export interface MyFiction {
     id: number;
@@ -172,9 +173,7 @@ class UserParser {
         const myBookmarks: Bookmark[] = [];
 
         $('div.fiction-list-item').each((i, el) => {
-            if($(el).hasClass('portlet')){ //skip if its ad
-                return;
-            }
+            if(isAd(el)) return;
 
             const image = $(el).find('img').attr('src');
 
@@ -236,9 +235,7 @@ class UserParser {
         const myReadLater: ReadLater[] = [];
 
         $('div.fiction-list-item').each((i, el) => {
-            if($(el).hasClass('portlet')){ //skip if its ad
-                return;
-            }
+            if(isAd(el)) return;
 
             const image = $(el).find('img').attr('src');
 
@@ -246,9 +243,9 @@ class UserParser {
 
             const title = $(titleEl).text().trim();
             const id = parseInt($(titleEl).attr('href').split('/')[2], 10);
+
             const link = $(el).find('a').attr('href');
             const pages = parseInt($(el).find('span.page-count').text().replace('pages', '').trim(), 10);
-
             const authorEl = $(el).find('span.author').find('a');
 
             const author = {

@@ -112,7 +112,7 @@ export class ChapterService {
         const lastPage = page === 'last' ? (
             getLastPage(await this.req.get(path))
         ) : page;
-        const body = await this.req.get(path+lastPage);
+        const body = await this.req.get(path + lastPage);
         
         const comments = ChapterParser.parseComments(body);
 
@@ -138,7 +138,7 @@ export class ChapterService {
             { fetchToken: true, ignoreStatus: true },
         );
 
-        return new RoyalResponse("Comment posted");
+        return new RoyalResponse(null);
     }
 
     /**
