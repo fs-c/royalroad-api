@@ -54,11 +54,6 @@ export interface Review {
     posted: number;
     content: string;
 
-    rating: {
-        up: number;
-        down: number;
-    };
-
     author: {
         id: number,
         name: string,
@@ -123,7 +118,7 @@ export class FictionService {
     public async getReviews(id: number, page: number | 'last' = 1) {
         const path = `/fiction/${String(id)}`;
         const body = await this.req.get(path, {
-            page: String(page === 'last' ? (
+            reviews: String(page === 'last' ? (
                 getLastPage(await this.req.get(path))
             ) : page),
         });
@@ -144,16 +139,16 @@ class FictionParser {
         const labels = $('span.bg-blue-hoki');
 
         const type = labels.eq(0).text();
-        const status = labels.eq(1).text();
+        const status = labels.eq(1).text().trim();
 
-        const tags = $('span.tags').find('span.label')
-            .map((i, el) => $(el).text()).get();
+        const tags = $('span.tags').find('a.label')
+            .map((i, el) => $(el).text().trim()).get();
 
         const warnings = $('ul.list-inline').find('li')
-            .map((i, el) => $(el).text()).get();
+            .map((i, el) => $(el).text().trim()).get();
 
-        const description = $('div.hidden-content').find('p')
-            .map((i, el) => $(el).text()).get().join('');
+        const description = $('div.hidden-content').find('div')
+            .map((i, el) => $(el).text().trim()).get().join('');
 
         const authorEl = $('.portlet-body').eq(0);
 
@@ -218,7 +213,7 @@ class FictionParser {
 
         const reviews: Review[] = [];
 
-        $('div.review.row').each((i, el) => {
+        $('div.review').each((i, el) => {
             const posted = parseInt($(el).find('time').attr('unixtime'), 10);
 
             let content = '';
@@ -226,38 +221,33 @@ class FictionParser {
                 .each((j, p) => content += $(p).text() + '\n');
             content = content.trim();
 
-            const rating = {
-                up: parseInt($(el).find('button.blue-dark').text(), 10),
-                down: parseInt($(el).find('button.red-sunglo').text(), 10),
-            };
-
             const authorLink = $(el).find('div.review-meta').find('a').eq(0);
             const author = {
                 name: $(authorLink).text(),
-                avatar: $(el).find('img').attr('href'),
+                avatar: $(el).find('img').attr('src'),
                 id: parseInt($(authorLink).attr('href').split('/')[2], 10),
             };
 
-            const parseScore = (classAttr: string) => {
-                if (!classAttr) { return -1; }
+            const overallScore = parseFloat($(el)
+                .find('div.overall-score-container')
+                .children()
+                .filter((i, el) => $(el).attr('aria-label').includes("stars"))
+                .first()
+                .attr('aria-label')
+                .replace("stars", "")
+                .trim()
+            ) || 0;
 
-                const classes = classAttr.split(' ');
-                const value = classes[classes.length - 1].split('-')[1];
-
-                return parseInt(value, 10) / 10;
-            };
-
-            const scoreItems = $(el).find('div.review-side').find('li')
-                .find('div');
+            //TODO: handle advanced reviews
             const score = {
-                style: parseScore($(scoreItems).eq(1).attr('class')),
-                story: parseScore($(scoreItems).eq(2).attr('class')),
-                overall: parseScore($(scoreItems).eq(0).attr('class')),
-                grammar: parseScore($(scoreItems).eq(3).attr('class')),
-                character: parseScore($(scoreItems).eq(4).attr('class')),
+                style: 0,
+                story: 0,
+                overall: overallScore,
+                grammar: 0,
+                character: 0,
             };
 
-            reviews.push({ score, author, rating, content, posted });
+            reviews.push({ score, author, content, posted });
         });
 
         return reviews;

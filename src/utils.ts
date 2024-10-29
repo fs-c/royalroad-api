@@ -13,3 +13,6 @@ export const getLastPage = (html: string): number => {
     // Get whatever is before '#' and after '=', (?page=1#comments).
     return parseInt(href.split('#')[0].split('=')[1], 10);
 };
+
+export const isAd = (element: CheerioElement): boolean => 
+    cheerio(element).hasClass('portlet');

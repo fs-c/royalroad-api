@@ -42,7 +42,6 @@ export interface SearchBlurb {
     pages: number;
     title: string;
     image: string;
-    author: string;
     description: string;
 }
 
@@ -108,12 +107,12 @@ export class FictionsService {
     /**
      * Scrapes fictions from royalroadl.com/fictions/search at the given page.
      *
-     * @param keyword - Keyword to search for, case sensitive.
+     * @param query - Query to search for. example: tagsAdd=fantasy&tagsRemove=graphic_violence&minPages=50&maxPages=200
      * @param page - Desired page to scrape from.
      * @returns - Array of search fiction blurbs.
      */
-    public async search(keyword: string, page: number = 1) {
-        const body = await this.getList('search', page, { keyword });
+    public async search(query: string, page: number = 1) {
+        const body = await this.getList(`search?${query}`, page);
         const fictions = FictionsParser.parseSearch(body);
 
         return new RoyalResponse(fictions);
@@ -216,24 +215,22 @@ class FictionsParser {
 
         const fictions: SearchBlurb[] = [];
 
-        $('.search-item').each((i, el) => {
+        $('.fiction-list-item').each((i, el) => {
             const image = $(el).find('img').attr('src');
 
-            const titleEl = $(el).find('h2.margin-bottom-10').children('a');
+            const titleEl = $(el).find('h2.fiction-title').children('a');
 
             const title = $(titleEl).text();
             const id = parseInt($(titleEl).attr('href').split('/')[2], 10);
 
-            const pages = parseInt($(el).find('span.page-count').text(), 10);
-            const author = $(el).find('span.author').text()
-                .replace('by', '').trim();
+            const pages = parseInt($(el).find('i.fa-book').next().text().replace("Pages", "").trim(), 10);
 
-            let description = '';
-            $(el).find('div.fiction-description').find('p').each((j, para) => {
-                description += $(para).text() + '\n';
-            });
+            let description = ""
+            $(el).find('div.margin-top-10.col-xs-12').children().each((i, el) =>{
+                description += $(el).text();
+            })
 
-            fictions.push({ id, title, pages, author, image, description });
+            fictions.push({ id, title, pages, image, description });
         });
 
         return fictions;
