@@ -1,9 +1,9 @@
-import date = require('date.js');
 import * as cheerio from 'cheerio';
-import { Requester } from '../royalroad';
-import { getBaseAddress } from '../constants';
-import { RoyalError, RoyalResponse } from '../responses';
-import { isAd } from '../utils';
+import { Requester } from '../requester.js';
+import { getBaseAddress } from '../constants.js';
+import { RoyalError, RoyalResponse } from '../responses.js';
+import { isAd } from '../utils.js';
+import date from 'date.js';
 
 export interface MyFiction {
     id: number;
@@ -42,7 +42,6 @@ export interface ReadLater {
     };
 }
 
-
 /**
  * Methods related to the logged in user.
  */
@@ -58,7 +57,7 @@ export class UserService {
     }
 
     /**
-     * Log on to royalroadl, saving the cookies for use in subsequent
+     * Log on to royalroad, saving the cookies for use in subsequent
      * requests.
      *
      * @param username
@@ -74,8 +73,11 @@ export class UserService {
         // 200 (!) if it wasn't. Therefore we just ignore the status and
         // rely on the generic error parsing.
         await this.req.post(
-            '/account/login', { email, password }, {
-                fetchToken: true, ignoreStatus: true,
+            '/account/login',
+            { email, password },
+            {
+                fetchToken: true,
+                ignoreStatus: true,
             },
         );
 
@@ -106,19 +108,11 @@ export class UserService {
             throw new RoyalError('Not authenticated.');
         }
 
-        function noContent(html: string) {
-            const $ = cheerio.load(html);
-
-            let fictions = 0;
-            $('div.fiction-list-item').each(() => fictions++);
-
-            return fictions === 0;
-        }
-
         const body = await this.req.get('/my/follows', { page: String(page) });
-        const outOfBounds = noContent(body);
 
-        if (outOfBounds) {
+        const $ = cheerio.load(body);
+        const hasContent = $('div.fiction-list-item').length > 0;
+        if (!hasContent) {
             throw new RoyalError('Out of bounds.');
         }
 
@@ -145,19 +139,11 @@ export class UserService {
             throw new RoyalError('Not authenticated.');
         }
 
-        function noContent(html: string) {
-            const $ = cheerio.load(html);
-
-            let fictions = 0;
-            $('div.fiction-list-item').each(() => fictions++);
-
-            return fictions === 0;
-        }
-
         const body = await this.req.get('/my/readlater', { page: String(page) });
-        const outOfBounds = noContent(body);
 
-        if (outOfBounds) {
+        const $ = cheerio.load(body);
+        const hasContent = $('div.fiction-list-item').length > 0;
+        if (!hasContent) {
             throw new RoyalError('Out of bounds.');
         }
 
@@ -173,22 +159,41 @@ class UserParser {
         const myBookmarks: Bookmark[] = [];
 
         $('div.fiction-list-item').each((i, el) => {
-            if(isAd(el)) return;
+            if (isAd($(el))) {
+                return;
+            }
 
             const image = $(el).find('img').attr('src');
+            if (!image) {
+                return;
+            }
 
             const titleEl = $(el).find('h2.fiction-title').find('a');
 
             const title = $(titleEl).text().trim();
-            const id = parseInt($(titleEl).attr('href').split('/')[2], 10);
+
+            const titleHref = $(titleEl).attr('href');
+            if (!titleHref) {
+                return;
+            }
+
+            const id = parseInt(titleHref.split('/')[2], 10);
 
             const link = $(el).find('a').attr('href');
+            if (!link) {
+                return;
+            }
 
             const authorEl = $(el).find('span.author').find('a');
 
+            const authorHref = $(authorEl).attr('href');
+            if (!authorHref) {
+                return;
+            }
+
             const author = {
                 name: $(authorEl).text(),
-                id: parseInt($(authorEl).attr('href').split('/')[2], 10),
+                id: parseInt(authorHref.split('/')[2], 10),
             };
 
             myBookmarks.push({ id, title, image, link, author });
@@ -204,7 +209,12 @@ class UserParser {
 
         $('div.fiction').each((i, el) => {
             const title = $(el).find('h4.col-sm-10').text();
-            const id = parseInt($(el).find('a').attr('href').split('/')[2], 10);
+            const href = $(el).find('a').attr('href');
+            if (!href) {
+                return;
+            }
+
+            const id = parseInt(href.split('/')[2], 10);
 
             fictions.push({ id, title });
         });
@@ -219,6 +229,10 @@ class UserParser {
 
         $('li').each((i, el) => {
             const image = $(el).find('img').attr('src');
+            if (!image) {
+                return;
+            }
+
             const message = $(el).find('span').eq(0).text().trim();
             const link = getBaseAddress() + $(el).find('a').attr('href');
             const timestamp = date($(el).find('time').text() + ' ago').getTime();
@@ -229,28 +243,50 @@ class UserParser {
         return notifications;
     }
 
-    public static parseMyReadLater(html: string): ReadLater[]{
+    public static parseMyReadLater(html: string): ReadLater[] {
         const $ = cheerio.load(html);
 
         const myReadLater: ReadLater[] = [];
 
         $('div.fiction-list-item').each((i, el) => {
-            if(isAd(el)) return;
+            if (isAd($(el))) {
+                return;
+            }
 
             const image = $(el).find('img').attr('src');
+            if (!image) {
+                return;
+            }
 
             const titleEl = $(el).find('h2.fiction-title').find('a');
 
             const title = $(titleEl).text().trim();
-            const id = parseInt($(titleEl).attr('href').split('/')[2], 10);
+            const titleHref = $(titleEl).attr('href');
+            if (!titleHref) {
+                return;
+            }
+
+            const id = parseInt(titleHref.split('/')[2], 10);
 
             const link = $(el).find('a').attr('href');
-            const pages = parseInt($(el).find('span.page-count').text().replace('pages', '').trim(), 10);
+            if (!link) {
+                return;
+            }
+
+            const pages = parseInt(
+                $(el).find('span.page-count').text().replace('pages', '').trim(),
+                10,
+            );
             const authorEl = $(el).find('span.author').find('a');
+
+            const authorHref = $(authorEl).attr('href');
+            if (!authorHref) {
+                return;
+            }
 
             const author = {
                 name: $(authorEl).text(),
-                id: parseInt($(authorEl).attr('href').split('/')[2], 10),
+                id: parseInt(authorHref.split('/')[2], 10),
             };
 
             myReadLater.push({ id, title, image, link, pages, author });

@@ -1,7 +1,4 @@
-import { readFileSync } from 'fs';
-
-const PROTOCOL_PREFIX = 'https://';
-const PROTOCOL_PREFIX_INSECURE = 'http://';
+import { readFileSync } from 'node:fs';
 
 const HOST_NAME = 'www.royalroad.com';
 
@@ -15,18 +12,16 @@ export function getVersion() {
         const { version } = JSON.parse(readFileSync('./package.json', 'utf8'));
 
         return version;
-    } catch (err) {
+    } catch (err: unknown) {
         return '0.0.0';
     }
 }
 
 /**
  * Get the base address with prepended protocol.
- *
- * @param insecure - HTTP / HTTPS
  */
-export function getBaseAddress(insecure = false) {
-    return (insecure ? PROTOCOL_PREFIX_INSECURE : PROTOCOL_PREFIX) + HOST_NAME;
+export function getBaseAddress() {
+    return 'https://' + HOST_NAME;
 }
 
 /**
@@ -34,5 +29,5 @@ export function getBaseAddress(insecure = false) {
  * and version.
  */
 export function getUserAgent() {
-    return `royalroad-api@${getVersion()} by fsoc@firemail.cc`;
+    return `royalroad-api@${getVersion()}:github.com/fs-c/royalroad-api`;
 }

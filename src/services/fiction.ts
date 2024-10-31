@@ -1,8 +1,9 @@
-import date = require('date.js');
 import * as cheerio from 'cheerio';
-import { getLastPage } from '../utils';
-import { Requester } from '../royalroad';
-import { RoyalResponse } from '../responses';
+import { getLastPage } from '../utils.js';
+import { Requester } from '../requester.js';
+import { RoyalResponse } from '../responses.js';
+import date from 'date.js';
+import type { AnyNode } from 'domhandler';
 
 export interface Fiction {
     type: string;
@@ -55,9 +56,9 @@ export interface Review {
     content: string;
 
     author: {
-        id: number,
-        name: string,
-        avatar: string,
+        id: number;
+        name: string;
+        avatar: string;
     };
 
     score: {
@@ -118,9 +119,7 @@ export class FictionService {
     public async getReviews(id: number, page: number | 'last' = 1) {
         const path = `/fiction/${String(id)}`;
         const body = await this.req.get(path, {
-            reviews: String(page === 'last' ? (
-                getLastPage(await this.req.get(path))
-            ) : page),
+            reviews: String(page === 'last' ? getLastPage(await this.req.get(path)) : page),
         });
 
         const reviews = FictionParser.parseReviews(body);
@@ -134,41 +133,46 @@ class FictionParser {
         const $ = cheerio.load(html);
 
         const title = $('div.fic-title').find('h1').text();
-        const image = $('div.fic-header').find('img').attr('src');
+        const image = $('div.fic-header').find('img').attr('src') ?? '';
 
         const labels = $('span.bg-blue-hoki');
 
         const type = labels.eq(0).text();
         const status = labels.eq(1).text().trim();
 
-        const tags = $('span.tags').find('a.label')
-            .map((i, el) => $(el).text().trim()).get();
+        const tags = $('span.tags')
+            .find('a.label')
+            .map((i, el) => $(el).text().trim())
+            .get();
 
-        const warnings = $('ul.list-inline').find('li')
-            .map((i, el) => $(el).text().trim()).get();
+        const warnings = $('ul.list-inline')
+            .find('li')
+            .map((i, el) => $(el).text().trim())
+            .get();
 
-        const description = $('div.hidden-content').find('div')
-            .map((i, el) => $(el).text().trim()).get().join('');
+        const description = $('div.hidden-content')
+            .find('div')
+            .map((i, el) => $(el).text().trim())
+            .get()
+            .join('');
 
         const authorEl = $('.portlet-body').eq(0);
 
         const author: FictionAuthor = {
             name: $(authorEl).find('.mt-card-content').find('a').text().trim(),
             title: $(authorEl).find('.mt-card-desc').text(),
-            avatar: $(authorEl).find('img[data-type="avatar"]').attr('src'),
-            id: +(($(authorEl).find('.mt-card-content').find('a').attr('href') || '').split('/')[2]),
+            avatar: $(authorEl).find('img[data-type="avatar"]').attr('src') ?? '',
+            id: +($(authorEl).find('.mt-card-content').find('a').attr('href') || '').split('/')[2],
         };
 
         const statsEl = $('div.stats-content');
         const statsList = $(statsEl).find('.list-unstyled').eq(1).find('li');
         const ratingList = $(statsEl).find('.list-unstyled').eq(0).find('li');
 
-        const parseNumber = (raw: string) =>
-            parseInt(raw.replace(/,/ig, ''), 10);
-        const parseRating = (raw: string) =>
-            parseFloat(raw.split('/')[0].trim());
-        const getContent = (el: Cheerio) =>
-            el.find('span').data('content');
+        const parseNumber = (raw: string): number => parseInt(raw.replace(/,/gi, ''), 10);
+        const parseRating = (raw: unknown): number =>
+            typeof raw === 'string' ? parseFloat(raw.split('/')[0].trim()) : -1;
+        const getContent = (el: cheerio.Cheerio<AnyNode>) => el.find('span').data('content');
 
         const stats: FictionStats = {
             pages: parseNumber($(statsList).eq(11).text()),
@@ -190,21 +194,30 @@ class FictionParser {
 
         const chapters: FictionChapter[] = [];
 
-        $('tbody').find('tr').each((i, el) => {
-            chapters.push({
-                title: $(el).find('td').eq(0).find('a').text().trim(),
-                id: parseInt(
-                    $(el).find('td').eq(0).find('a').attr('href').split('/')[5],
-                    10,
-                ),
-                release: date($(el).find('td').eq(1).find('time').text())
-                    .getTime(),
+        $('tbody')
+            .find('tr')
+            .each((i, el) => {
+                chapters.push({
+                    title: $(el).find('td').eq(0).find('a').text().trim(),
+                    id: parseInt(
+                        $(el).find('td').eq(0).find('a').attr('href')?.split('/')[5] ?? '',
+                        10,
+                    ),
+                    release: date($(el).find('td').eq(1).find('time').text()).getTime(),
+                });
             });
-        });
 
         return {
-            type, tags, stats, title, image, status,
-            author, warnings, chapters, description,
+            type,
+            tags,
+            stats,
+            title,
+            image,
+            status,
+            author,
+            warnings,
+            chapters,
+            description,
         };
     }
 
@@ -214,31 +227,36 @@ class FictionParser {
         const reviews: Review[] = [];
 
         $('div.review').each((i, el) => {
-            const posted = parseInt($(el).find('time').attr('unixtime'), 10);
+            const posted = parseInt($(el).find('time').attr('unixtime') ?? '', 10);
 
             let content = '';
-            $(el).find('div.review-content')
-                .each((j, p) => content += $(p).text() + '\n');
+            $(el)
+                .find('div.review-content')
+                .each((j, p) => {
+                    content += $(p).text() + '\n';
+                });
             content = content.trim();
 
             const authorLink = $(el).find('div.review-meta').find('a').eq(0);
             const author = {
                 name: $(authorLink).text(),
-                avatar: $(el).find('img').attr('src'),
-                id: parseInt($(authorLink).attr('href').split('/')[2], 10),
+                avatar: $(el).find('img').attr('src') ?? '',
+                id: parseInt($(authorLink).attr('href')?.split('/')[2] ?? '', 10),
             };
 
-            const overallScore = parseFloat($(el)
-                .find('div.overall-score-container')
-                .children()
-                .filter((i, el) => $(el).attr('aria-label').includes("stars"))
-                .first()
-                .attr('aria-label')
-                .replace("stars", "")
-                .trim()
-            ) || 0;
+            const overallScore =
+                parseFloat(
+                    $(el)
+                        .find('div.overall-score-container')
+                        .children()
+                        .filter((i, el) => $(el).attr('aria-label')?.includes('stars') ?? false)
+                        .first()
+                        .attr('aria-label')
+                        ?.replace('stars', '')
+                        .trim() ?? '',
+                ) || 0;
 
-            //TODO: handle advanced reviews
+            // todo: handle advanced reviews
             const score = {
                 style: 0,
                 story: 0,

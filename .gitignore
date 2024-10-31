@@ -63,3 +63,4 @@ test.json
 playground.*
 
 .idea
+.vscode

@@ -1,9 +1,9 @@
-import * as logger from 'debug';
-import date = require('date.js');
+import logger from 'debug';
 import * as cheerio from 'cheerio';
-import { getLastPage } from '../utils';
-import { Requester } from '../royalroad';
-import { RoyalError, RoyalResponse } from '../responses';
+import { getLastPage } from '../utils.js';
+import { Requester } from '../requester.js';
+import { RoyalError, RoyalResponse } from '../responses.js';
+import date from 'date.js';
 
 export interface NewChapter {
     title: string;
@@ -92,9 +92,7 @@ export class ChapterService {
      * @param chapterID - ID of the chapter to get.
      */
     public async getChapter(chapterID: number) {
-        const body = await this.req.get(
-            `/fiction/0/_/chapter/${String(chapterID)}/_`,
-        );
+        const body = await this.req.get(`/fiction/0/_/chapter/${String(chapterID)}/_`);
 
         const chapter = ChapterParser.parseChapter(body);
 
@@ -109,11 +107,9 @@ export class ChapterService {
      */
     public async getComments(chapterID: number, page: number | 'last' = 1) {
         const path = `/fiction/chapter/${String(chapterID)}/comments/`;
-        const lastPage = page === 'last' ? (
-            getLastPage(await this.req.get(path))
-        ) : page;
+        const lastPage = page === 'last' ? getLastPage(await this.req.get(path)) : page;
         const body = await this.req.get(path + lastPage);
-        
+
         const comments = ChapterParser.parseComments(body);
 
         return new RoyalResponse(comments);
@@ -133,7 +129,10 @@ export class ChapterService {
             {
                 cid: chapterID,
                 action: 'submit',
-                comment: content.split('\n').map((e) => `<p>${e}</p>`).join(''),
+                comment: content
+                    .split('\n')
+                    .map((e) => `<p>${e}</p>`)
+                    .join(''),
             },
             { fetchToken: true, ignoreStatus: true },
         );
@@ -159,8 +158,7 @@ class ChapterParser {
         const preNote = $(notes).eq(0).find('p').text();
         const postNote = $(notes).eq(1).find('p').text();
 
-        const content = ($('div.chapter-inner.chapter-content').html() || '')
-            .trim();
+        const content = ($('div.chapter-inner.chapter-content').html() || '').trim();
 
         const next = ChapterParser.getChapterID(
             $('i.fa-chevron-double-right').parent().attr('href') || '',
@@ -178,27 +176,30 @@ class ChapterParser {
         const comments: ChapterComment[] = [];
 
         $('div.media.media-v2').each((i, el) => {
-            const id = parseInt($(el).attr('id').split('-')[2], 10);
+            const id = parseInt($(el).attr('id')?.split('-')[2] ?? '', 10);
 
             const posted = date($(el).find('time').text() + ' ago').getTime();
 
             let raw = '';
-            $(el).find('div.media-body').find('p').each((j, p) => {
-                const text = $(p).text();
+            $(el)
+                .find('div.media-body')
+                .find('p')
+                .each((j, p) => {
+                    const text = $(p).text();
 
-                if (text) {
-                    raw += text.trim() + '\n';
-                }
-            });
+                    if (text) {
+                        raw += text.trim() + '\n';
+                    }
+                });
 
             const content = raw.trim();
 
             const author = {
-                avatar: $(el).find('img').attr('src'),
+                avatar: $(el).find('img').attr('src') ?? '',
                 name: $(el).find('span.name').find('a').text().split('@')[0],
                 id: parseInt(
-                    $(el).find('span.name').find('a').attr('href').split('/')[2]
-                    , 10,
+                    $(el).find('span.name').find('a').attr('href')?.split('/')[2] ?? '',
+                    10,
                 ),
             };
 
@@ -209,7 +210,6 @@ class ChapterParser {
     }
 
     public static getChapterID(url: string): number {
-        // TODO: This is really inflexible.
         const split = url.split('/');
 
         return split.length < 5 ? -1 : parseInt(split[5], 10);

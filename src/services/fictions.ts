@@ -1,7 +1,8 @@
-import date = require('date.js');
 import * as cheerio from 'cheerio';
-import { Requester } from '../royalroad';
-import { RoyalError, RoyalResponse } from '../responses';
+import { Requester } from '../requester.js';
+import { RoyalError, RoyalResponse } from '../responses.js';
+import date from 'date.js';
+import type { AnyNode } from 'domhandler';
 
 export interface FictionBlurb {
     id: number;
@@ -23,19 +24,15 @@ export interface LatestBlurb extends FictionBlurb {
     }[];
 }
 
+const statsKeys = ['pages', 'latest', 'rating', 'chapters', 'followers'] as const;
+
 export interface PopularBlurb extends FictionBlurb {
     description: string;
 
-    stats: {
-        pages: number;
-        latest: number;
-        rating: number;
-        chapters: number;
-        followers: number;
-    };
+    stats: Record<(typeof statsKeys)[number], number>;
 }
 
-export interface BestBlurb extends PopularBlurb { }
+export type BestBlurb = PopularBlurb;
 
 export interface SearchBlurb {
     id: number;
@@ -123,9 +120,8 @@ export class FictionsService {
      *
      * @param type - Name of the list.
      * @param page - Page to scrape from, will throw if out of bounds.
-     * @param opts - Additional URL parameters.
      */
-    public async getList(type: string, page: number = 1, opts?: object) {
+    public async getList(type: string, page: number = 1) {
         const path = `/fictions/${type}`;
         const body = await this.req.get(path, { page: String(page) });
 
@@ -134,7 +130,9 @@ export class FictionsService {
         }
         if (!validPage(body)) {
             throw new RoyalError('No fictions found.');
-        } else { return body; }
+        } else {
+            return body;
+        }
     }
 }
 
@@ -148,24 +146,22 @@ class FictionsParser {
         // suboptimal. (TODO, maybe)
         $('.fiction-list-item').each((i, el) => {
             const latest: {
-                name: string,
-                link: string,
-                created: number,
+                name: string;
+                link: string;
+                created: number;
             }[] = [];
 
-            $(el).find('li.list-item').each((j, item) => {
-                latest.push({
-                    link: $(item).find('a').attr('href'),
-                    name: $(item).find('span.col-xs-8').text(),
-                    created: (date($(item).find('time').text()) as Date)
-                        .getTime(),
+            $(el)
+                .find('li.list-item')
+                .each((j, item) => {
+                    latest.push({
+                        link: $(item).find('a').attr('href') ?? '',
+                        name: $(item).find('span.col-xs-8').text(),
+                        created: (date($(item).find('time').text()) as Date).getTime(),
+                    });
                 });
-            });
 
-            fictions.push(Object.assign(
-                FictionsParser.parseBlurb($, el),
-                { latest },
-            ));
+            fictions.push(Object.assign(FictionsParser.parseBlurb($, el), { latest }));
         });
 
         return fictions;
@@ -179,32 +175,44 @@ class FictionsParser {
         $('.fiction-list-item').each((i, el) => {
             let description = '';
 
-            $(el).find('.margin-top-10.col-xs-12').find('p').each((j, para) => {
-                description += $(para).text() + '\n';
-            });
+            $(el)
+                .find('.margin-top-10.col-xs-12')
+                .find('p')
+                .each((j, para) => {
+                    description += $(para).text() + '\n';
+                });
 
-            // Dangerous. But due to RRL site design there's few ways around
-            // this.
-            const stats: any = {};
+            const stats = {
+                pages: 0,
+                latest: 0,
+                rating: 0,
+                chapters: 0,
+                followers: 0,
+            };
 
-            stats.latest = date($(el).find('time').attr('datetime')).getTime();
-            stats.rating = parseFloat($(el).find('.star').attr('title'));
+            stats.latest = date($(el).find('time').attr('datetime') ?? '').getTime();
+            stats.rating = parseFloat($(el).find('.star').attr('title') ?? '');
 
-            $(el).find('span').each((j, stat) => {
-                const text = $(stat).text().toLowerCase();
-                const key = text.split(' ')[1];
-                const value = parseInt(text.split(' ')[0].replace(/,/gi, ''), 10);
+            $(el)
+                .find('span')
+                .each((j, stat) => {
+                    const text = $(stat).text().toLowerCase();
+                    const key = text.split(' ')[1];
+                    const value = parseInt(text.split(' ')[0].replace(/,/gi, ''), 10);
 
-                if (!key || !value) { return; }
+                    if (!key || !value) {
+                        return;
+                    }
 
-                stats[key] = value;
-            });
+                    // todo: i mean this is kind of typesafe but not nice to look at
+                    if (statsKeys.includes(key as (typeof statsKeys)[number])) {
+                        stats[key as (typeof statsKeys)[number]] = value;
+                    }
+                });
 
-            fictions.push(Object.assign(
-                FictionsParser.parseBlurb($, el),
-                { description },
-                { stats },
-            ));
+            fictions.push(
+                Object.assign(FictionsParser.parseBlurb($, el), { description }, { stats }),
+            );
         });
 
         return fictions;
@@ -216,19 +224,25 @@ class FictionsParser {
         const fictions: SearchBlurb[] = [];
 
         $('.fiction-list-item').each((i, el) => {
-            const image = $(el).find('img').attr('src');
+            const image = $(el).find('img').attr('src') ?? '';
 
             const titleEl = $(el).find('h2.fiction-title').children('a');
 
             const title = $(titleEl).text();
-            const id = parseInt($(titleEl).attr('href').split('/')[2], 10);
+            const id = parseInt($(titleEl).attr('href')?.split('/')[2] ?? '', 10);
 
-            const pages = parseInt($(el).find('i.fa-book').next().text().replace("Pages", "").trim(), 10);
+            const pages = parseInt(
+                $(el).find('i.fa-book').next().text().replace('Pages', '').trim(),
+                10,
+            );
 
-            let description = ""
-            $(el).find('div.margin-top-10.col-xs-12').children().each((i, el) =>{
-                description += $(el).text();
-            })
+            let description = '';
+            $(el)
+                .find('div.margin-top-10.col-xs-12')
+                .children()
+                .each((i, el) => {
+                    description += $(el).text();
+                });
 
             fictions.push({ id, title, pages, image, description });
         });
@@ -243,30 +257,32 @@ class FictionsParser {
 
         $('div.fiction-list-item').each((i, el) => {
             let description = '';
-            $(el).find('div.hidden-content').find('p')
-                .each((j, p) => description += $(p).text().trim() + '\n');
+            $(el)
+                .find('div.hidden-content')
+                .find('p')
+                .each((j, p) => {
+                    description += $(p).text().trim() + '\n';
+                });
             description = description.trim();
 
-            fictions.push(Object.assign(
-                FictionsParser.parseBlurb($, el), { description },
-            ));
+            fictions.push(Object.assign(FictionsParser.parseBlurb($, el), { description }));
         });
 
         return fictions;
     }
 
-    private static parseBlurb(
-        $: CheerioStatic, el: CheerioElement,
-    ): FictionBlurb {
+    private static parseBlurb($: cheerio.CheerioAPI, el: AnyNode): FictionBlurb {
         const titleEl = $(el).find('.fiction-title').children('a');
 
         const title = $(titleEl).text();
-        const image = $(el).find('img').attr('src');
+        const image = $(el).find('img').attr('src') ?? '';
         const type = $(el).find('span.label.bg-blue-hoki').text();
-        const id = parseInt($(titleEl).attr('href').split('/')[2], 10);
+        const id = parseInt($(titleEl).attr('href')?.split('/')[2] ?? '', 10);
 
-        const tags = $(el).find('span.label.bg-blue-dark')
-            .map((i, tag) => $(tag).text()).get();
+        const tags = $(el)
+            .find('span.label.bg-blue-dark')
+            .map((i, tag) => $(tag).text())
+            .get();
 
         return { id, type, tags, title, image };
     }

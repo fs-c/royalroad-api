@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
-import { Requester } from '../royalroad';
-import { RoyalResponse } from '../responses';
+import { Requester } from '../requester.js';
+import { RoyalResponse } from '../responses.js';
 
 export interface ProfileOverview {
     name: string;
@@ -52,8 +52,7 @@ class ProfileParser {
     public static parseProfile(html: string): ProfileOverview {
         const $ = cheerio.load(html);
 
-        const avatar = $('div.profile-picture-container').find('img')
-            .attr('src');
+        const avatar = $('div.profile-picture-container').find('img').attr('src') ?? '';
 
         const statsEl = $('div.profile-stats');
         const name = $(statsEl).find('h1').text().trim();
@@ -69,8 +68,8 @@ class ProfileParser {
         const pInfoEl = tbody.eq(0);
 
         const timeEls = $(pInfoEl).find('time');
-        const joined = parseInt($(timeEls).eq(0).attr('unixtime'), 10);
-        const active = parseInt($(timeEls).eq(1).attr('unixtime'), 10);
+        const joined = parseInt($(timeEls).eq(0).attr('unixtime') ?? '', 10);
+        const active = parseInt($(timeEls).eq(1).attr('unixtime') ?? '', 10);
 
         const metaEls = $(pInfoEl).find('td');
         const gender = $(metaEls).eq(2).text().trim();
@@ -89,8 +88,17 @@ class ProfileParser {
         };
 
         return {
-            name, avatar, gender, active, joined, follows, ratings, location,
-            favorites, biography, authorStats,
+            name,
+            avatar,
+            gender,
+            active,
+            joined,
+            follows,
+            ratings,
+            location,
+            favorites,
+            biography,
+            authorStats,
         };
     }
 }

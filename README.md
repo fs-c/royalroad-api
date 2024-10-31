@@ -4,7 +4,7 @@ An unofficial API for [royalroadl.com](https://royalroadl.com), written in TypeS
 npm i -s @fsoc/royalroadl-api
 ```
 
-This is an attempt to write a predictable and consistent wrapper around the  mess that is RRL. Since no official public API is exposed, this module scrapes all data straight from the HTML, which makes it very prone to spontaneous and horrible death.
+This is an attempt to write a predictable and consistent wrapper around the mess that is RRL. Since no official public API is exposed, this module scrapes all data straight from the HTML, which makes it very prone to spontaneous and horrible death.
 
 Barebones documentation generated from [TypeDoc](http://typedoc.org/) can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitlab.io/royalroadl-api/classes/royalroadapi.html). You can also build these docs yourself by running `npm run docs` in the root of the project.
 
@@ -15,17 +15,15 @@ A more elaborate description of this package and its functionality (both interna
 For more examples check out the `/examples` directory.
 
 ```javascript
-const { RoyalRoadAPI } = require('@l1lly/royalroadl-api');
+const { RoyalRoadAPI } = require('@fsoc/royalroadl-api');
 
 const api = new RoyalRoadAPI();
 
 (async () => {
+    const { data } = await api.fictions.getPopular();
+    const titles = data.slice(10).map((fic) => fic.title);
 
-const { data } = await api.fictions.getPopular();
-const titles = data.slice(10).map((fic) => fic.title);
-
-console.log(`The top 10 popular fictions are: ${titles.join(', ')}`);
-
+    console.log(`The top 10 popular fictions are: ${titles.join(', ')}`);
 })().catch(console.error);
 ```
 
@@ -38,6 +36,7 @@ The module itself exports only a `RoyalRoadAPI` class which, by itself, has no m
 All responses and errors are either an instance of a [`RoyalResponse`](https://fsoc.gitlab.io/royalroadl-api/classes/royalresponse.html) or a [`RoyalError`](https://fsoc.gitlab.io/royalroadl-api/classes/royalerror.html), which extends `RoyalResponse`. This is done to easily allow for meta information to be tacked onto responses, and to have a consistent interface between user and module. Note that the `RoyalError` acts similarly to the NodeJS `Error` object, in that it captures and returns a short stack trace.
 
 For example, a call to `fiction.getFiction()` might yield the following response on success:
+
 ```javascript
 RoyalResponse {
   data:
@@ -67,7 +66,9 @@ RoyalResponse {
   success: true,
   timestamp: 1528119296799 }
 ```
+
 ...or on error:
+
 ```javascript
 RoyalError {
   data:
@@ -91,12 +92,13 @@ The `Requester`s main goal is to keep track of cookies and to automatically fetc
 
 All services are structured in a very similar way: with a `<Type>Service` exposing all relevant methods, and a `<Type>Parser`, which usually exposes a number of static methods used to parse HTML responses.
 
-A quick wrap-up of all the existing services is: 
-- `ChapterService`, contains methods for fetching and publishing chapters and chapter comments.
-- `FictionService`, fetching fiction data and reviews.
-- `FictionsService`, methods for fetching all types of fiction lists RRL offers, with their respective levels of per fiction detail.
-- `ProfileService`, handling profiles, returns parsed user profiles.
-- `UserService`, actions related to the logged-in user like logon, getting the users' fictions, bookmarks, or notifications.
+A quick wrap-up of all the existing services is:
+
+-   `ChapterService`, contains methods for fetching and publishing chapters and chapter comments.
+-   `FictionService`, fetching fiction data and reviews.
+-   `FictionsService`, methods for fetching all types of fiction lists RRL offers, with their respective levels of per fiction detail.
+-   `ProfileService`, handling profiles, returns parsed user profiles.
+-   `UserService`, actions related to the logged-in user like logon, getting the users' fictions, bookmarks, or notifications.
 
 ### Parsing
 

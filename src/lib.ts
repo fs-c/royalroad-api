@@ -1,2 +1,2 @@
-export * from './royalroad';
-export * from './responses';
+export * from './royalroad.js';
+export * from './responses.js';
