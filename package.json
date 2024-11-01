@@ -6,7 +6,8 @@
     "scripts": {
         "docs": "typedoc --out docs --entryPoints src/lib.ts src/services/*.ts src",
         "lint": "eslint src",
-        "build": "tsc"
+        "build": "tsc",
+        "test": "node --import @swc-node/register/esm-register --env-file .env --test ./test/**/*.spec.ts"
     },
     "keywords": [],
     "author": "github.com/fs-c",
