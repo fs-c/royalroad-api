@@ -6,7 +6,7 @@ npm i -s @fsoc/royalroadl-api
 
 This is an attempt to write a predictable and consistent wrapper around the mess that is RR. Since no official public API is exposed, this module scrapes all data straight from the HTML, which makes it very prone to spontaneous and horrible death.
 
-Barebones documentation generated from [TypeDoc](http://typedoc.org/) can be found on [fsoc.gitlab.com/royalroadl-api](https://fsoc.gitlab.io/royalroadl-api/classes/royalroadapi.html). You can also build these docs yourself by running `npm run docs` in the root of the project.
+Barebones documentation generated from [TypeDoc](http://typedoc.org/) can be found on [fs-c.github.io/royalroad-api/](https://fs-c.github.io/royalroad-api/). You can also build these docs yourself by running `npm run docs` in the root of the project.
 
 ## Example usage
 

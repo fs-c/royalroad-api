@@ -1,16 +1,20 @@
 {
     "name": "@fsoc/royalroadl-api",
     "version": "0.16.0",
-    "description": "Minimal Node.js royalroad API.",
+    "description": "Minimal Node.js royalroad API",
     "main": "dist/lib.js",
+    "types": "dist/lib.d.ts",
     "scripts": {
         "docs": "typedoc --out docs --entryPoints src/lib.ts src/services/*.ts src",
         "lint": "eslint src",
         "build": "tsc",
         "test": "node --import @swc-node/register/esm-register --env-file .env --test ./test/**/*.spec.ts"
     },
-    "keywords": [],
-    "author": "github.com/fs-c",
+    "keywords": [
+        "royalroad",
+        "api"
+    ],
+    "author": "fs-c (https://github.com/fs-c)",
     "license": "MIT",
     "dependencies": {
         "cheerio": "1.0.0",

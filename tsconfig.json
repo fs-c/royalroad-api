@@ -9,7 +9,8 @@
         "outDir": "dist",
         "sourceMap": true,
         "typeRoots": ["src/typings"],
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "declaration": true
     },
     "include": ["./src/**/*"],
     "exclude": ["node_modules"]

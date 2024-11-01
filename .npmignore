@@ -1,4 +1,4 @@
-*.ts
-!*.d.ts
-docs/
-src/
+# we just tell npm to ignore everything, it will not ignore stuff it really 
+# needs (like package.json) so this is find
+**/*
+!dist/**/*
