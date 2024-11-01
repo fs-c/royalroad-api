@@ -1,8 +1,9 @@
-import axios, { AxiosRequestConfig } from 'axios';
 import { getBaseAddress, getUserAgent } from './constants.js';
 import * as cheerio from 'cheerio';
 import { RoyalError } from './responses.js';
 import debug from 'debug';
+import { CookieJar } from 'tough-cookie';
+import got, { OptionsOfTextResponseBody } from 'got';
 
 interface InternalRequestOptions {
     fetchToken?: boolean;
@@ -31,13 +32,15 @@ export class Requester {
         return error || alert || null;
     }
 
-    private readonly cookies = new Map<string, string>();
-
     private readonly url = getBaseAddress();
-    private readonly debug = debug('requester');
+    private readonly debug = debug('royalroad-api:requester');
+
+    private readonly cookieJar = new CookieJar();
 
     get isAuthenticated() {
-        const authenticationCookie = this.cookies.get('.AspNetCore.Identity.Application');
+        const authenticationCookie = this.cookieJar
+            .getCookiesSync(this.url)
+            .find((cookie) => cookie.key === '.AspNetCore.Identity.Application');
         return authenticationCookie != null;
     }
 
@@ -72,19 +75,19 @@ export class Requester {
      */
     public async post(
         path: string,
-        data: { [key: string]: unknown },
+        data: { [key: string]: string },
         options: InternalRequestOptions = {},
     ) {
         this.debug('sending POST to %o with %o options', path, options);
 
-        data['__RequestVerificationToken'] = options.fetchToken
-            ? await this.fetchToken(path)
-            : undefined;
+        if (options.fetchToken) {
+            data.__RequestVerificationToken = await this.fetchToken(path);
+        }
 
         return await this.request(
             {
                 url: this.url + path,
-                data: axios.toFormData(data),
+                form: data,
                 method: 'POST',
             },
             options,
@@ -99,61 +102,40 @@ export class Requester {
      * @param internalOptions
      */
     private async request(
-        request: AxiosRequestConfig,
+        request: OptionsOfTextResponseBody,
         internalOptions: InternalRequestOptions = {},
     ): Promise<string> {
         this.debug('%o > %o', request.method || 'GET', request.url);
 
-        request.headers = {
-            ...Requester.headers,
-            Cookie: internalOptions.ignoreCookies
-                ? ''
-                : [...this.cookies.entries()].map(([k, v]) => `${k}=${v}`).join('; '),
-        };
+        request.cookieJar = this.cookieJar;
+        request.headers = Requester.headers;
 
         try {
-            const response = await axios(request);
+            const response = await got(request);
 
             this.debug(
                 '%o < %o (%o)',
                 request.method || 'GET',
-                response.status,
-                response.statusText,
+                response.statusCode,
+                response.statusMessage,
             );
-            this.logCookies();
 
             if (
-                response.status !== (internalOptions.successStatus || 200) &&
+                response.statusCode !== (internalOptions.successStatus || 200) &&
                 !internalOptions.ignoreStatus
             ) {
-                throw new RoyalError(`Request error: ${response.statusText}`);
+                throw new RoyalError(`Request error: ${response.statusMessage}`);
             }
 
-            const genericError = this.catchGenericError(response.data);
+            const genericError = this.catchGenericError(response.body);
             if (!internalOptions.ignoreParser && genericError !== null) {
                 throw new RoyalError(genericError);
             }
 
-            return response.data;
+            return response.body;
         } catch (error: unknown) {
+            this.debug('request error %O', error);
             throw new RoyalError(error instanceof Error ? error.message : 'Unkown error');
-        }
-    }
-
-    /**
-     * Log all stored cookies, shortening long values.
-     *
-     * @param insecure
-     */
-    private logCookies() {
-        this.debug('dumping cookies');
-
-        for (const [key, value] of this.cookies.entries()) {
-            this.debug(
-                '\tcookie %o = %o',
-                key,
-                value.length >= 18 ? value.slice(0, 17) + '...' : value,
-            );
         }
     }
 

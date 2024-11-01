@@ -58,23 +58,18 @@ export class UserService {
 
     /**
      * Log on to royalroad, saving the cookies for use in subsequent
-     * requests.
+     * requests. Ignores existing login status.
      *
-     * @param username
+     * @param email
      * @param password
-     * @param force Ignore isAuthenticated
      */
-    public async login(email: string, password: string, force = false) {
-        if (this.isLoggedIn && !force) {
-            return new RoyalResponse('Already logged in.');
-        }
-
+    public async login(email: string, password: string) {
         // RR will respond with a 302 if the login was successful and a
         // 200 (!) if it wasn't. Therefore we just ignore the status and
         // rely on the generic error parsing.
         await this.req.post(
             '/account/login',
-            { email, password },
+            { Email: email, Password: password, ReturnUrl: '/home', Remember: 'true' },
             {
                 fetchToken: true,
                 ignoreStatus: true,

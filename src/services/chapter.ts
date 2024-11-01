@@ -73,7 +73,7 @@ export class ChapterService {
             `/fiction/chapter/new/${String(fictionID)}`,
             {
                 Status: 'New',
-                fid: fictionID,
+                fid: fictionID.toString(),
                 Title: chapter.title,
                 Content: chapter.content,
                 PreAuthorNotes: chapter.preNote || '',
@@ -127,7 +127,7 @@ export class ChapterService {
         await this.req.post(
             `/fiction/0/_/chapter/${String(chapterID)}/_`,
             {
-                cid: chapterID,
+                cid: chapterID.toString(),
                 action: 'submit',
                 comment: content
                     .split('\n')

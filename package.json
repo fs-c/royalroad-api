@@ -13,14 +13,17 @@
     "author": "github.com/fs-c",
     "license": "MIT",
     "dependencies": {
-        "axios": "1.7.7",
         "cheerio": "1.0.0",
         "date.js": "0.3.3",
-        "debug": "4.3.7"
+        "debug": "4.3.7",
+        "got": "14.4.3",
+        "tough-cookie": "5.0.0"
     },
     "devDependencies": {
         "@eslint/js": "9.13.0",
+        "@swc-node/register": "1.10.9",
         "@types/debug": "4.1.12",
+        "@types/domhandler": "2.4.5",
         "@types/node": "22.8.4",
         "eslint": "9.13.0",
         "eslint-config-prettier": "9.1.0",
