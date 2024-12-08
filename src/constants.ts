@@ -32,4 +32,4 @@ export function getUserAgent() {
     return `royalroad-api@${getVersion()}:github.com/fs-c/royalroad-api`;
 }
 
-// some random change, and another one, and even more
+// some random change, and another one, and even more, ...
