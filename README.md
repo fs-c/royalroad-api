@@ -101,3 +101,13 @@ A quick wrap-up of all the existing services is:
 This uses [cheerio](https://github.com/cheeriojs/cheerio) to parse HTML, which is a very forgiving parser. This means that even if RRL were to make minor changes to their page layouts, large parts of the API (even those parts responsible for changed areas) would still remain functional.
 
 Therefore, expect properties to be empty or `null`, and know that an error will not be thrown just because some values could not be parsed.
+
+## Contributing
+
+PRs are welcome!
+
+### Tests
+
+Can be run with `npm run test`, requires a `.env` file for RR account credentials, see `sample.env`.
+
+When adding/fixing a feature please add/modify the tests.
