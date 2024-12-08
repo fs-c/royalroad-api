@@ -8,7 +8,7 @@
         "docs": "typedoc --out docs --entryPoints src/lib.ts src/services/*.ts src",
         "lint": "eslint src",
         "build": "tsc",
-        "test": "node --import @swc-node/register/esm-register --env-file .env --test ./test/**/*.spec.ts"
+        "test": "node --import @swc-node/register/esm-register --env-file .env --test \"test/**/*.spec.ts\""
     },
     "keywords": [
         "royalroad",
