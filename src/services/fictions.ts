@@ -280,7 +280,7 @@ class FictionsParser {
         const id = parseInt($(titleEl).attr('href')?.split('/')[2] ?? '', 10);
 
         const tags = $(el)
-            .find('span.label.bg-blue-dark')
+            .find('a.label.fiction-tag')
             .map((i, tag) => $(tag).text())
             .get();
 

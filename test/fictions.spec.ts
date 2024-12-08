@@ -50,4 +50,14 @@ describe('fiction list functionality', () => {
         assert(fictions.success);
         assert(fictions.data.length === 0);
     });
+
+    it('should get fictions which contain tags', async () => {
+        // The tag extraction logic is in common "parseBlurb" logic, so the best / popular / latest
+        // APIs all exercise the same code path.
+        const fictions = await rr.fictions.getBest();
+
+        assert(fictions.success);
+        assert(fictions.data.length > 0);
+        fictions.data.map(fiction => fiction.tags).forEach(tags => assert(tags.length > 0));
+    });
 });
