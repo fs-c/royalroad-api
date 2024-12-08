@@ -35,4 +35,5 @@ jobs:
 
             - name: Run tests
               run: |
+                  shopt -s globstar
                   npm run test
