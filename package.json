@@ -1,6 +1,6 @@
 {
     "name": "@fsoc/royalroadl-api",
-    "version": "0.16.0",
+    "version": "0.16.1",
     "description": "Minimal Node.js royalroad API",
     "main": "dist/lib.js",
     "types": "dist/lib.d.ts",
