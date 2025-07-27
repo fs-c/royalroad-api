@@ -19,6 +19,7 @@ describe('fiction functionality', () => {
         assert(fiction.success);
         assert.strictEqual(fiction.data.title, expectedFictionTitle);
         assert.strictEqual(fiction.data.author.id, expectedFictionAuthorId);
+        assert(fiction.data.description.length !== 0)
     });
 
     it('should get a random fiction', async () => {
