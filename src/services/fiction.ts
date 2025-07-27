@@ -150,7 +150,7 @@ class FictionParser {
             .map((i, el) => $(el).text().trim())
             .get();
 
-        const description = $('div.description > div.hidden-content').text().trim(); // <-- fixed description
+        const description = $('div.description > div.hidden-content').text().trim();
 
         const authorEl = $('.portlet-body').eq(0);
 
